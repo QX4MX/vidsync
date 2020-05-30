@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    kubernetes.io/tls-acme: "true"
+  name: vidsync-angular-ingress
+spec:
+  rules:
+  - host: angular.vidsync.de
+    http:
+      paths:
+      - backend:
+          serviceName: vidsync-angular-chart-svc
+          servicePort: 4200
+        path: /
+  tls:
+  - hosts:
+    - vidsync.de
+    secretName: vidsync-crt

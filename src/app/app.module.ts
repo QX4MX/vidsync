@@ -1,8 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {RouterModule, Routes} from '@angular/router';
+import {LayoutModule} from './layout/layout.module';
+import {RoomsModule} from './rooms/rooms.module';
+import { HttpClientModule } from '@angular/common/http';
+
+
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: '/room',
+    pathMatch: 'full'
+  }
+];
 
 @NgModule({
   declarations: [
@@ -10,9 +23,14 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    RouterModule.forRoot(routes),
+    LayoutModule,
+    RoomsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+ 

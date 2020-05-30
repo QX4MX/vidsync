@@ -1,0 +1,40 @@
+<div>
+    <div *ngIf="room">{{room.video}} {{room.name}} {{room.privacy}} {{room.permanent}} {{room.editable}}</div>
+    <p>room {{id}}</p>
+</div>
+<div class="content" *ngIf="room">
+    <div class="" id="main" class="">
+        <!-- Video-Player -->
+        <youtube-player  *ngIf="room.video" 
+                (stateChange)="onStateChange($event)"
+                [videoId]="room.video"
+                >
+        </youtube-player>       
+
+        <input #box (keyup)="addToQueueonKey(box.value)">
+        <span class="" (click)="setVideo()">
+            <button type="button" class="" > Set Video </button>
+        </span>
+        <span class="" (click)="addToQueue()">
+            <button type="button" class="" > Add Video </button>
+        </span>
+
+        
+    </div>
+    <div id="queue" *ngIf="room">
+        <div class='bg-darker card'  *ngFor="let queueElem of room.queue; let i = index">
+            <img id=''class='card-img' src='https://img.youtube.com/vi/{{queueElem}}/hqdefault.jpg'>
+            <div class='card-body'>
+                <span>{{i}}</span>
+                <span>{{queueElem}}</span>
+        
+            </div>
+            <div class='card-bot'>
+                <span class="" (click)="setVideoFromQueue(queueElem,i)">
+                    <button type="button" class="" > Play Video </button>
+                </span>
+                <span class="" (click)="removeFromQueue(i)">
+                    <button type="button" class="" > Remove Video </button>
+                </span>
+        </div>
+    </div>

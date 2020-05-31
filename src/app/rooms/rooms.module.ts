@@ -9,14 +9,18 @@ import { RoomsRoutingModule } from './rooms-routing.module';
 import { RoomListComponent } from './room-list/room-list.component';
 import { RoomEditComponent } from './room-edit/room-edit.component';
 import { RoomCreateComponent } from './room-create/room-create.component';
+import { RoomComponent } from './room/room.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //Material
+import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select'
 import {MatRadioModule} from '@angular/material/radio';
-import { RoomComponent } from './room/room.component'
+import {MatCardModule} from '@angular/material/card';
+
+
 
 
 @NgModule({
@@ -31,6 +35,8 @@ import { RoomComponent } from './room/room.component'
     MatFormFieldModule,
     MatSelectModule,
     MatRadioModule,
+    MatCardModule,
+    MatButtonModule,
   ]
 })
 export class RoomsModule { }

@@ -2,7 +2,6 @@
   "name": "vidsync",
   "version": "2.0.0",
   "scripts": {
-    "setup": "ng build && tsc ",
     "backend-node-serve": "node ./dist/out-tsc/backend/src/server.js",
     "backend-nodemon": "nodemon ./dist/out-tsc/backend/src/server.js",
     "frontend-ng-serve": "ng serve",

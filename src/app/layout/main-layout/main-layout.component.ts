@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-main-layout',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent implements OnInit {
-
+	@Output() public sidenavToggle = new EventEmitter();
 	constructor() {
 		console.log('Main layout constructor called');
    	}
@@ -14,4 +14,7 @@ export class MainLayoutComponent implements OnInit {
   	ngOnInit(): void {
   	}
 
+	public onToggleSidenav = () => {
+		this.sidenavToggle.emit();
+	}
 }

@@ -1,21 +1,17 @@
 <div id="pubRooms">
-    <div class='bg-darker card' *ngFor="let room of Room; let i = index">
-        <img id=''class='card-img' src='https://img.youtube.com/vi/{{room.video}}/hqdefault.jpg'>
-        <div class='card-body'>
-            <a class='card-title border-primary-bot c-light'>{{room.name}}</a>
+    <mat-card class="room-card"  *ngFor="let room of Room; let i = index">
+        <mat-card-header>
+          <mat-card-title>{{room.name}}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src='https://img.youtube.com/vi/{{room.video}}/hqdefault.jpg' alt="Video Thumbnail">
+        <mat-card-content>
             <span>Created by:</span>
             <span>Users in Room:</span>
-            <span>Permanent: {{room.permanent}}"</span>
-            <span>Editable: {{room.edit}}</span>
-        </div>
-        <div class='card-bot'>
-            <span class="edit" [routerLink]="['/edit/', room._id]">
-                <button type="button" class="btn btn-success btn-sm">Edit</button>
-            </span>
-            <span class="delete" (click)="removeRoom(room, i)">
-                <button type="button" class="btn btn-danger btn-sm">Delete</button>
-            </span>
-            
-             <a [routerLink]="['/room/', room._id]"> Join Room </a>
-    </div>
+            <span>Permanent: {{room.permanent}}</span>
+            <span>Editable: {{room.editable}}</span>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button><a [routerLink]="['/room/', room._id]"> Join Room </a></button>
+        </mat-card-actions>
+      </mat-card>
 </div>

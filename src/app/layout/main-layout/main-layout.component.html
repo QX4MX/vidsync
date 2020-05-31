@@ -2,7 +2,13 @@
   <mat-drawer-container class="example-container" hasBackdrop="false">
     <mat-drawer #drawer mode="side" opened><app-sidenav></app-sidenav></mat-drawer>
     <mat-drawer-content>
-      <app-header></app-header>
+      <div class="header">
+        <button mat-icon-button>
+          <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+        </button>
+        <app-header></app-header>
+      </div>
+        
       <div class="content">
         <router-outlet></router-outlet>
       </div>

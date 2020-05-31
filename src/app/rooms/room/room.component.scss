@@ -1,61 +1,54 @@
-#playerdiv{
+youtube-player{
 	position: relative;
-	margin-bottom: -75px;
-	display:block;
-
-	#player{
-		position: relative;
-		z-index: -1;
-		width: 100%    !important;
-		height: 100%   !important;
-		margin-bottom: 0;
-		margin-top: -2.3rem;
-	}
-
-	#playerOverlay{
-		background: black;
-		height: 100%;
-		width: 100%;
-		top: 0;
-		left: 0;
-		position: absolute;
-		padding: 0;
-		font-size: 8rem;
-		text-align: center;
-		z-index: -2;
-	}
+	margin-bottom: 0;
+	margin-top: -2.3rem;
+}
+button{
+	margin-left: 5px;
+	color: white;
+	background-color: rgb(55, 55, 55);
 }
 
-#playerEventOverlay{
-	position: relative;
-	float: right;
-	right: 0;
-	top: 0;
-	padding: 0.5rem;
+::ng-deep .mat-form-field-label {
+	/*change color of label*/
+	color: rgb(70, 70, 70) !important;
 }
+  
+::ng-deep.mat-form-field-underline {
+	/*change color of underline*/
+	background-color: rgb(70, 70, 70) !important;
+  } 
 
-#playerCtrl {
-	position: relative;
-	background-color: transparent;
-	padding: 0.5rem;
-	.top{
-		height: 20px;
-		vertical-align: middle;
-	}
-	.bot{
+#queue{
+	padding: 0;
+	background-color: rgb(34, 34, 34);
+	list-style: none;
+	overflow: auto;
+	white-space: nowrap;
+	p{
+		font-family: Roboto, "Helvetica Neue", sans-serif;;
+		margin: 0;
+		margin-left: 1rem;
 		margin-top: 0.5rem;
-		*{
-			//color: $primary;
-			margin-left: .5rem;
-			margin-right: .5rem;
-			i{
-				width: 20px;
-				height: 20px;
-			}
+	}
+	li{
+		display: inline-block;
+		text-align: center;
+		margin: 1rem;
+		img{
+			z-index: 0;
+			width: 240px;
+			height: 180px;
+			margin-bottom: -90px;	
 		}
-	}
-	#volume{
-		height: 20px;
-		vertical-align: middle;
-	}
+		p{
+			z-index: 1;
+			color: white;
+		}
+		.btn-group{
+			position: relative;
+			background-color: rgba(40, 40, 40,0.8);
+			padding: 0.5rem;
+		}
+    }
 }

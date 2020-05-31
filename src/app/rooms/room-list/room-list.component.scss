@@ -1,7 +1,57 @@
 #pubRooms{
+    height: 100%;
 	width: 80%;
     margin: 0 10%;
     display: inline-flex;
     flex-wrap: wrap;
     text-align: center;
+}
+
+.mat-card {
+    background-color: rgb(40, 40, 40);
+    color: white;
+    width: 21%;
+    margin: 1%;
+    padding: 1%;
+    .mat-card-image{
+        width: calc(100% - .5rem);
+    }
+    .mat-card-content{
+        span{
+            display: flex;
+        }
+    }
+    .mat-card-actions{
+        margin-bottom: .5rem;
+        button{
+            background-color: rgb(60, 60, 60);;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+    }
+    
+}
+
+@media only screen and (max-width: 1024px) {
+    #pubRooms{
+        height: 100%;
+        width: 80%;
+        margin: 0 10%;
+        display: inline-flex;
+        flex-wrap: wrap;
+        text-align: center;
+    }
+    
+    .mat-card {
+        background-color: rgb(40, 40, 40);
+        color: white;
+        width: 90%;
+        margin: 5%;
+        padding: 5%;
+        .mat-card-image{
+            width: calc(100% - .5rem);
+        }
+      }
 }

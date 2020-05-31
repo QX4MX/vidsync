@@ -7,16 +7,18 @@ import { Component ,Output , EventEmitter} from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {  
-  @Output() public sidenavToggle = new EventEmitter();
+  
 
   constructor() {
 	
   }
 
   ngOnInit(): void {
+    let tag = document.createElement('script');
+		tag.src = "https://www.youtube.com/iframe_api";
+		let firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   }
 
-  public onToggleSidenav = () => {
-    this.sidenavToggle.emit();
-  }
+
 }

@@ -2,6 +2,7 @@ import { createServer, Server } from 'http';
 import * as express from 'express';
 import * as socketIo from 'socket.io';
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 import * as path from 'path';
 import { SocketEvent } from "./Enum";
 import { DB } from './Database';
@@ -26,9 +27,12 @@ export class AppServer {
         this.port = process.env.PORT || AppServer.PORT;
         this.server = createServer(this.app);
         this.io = socketIo(this.server);
-        console.log(path.join(__dirname, '../../../frontend'));
+        this.app.use(bodyParser.urlencoded({
+            extended: false
+        }));
+        this.app.use(bodyParser.json());
+        this.app.use(cors());
         this.app.use('/', express.static(path.join(__dirname, '../../../frontend')));
-        this.app.get('/')        
         this.db = new DB();
         this.apiroomRoutes.routes(this.app);
         this.listen();

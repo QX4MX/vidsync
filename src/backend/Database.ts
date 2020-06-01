@@ -10,7 +10,7 @@ export class DB {
 
     private Room: any;
     constructor() {
-        connect("mongodb://localhost:27017/db",{ useNewUrlParser: true });
+        connect("mongodb://db:27017/db",{ useNewUrlParser: true });
         this._db = connection;
         this._db.on('open', this.connected);
         this._db.on('error', this.error);

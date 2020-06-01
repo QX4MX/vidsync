@@ -1,12 +1,12 @@
-.sidenav{
-    color: white;
-    padding: 15px;
+mat-list{
+    mat-list-item{
+        color:white;
+    }
+    div{
+        color: white;
+    }
+    mat-divider{
+        border-top-color:rgb(100, 100, 100);
+    }
 }
 
-ul{
-    list-style: none;
-    padding: 0px;     
-    a{
-        width: 100%;
-    }   
-}

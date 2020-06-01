@@ -4,9 +4,8 @@ import {SocketService} from 'src/app/socket.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { YouTubePlayer} from '@angular/youtube-player';
 import { Room } from 'src/app/model/room';
-import { from } from 'rxjs';
-import * as SocketIO from 'socket.io-client';
 import { SocketEvent } from 'src/app/Enums';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-room',
@@ -48,7 +47,7 @@ export class RoomComponent implements OnInit {
 	
 	
 
-	constructor(private apiService: ApiService,private route: ActivatedRoute,private router: Router,private ngZone: NgZone, socketService:SocketService) {
+	constructor(private apiService: ApiService,private route: ActivatedRoute,private router: Router,private ngZone: NgZone, socketService:SocketService,private _snackBar: MatSnackBar) {
 		this.route.params.subscribe((params: Params) => {
 			this.roomId = params['id'];
 		});
@@ -56,10 +55,7 @@ export class RoomComponent implements OnInit {
 		this.socket = socketService.socket;
 		this.socket.emit(SocketEvent.JOIN, this.roomId);
 		this.socket.on(SocketEvent.PLAY, () => { this.youtubePlayer.playVideo();});
-    	this.socket.on(SocketEvent.PAUSE, () => { 
-			this.youtubePlayer.pauseVideo();
-			
-		});
+    	this.socket.on(SocketEvent.PAUSE, () => { this.youtubePlayer.pauseVideo();});
 		this.socket.on(SocketEvent.NEXT, () => { this.setVideoFromQueue(this.roomData.queue[0],0) });
 		this.socket.on(SocketEvent.SYNCTIME, (time:number) => {
 			if(Math.abs(this.youtubePlayer.getCurrentTime() - time) > 1){
@@ -79,6 +75,7 @@ export class RoomComponent implements OnInit {
 		this.apiService.getRoom(this.roomId).subscribe((data) => {
 		this.roomData = data;
 		this.videoId = this.roomData.video;
+		this.openSnackBar("Video or Queue changed!","X");
 		});
 	}	
 	
@@ -131,14 +128,17 @@ export class RoomComponent implements OnInit {
 
 	addToQueue(){
 		//TODO get param if link
-		this.roomData.queue.push(this.addToQValue);
+		let vidId = this.getParamFromUrl(this.addToQValue, 'v');
+		if(!vidId){
+			vidId = this.addToQValue;
+		}
+		this.roomData.queue.push(vidId);
 		this.updateRoom();
 	}
 
 	removeFromQueue(i:number){
 		this.roomData.queue.splice(i, 1);
 		this.updateRoom();
-
 	}
 
 	updateRoom(){
@@ -152,5 +152,24 @@ export class RoomComponent implements OnInit {
 		});
 		this.socket.emit(SocketEvent.ReadRoom, this.roomId);
 		
+	}
+
+	getParamFromUrl(urlString: string, param: string) {
+		let paramVal = null;
+		try {
+			let url = new URL(urlString);
+			paramVal = url.searchParams.get(param);
+		}
+		catch (error) {
+			console.log(error);
+		}
+		return paramVal;
+	}
+
+
+	openSnackBar(message: string, action: string) {
+		this._snackBar.open(message, action, {
+		  duration: 1000,
+		});
 	}
 }

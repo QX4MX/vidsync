@@ -6,7 +6,13 @@ mat-drawer{
     min-height: 100%;
     background-color: rgb(40, 40, 40);
 }
-
+button{
+    width: 20%;
+    mat-icon{
+        margin-top: 1rem;
+        font-size: 2rem;
+    }
+}
 .header{
     width: 100%;
     display: inline-flex;

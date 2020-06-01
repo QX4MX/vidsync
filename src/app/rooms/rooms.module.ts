@@ -18,7 +18,11 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select'
 import {MatRadioModule} from '@angular/material/radio';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatCardModule} from '@angular/material/card';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatIconModule} from '@angular/material/icon';
+
 
 
 
@@ -37,6 +41,9 @@ import {MatCardModule} from '@angular/material/card';
     MatRadioModule,
     MatCardModule,
     MatButtonModule,
+    MatButtonToggleModule,
+    MatSnackBarModule,
+    MatIconModule
   ]
 })
 export class RoomsModule { }

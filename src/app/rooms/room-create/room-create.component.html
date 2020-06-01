@@ -1,40 +1,27 @@
-<form [formGroup]="createRoom" (ngSubmit)="onSubmit()">
-      
-      <!-- Name -->
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Name" formControlName="name">
-      </mat-form-field>
+<form [formGroup]="createRoom" (ngSubmit)="onSubmit()">   
+  <!-- Name -->
+	<mat-form-field class="example-full-width">
+		<input matInput placeholder="Name" formControlName="name">
+	</mat-form-field>
+<!-- 
+	<mat-button-toggle-group formControlName="privacy">
+		<mat-button-toggle value="Public">Public</mat-button-toggle>
+		<mat-button-toggle  value="Private">Private</mat-button-toggle>
+	</mat-button-toggle-group>
 
-      <!-- Privacy -->
-      <div class="misc-bottom-padding">
-        <mat-label>Privacy:</mat-label>
-        <mat-radio-group aria-label="Select an option" formControlName="privacy">
-          <mat-radio-button value="Public">Public</mat-radio-button>
-          <mat-radio-button value="Private">Private</mat-radio-button>
-        </mat-radio-group>
-	  </div>
 
-	  <!-- Delete Room -->
-      <div class="misc-bottom-padding">
-        <mat-label>Permannet Room:</mat-label>
-        <mat-radio-group aria-label="Select an option" formControlName="permanent">
-          <mat-radio-button value="True">Permanent</mat-radio-button>
-          <mat-radio-button value="False">Temporary</mat-radio-button>
-        </mat-radio-group>
-      </div>
+	<mat-button-toggle-group formControlName="permanent">
+		<mat-button-toggle value="True">Permanent</mat-button-toggle>
+		<mat-button-toggle  value="False">Temporary</mat-button-toggle>
+	</mat-button-toggle-group>
 
-      <!-- Editable -->
-      <div class="misc-bottom-padding">
-        <mat-label>Editable:</mat-label>
-        <mat-radio-group aria-label="Select an option" formControlName="editable">
-          <mat-radio-button value="True">Editable</mat-radio-button>
-          <mat-radio-button value="False">Not Editable</mat-radio-button>
-        </mat-radio-group>
-      </div>
-
-      <!-- Submit -->
-      <div class="button-wrapper">
-        <button mat-flat-button color="primary">Submit</button>
-      </div>
-
-    </form>
+    <mat-button-toggle-group formControlName="editable">
+		<mat-button-toggle value="True">Editable</mat-button-toggle>
+		<mat-button-toggle  value="False">Not Editable</mat-button-toggle>
+    </mat-button-toggle-group>
+ -->
+  	<!-- Submit -->
+  	<div class="button-wrapper">
+		<button mat-flat-button color="primary">Submit</button>
+  	</div>
+</form>

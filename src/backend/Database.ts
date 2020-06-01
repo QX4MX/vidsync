@@ -10,7 +10,9 @@ export class DB {
 
     private Room: any;
     constructor() {
-        connect("mongodb://localhost:27017/vidsyncdb",{ useNewUrlParser: true });
+        //mongodb.default.svc.cluster.local
+        //mongodb://localhost:27017/vidsyncdb
+        connect("mongodb://mongodb.default.svc.cluster.local:27017/vidsyncdb",{ useNewUrlParser: true });
         this._db = connection;
         this._db.on('open', this.connected);
         this._db.on('error', this.error);

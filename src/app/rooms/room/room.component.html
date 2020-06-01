@@ -1,5 +1,5 @@
 <div class="content" *ngIf="roomData">
-    <div class="" id="main" class="">
+    <div class="" id="main">
         <!-- Video-Player -->
         <youtube-player  *ngIf="roomData.video" 
                 (stateChange)="onStateChange($event)"
@@ -8,19 +8,31 @@
                 [width]="playerWidth"
         >
         </youtube-player>
-
-        <form>
-            <mat-form-field>
-              <mat-label>Video Id/Url</mat-label>
-              <input color ="primary" #addVal matInput (keyup)="addToQueueonKey(addVal.value)">
-            </mat-form-field>
-            <button mat-raised-button (click)="addToQueue()"><mat-icon>playlist_add</mat-icon></button>
-        </form>
-        
-        
+        <div id="Chat">
+			<mat-list id="msgList" [style.height.px]="playerHeight-65">
+                <mat-list-item *ngFor="let msg of messages; let i = index" class="{{msg[1]}}">
+                    <p >{{msg[0]}}</p>
+                </mat-list-item>
+			</mat-list> 
+			<form>
+                <mat-form-field>
+                  <mat-label>Send Message</mat-label>
+                  <input #msgVal matInput (keyup)="msgonKey(msgVal.value)" value={{msgValue}}>
+                </mat-form-field>
+                <button mat-raised-button (click)="sendMsg()"><mat-icon>send</mat-icon></button>
+            </form>
+		</div>
 
         
     </div>
+    
+    <form>
+        <mat-form-field>
+          <mat-label>Video Id/Url</mat-label>
+          <input #addVal matInput (keyup)="addToQueueonKey(addVal.value)">
+        </mat-form-field>
+        <button mat-raised-button (click)="addToQueue()"><mat-icon>playlist_add</mat-icon></button>
+    </form>
 
     <ul id="queue" *ngIf="roomData">
         <p>Queue</p>

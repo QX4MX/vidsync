@@ -22,6 +22,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatCardModule} from '@angular/material/card';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatIconModule} from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 
 
@@ -43,7 +44,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatButtonModule,
     MatButtonToggleModule,
     MatSnackBarModule,
-    MatIconModule
+    MatIconModule,
+    MatListModule
   ]
 })
 export class RoomsModule { }

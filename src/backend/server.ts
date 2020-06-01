@@ -55,6 +55,7 @@ export class AppServer {
             socket.on(SocketEvent.SYNCTIME, (roomId:string,time:number) => {this.io.to(roomId).emit(SocketEvent.SYNCTIME, time)});
 
             socket.on(SocketEvent.ReadRoom, (roomId:string) => {this.io.to(roomId).emit(SocketEvent.ReadRoom)});
+            socket.on(SocketEvent.MSG, (roomId:string,msg:string) => {this.io.to(roomId).emit(SocketEvent.MSG,msg)});
         });
     }
 

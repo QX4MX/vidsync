@@ -26,6 +26,8 @@ export class RoomComponent implements OnInit {
 
 	
 	addToQValue = '';
+	msgValue = '';
+	messages: string[][] = [["Hello","dark"],["Hello","light"],["Hello","dark"]];
 	lastState:YT.PlayerState = YT.PlayerState.UNSTARTED;
 
 	@HostListener('window:resize', ['$event'])
@@ -63,6 +65,16 @@ export class RoomComponent implements OnInit {
 			}
 		});
 		this.socket.on(SocketEvent.ReadRoom, () => {this.readRoom()});
+		this.socket.on(SocketEvent.MSG, (msg:string) => {
+			if(this.messages.length % 2 == 0){
+				this.messages.push([msg,"dark"]);
+			}
+			else{
+				this.messages.push([msg,"light"]);
+			}
+			let element = document.getElementById("msgList");
+    		element.scrollTop = element.scrollHeight;
+		})
 		this.onResize();
 	}
 	  
@@ -119,6 +131,9 @@ export class RoomComponent implements OnInit {
 	addToQueueonKey(value: string) {
 		this.addToQValue = value;
 	}
+	msgonKey(value: string) {
+		this.msgValue = value;
+	}
 
 	setVideoFromQueue(videoId:string, i:number){
 		this.roomData.video = videoId;
@@ -166,6 +181,10 @@ export class RoomComponent implements OnInit {
 		return paramVal;
 	}
 
+	sendMsg(){
+		this.socket.emit(SocketEvent.MSG, this.roomId,this.msgValue);
+		this.msgValue = '';
+	}
 
 	openSnackBar(message: string, action: string) {
 		this._snackBar.open(message, action, {

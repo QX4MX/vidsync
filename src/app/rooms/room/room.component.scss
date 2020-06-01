@@ -1,23 +1,37 @@
-youtube-player{
-	position: relative;
-	margin-bottom: 0;
-	margin-top: -2.3rem;
+#main{
+	display: flex;
 }
+
 button{
 	margin-left: 5px;
 	color: white;
 	background-color: rgb(55, 55, 55);
 }
 
-::ng-deep .mat-form-field-label {
-	/*change color of label*/
-	color: rgb(100, 100, 100) !important;
+#Chat{
+	width: 100%;
+	padding-left: 10px;
+	mat-list{
+		overflow: hidden;
+		mat-list-item{
+			color: white;
+			
+		}
+		.light{
+			background-color: rgb(55, 55, 55);
+		}
+		&:hover {
+			padding-right: 0;
+			overflow-y: scroll;
+		}
+		
+	}
+	mat-form-field{
+		width: 80%;
+	}
 }
-  
-::ng-deep.mat-form-field-underline {
-	/*change color of underline*/
-	background-color: rgb(100, 100, 100) !important;
-  } 
+
+
 
 #queue{
 	padding: 0;
@@ -52,3 +66,13 @@ button{
 		}
     }
 }
+
+::ng-deep .mat-form-field-label {
+	/*change color of label*/
+	color: rgb(100, 100, 100) !important;
+}
+  
+::ng-deep.mat-form-field-underline {
+	/*change color of underline*/
+	background-color: rgb(100, 100, 100) !important;
+  }

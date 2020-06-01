@@ -10,7 +10,9 @@ export class DB {
 
     private Room: any;
     constructor() {
-        connect("mongodb://db:27017/db",{ useNewUrlParser: true });
+        //kubernetes mongodb.default.svc.cluster.local:27017/db
+        //local mongodb://db:27017/db
+        connect("mongodb.default.svc.cluster.local:27017/db",{ useNewUrlParser: true });
         this._db = connection;
         this._db.on('open', this.connected);
         this._db.on('error', this.error);

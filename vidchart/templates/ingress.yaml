@@ -12,9 +12,9 @@ spec:
       paths:
       - backend:
           serviceName: vidsync-angular-chart-svc
-          servicePort: 4200
+          servicePort: 4000
         path: /
   tls:
   - hosts:
-    - vidsync.de
+    - angular.vidsync.de
     secretName: vidsync-crt

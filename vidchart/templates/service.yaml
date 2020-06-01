@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: vidchart-svc
+  name: vidchart-angular-svc
   labels:
 {{ include "vidchart.labels" . | indent 4 }}
 spec:

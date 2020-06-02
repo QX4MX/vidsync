@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
-import { SocketEvent } from './Enums';
+import { SocketEvent } from '../Enums';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
-  private baseUri : string ="http://localhost:4000";
+  //https://angular.vidsync.de
+  //http://localhost:4000
+  private baseUri : string ="https://angular.vidsync.de";
   public socket : SocketIOClient.Socket;
   constructor() {
     this.socket = io.connect(this.baseUri);

@@ -2,22 +2,22 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-
+import {baseUrl} from './baseUrl';
 @Injectable({
   providedIn: 'root'
 })
 
 export class ApiService {
-  //https://angular.vidsync.de
-  //http://localhost:4000
-  baseUri:string = 'https://angular.vidsync.de';
+  
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    console.log("Expecting Api at " + baseUrl);
+   }
 
   // Create
   createUser(data): Observable<any> {
-    let url = `${this.baseUri}/api/users/create`;
+    let url = `${baseUrl}/api/users/create`;
     return this.http.post(url, data)
       .pipe(
         catchError(this.errorMgmt)
@@ -26,12 +26,12 @@ export class ApiService {
 
   // Get all users
   getUsers() {
-    return this.http.get(`${this.baseUri}/api/users/`);
+    return this.http.get(`${baseUrl}/api/users/`);
   }
 
   // Get user
   getUser(id): Observable<any> {
-    let url = `${this.baseUri}/api/users/read/${id}`;
+    let url = `${baseUrl}/api/users/read/${id}`;
     return this.http.get(url, {headers: this.headers}).pipe(
       map((res: Response) => {
         return res || {}
@@ -42,7 +42,7 @@ export class ApiService {
 
   // Update user
   updateUser(id, data): Observable<any> {
-    let url = `${this.baseUri}/api/users/update/${id}`;
+    let url = `${baseUrl}/api/users/update/${id}`;
     return this.http.put(url, data, { headers: this.headers }).pipe(
       catchError(this.errorMgmt)
     )
@@ -50,7 +50,7 @@ export class ApiService {
 
   // Delete user
   deleteUser(id): Observable<any> {
-    let url = `${this.baseUri}/api/users/delete/${id}`;
+    let url = `${baseUrl}/api/users/delete/${id}`;
     return this.http.delete(url, { headers: this.headers }).pipe(
       catchError(this.errorMgmt)
     )
@@ -58,7 +58,7 @@ export class ApiService {
 
   // Create
   createRoom(data): Observable<any> {
-    let url = `${this.baseUri}/api/room`;
+    let url = `${baseUrl}/api/room`;
     return this.http.post(url, data)
       .pipe(
         catchError(this.errorMgmt)
@@ -67,12 +67,12 @@ export class ApiService {
 
   // Get all users
   getRooms() {
-    return this.http.get(`${this.baseUri}/api/room`);
+    return this.http.get(`${baseUrl}/api/room`);
   }
 
   // Get user
   getRoom(id): Observable<any> {
-    let url = `${this.baseUri}/api/room/${id}`;
+    let url = `${baseUrl}/api/room/${id}`;
     return this.http.get(url, {headers: this.headers}).pipe(
       map((res: Response) => {
         return res || {}
@@ -83,7 +83,7 @@ export class ApiService {
 
   // Update user
   updateRoom(id,data): Observable<any> {
-    let url = `${this.baseUri}/api/room/${id}`;
+    let url = `${baseUrl}/api/room/${id}`;
     return this.http.put(url,data, {headers: this.headers}).pipe(
       map((res: Response) => {
         console.log("response:")
@@ -96,7 +96,7 @@ export class ApiService {
 
   // Delete user
   deleteRoom(id): Observable<any> {
-    let url = `${this.baseUri}/api/room/${id}`;
+    let url = `${baseUrl}/api/room/${id}`;
     return this.http.delete(url, { headers: this.headers }).pipe(
       catchError(this.errorMgmt)
     )

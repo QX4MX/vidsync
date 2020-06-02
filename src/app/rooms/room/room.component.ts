@@ -22,20 +22,27 @@ export class RoomComponent implements OnInit {
 	roomId : any;
 	roomData : Room;
 	videoId: string;
-	
-
+	messages: string[][] = [];
 	
 	addToQValue = '';
 	msgValue = '';
-	messages: string[][] = [];
+	
+
 	lastState:YT.PlayerState = YT.PlayerState.UNSTARTED;
 
 	@HostListener('window:resize', ['$event'])
 	onResize(event?) {
 		this.screenHeight = window.innerHeight;
 		this.screenWidth = window.innerWidth;
-		this.playerWidth = this.screenWidth * 0.6;
-		this.playerHeight = this.playerWidth * 0.5625;
+		if(this.screenWidth >= 1024){
+			this.playerWidth = this.screenWidth * 0.6;
+			this.playerHeight = this.playerWidth * 0.5625;
+		}
+		else{
+			this.playerWidth = this.screenWidth * 0.9;
+			this.playerHeight = this.playerWidth * 0.5625;
+		}
+		
 	}
 
 	@Output() public click: EventEmitter<MouseEvent> = new EventEmitter();
@@ -59,14 +66,23 @@ export class RoomComponent implements OnInit {
 		this.socket.emit(SocketEvent.JOIN, this.roomId);
 		
 		// VidCtrl
-		this.socket.on(SocketEvent.PLAY, () => { 
-			this.youtubePlayer.playVideo();
+		this.socket.on(SocketEvent.PLAY, () => {
+			if(this.lastState != YT.PlayerState.PLAYING){
+				this.youtubePlayer.playVideo();
+				console.log("play");
+			}
+			
 		});
     	this.socket.on(SocketEvent.PAUSE, () => { 
-			this.youtubePlayer.pauseVideo();
+			if(this.lastState != YT.PlayerState.PAUSED){
+				this.youtubePlayer.pauseVideo();
+			}
 		});
 		this.socket.on(SocketEvent.SET_VID, (videoId:string) => {
-			this.setVideo(videoId);
+			this.youtubePlayer.videoId = videoId;
+			if(this.youtubePlayer.getCurrentTime() != 0){
+				this.youtubePlayer.seekTo(0,true);
+			}
 		});
 		this.socket.on(SocketEvent.SYNCTIME, (time:number) => {
 			if(Math.abs(this.youtubePlayer.getCurrentTime() - time) > 1){
@@ -110,26 +126,20 @@ export class RoomComponent implements OnInit {
 		});
 	}	
 	
-	onStateChange(event: YT.OnStateChangeEvent) {
-		
+	onStateChange(event: YT.OnStateChangeEvent) {	
 		console.log(event.data);
-
 		if(event.data == YT.PlayerState.PLAYING){
-			// Everyone sync if video starts playing (will only sync if someone is more than 2 sec away)
-			if(this.lastState != YT.PlayerState.PLAYING){
-				this.socket.emit(SocketEvent.SYNCTIME,this.roomId, this.youtubePlayer.getCurrentTime());
-			}
 			this.socket.emit(SocketEvent.PLAY,this.roomId);
+			this.socket.emit(SocketEvent.SYNCTIME,this.roomId, this.youtubePlayer.getCurrentTime());
 		}
 		else if(event.data == YT.PlayerState.PAUSED){
 			this.socket.emit(SocketEvent.PAUSE,this.roomId);
+			this.socket.emit(SocketEvent.SYNCTIME,this.roomId, this.youtubePlayer.getCurrentTime());
 		}
-		else if(event.data == YT.PlayerState.BUFFERING){
-			// Pause -> Someone buffered mid video
-			if(this.lastState == YT.PlayerState.PLAYING){
-				this.socket.emit(SocketEvent.PAUSE, this.roomId);
-			}			
+		else if(event.data == YT.PlayerState.ENDED){
+			this.setVideoFromQueue(this.roomData[0],0);
 		}
+		this.lastState = event.data;
 	}
 	// Video
 
@@ -138,10 +148,6 @@ export class RoomComponent implements OnInit {
 	}
 	msgonKey(value: string) {
 		this.msgValue = value;
-	}
-
-	setVideo(videoId:string){
-		this.roomData.video = videoId;
 	}
 
 	setVideoFromQueue(videoId:string, i:number){

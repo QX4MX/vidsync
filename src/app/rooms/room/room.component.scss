@@ -10,9 +10,12 @@ button{
 
 #Chat{
 	width: 100%;
-	padding-left: 10px;
+	padding: 10px;
 	mat-list{
 		overflow: hidden;
+		word-wrap: break-word;
+		padding: 0;
+		padding-right: 17px;
 		mat-list-item{
 			color: white;
 			
@@ -75,4 +78,11 @@ button{
 ::ng-deep.mat-form-field-underline {
 	/*change color of underline*/
 	background-color: rgb(100, 100, 100) !important;
-  }
+}
+
+
+@media only screen and (max-width: 1024px) {
+	#main{
+		display: block;
+	}
+}

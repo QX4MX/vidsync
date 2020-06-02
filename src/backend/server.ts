@@ -21,6 +21,8 @@ export class AppServer {
 
     public apiroomRoutes: RoomRoutes = new RoomRoutes();
 
+    syncCoolDown = new Map();
+
     constructor() {
         this.app = express();
         
@@ -38,8 +40,10 @@ export class AppServer {
         this.apiroomRoutes.routes(this.app);
         this.app.use('/room', express.static(path.join(__dirname, '../../../frontend')));
         this.app.use('/room/**', express.static(path.join(__dirname, '../../../frontend')));
-        
+        setInterval(this.clearCdMap, 3600000 ); // one hour sec(1000) * min(60) * hour(60)
         this.listen();
+        
+        
     }
 
 
@@ -53,7 +57,9 @@ export class AppServer {
             socket.on(SocketEvent.DISCONNECT, () => {
                 console.log("socket disconnected");
             });
+            // TODO Handle roomid for user
             socket.on(SocketEvent.JOIN, (roomId:string) => {
+                socket.leaveAll();
                 socket.join(roomId);
             });
             socket.on(SocketEvent.PLAY, (roomId:string) => {
@@ -62,7 +68,7 @@ export class AppServer {
             });
             socket.on(SocketEvent.PAUSE, (roomId:string) => {
                 this.io.to(roomId).emit(SocketEvent.PAUSE);
-                console.log("Play in "+roomId);
+                console.log("Pause in "+roomId);
             });
             socket.on(SocketEvent.NEXT, (roomId:string, nextVidId:string) => {
                 this.io.to(roomId).emit(SocketEvent.SET_VID,nextVidId);
@@ -70,8 +76,12 @@ export class AppServer {
                 console.log("Next in "+roomId);
             });
             socket.on(SocketEvent.SYNCTIME, (roomId:string,time:number) => {
-                this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
-                console.log("SyncTime in "+roomId);
+                let syncCD = this.syncCoolDown.get(roomId);
+                if(this.syncCoolDown.get(roomId) == null || syncCD + 1000 < Date.now()){
+                    this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
+                    console.log("SyncTime in "+roomId);
+                    this.syncCoolDown.set(roomId, Date.now());
+                }         
             });
 
             socket.on(SocketEvent.ReadRoom, (roomId:string, cause:string) => {
@@ -87,6 +97,16 @@ export class AppServer {
 
     public getApp(): express.Application {
         return this.app;
+    }
+
+    clearCdMap(){
+        console.log("Clearing Map");
+        for(let key of this.syncCoolDown.keys()){
+            let date = this.syncCoolDown.get(key);
+            if(date + 1000 < Date.now()){
+                this.syncCoolDown.delete(key);
+            }
+        }
     }
 }
 

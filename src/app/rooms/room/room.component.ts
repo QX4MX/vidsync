@@ -27,7 +27,7 @@ export class RoomComponent implements OnInit {
 	
 	addToQValue = '';
 	msgValue = '';
-	messages: string[][] = [["Hello","dark"],["Hello","light"],["Hello","dark"]];
+	messages: string[][] = [];
 	lastState:YT.PlayerState = YT.PlayerState.UNSTARTED;
 
 	@HostListener('window:resize', ['$event'])

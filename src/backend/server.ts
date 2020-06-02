@@ -34,11 +34,12 @@ export class AppServer {
         }));
         this.app.use(bodyParser.json());
         this.app.use(cors());
-        this.apiroomRoutes.routes(this.app);
         this.app.use('/', express.static(path.join(__dirname, '../../../frontend')));
+        
         this.db = new DB();
-        
-        
+        this.apiroomRoutes.routes(this.app);
+        this.app.use('/room', express.static(path.join(__dirname, '../../../frontend')));
+        this.app.use('/room/**', express.static(path.join(__dirname, '../../../frontend')));
         setInterval(this.clearCdMap, 3600000 ); // one hour sec(1000) * min(60) * hour(60)
         this.listen();
         

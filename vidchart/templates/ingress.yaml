@@ -1,20 +1,26 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-    kubernetes.io/tls-acme: "true"
-  name: vidsync-angular-ingress
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: nginx
+    acme.cert-manager.io/http01-edit-in-place: "true"
+  name: vidchart-angular-ing
+  namespace: default
 spec:
   rules:
   - host: angular.vidsync.de
     http:
       paths:
       - backend:
-          serviceName: vidsync-angular-chart-svc
+          serviceName: vidchart-angular-svc
           servicePort: 4000
         path: /
   tls:
   - hosts:
     - angular.vidsync.de
-    secretName: vidsync-crt
+    secretName: vidsync-angular-tls

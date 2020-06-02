@@ -1,6 +1,4 @@
 import { connect, connection, Connection, Schema } from 'mongoose';
-import * as express from 'express';
-import { Db } from 'mongodb';
 
 
 export class DB {
@@ -8,7 +6,6 @@ export class DB {
     private static instance: DB;
     private _db: Connection; 
 
-    private Room: any;
     constructor() {
         //mongodb.default.svc.cluster.local
         //mongodb://localhost:27017/vidsyncdb
@@ -25,6 +22,6 @@ export class DB {
 
     private error(error:any) {
         console.log('Mongoose has errored', error);
-    }   
+    }
 }
 

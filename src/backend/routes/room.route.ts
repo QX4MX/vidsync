@@ -1,5 +1,3 @@
-import {Request, Response} from "express";
-import { DB } from '../Database';
 import {RoomController} from '../controller/roomController';
 
 

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { ApiService } from '../../api-services/api.service';
+import { ApiService } from '../../services/api.service';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 

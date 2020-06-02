@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, NgZone, HostListener } from '@angular/core';
-import { ApiService } from 'src/app/api-services/api.service';
-import {SocketService} from 'src/app/socket.service';
+import { ApiService } from 'src/app/services/api.service';
+import {SocketService} from 'src/app/services/socket.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { YouTubePlayer} from '@angular/youtube-player';
 import { Room } from 'src/app/model/room';

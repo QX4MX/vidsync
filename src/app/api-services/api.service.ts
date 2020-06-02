@@ -8,8 +8,9 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 })
 
 export class ApiService {
-  
-  baseUri:string = 'http://localhost:4000';
+  //https://angular.vidsync.de
+  //http://localhost:4000
+  baseUri:string = 'https://angular.vidsync.de';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) { }

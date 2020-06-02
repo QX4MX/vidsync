@@ -36,8 +36,6 @@ export class AppServer {
         this.app.use(cors());
         this.apiroomRoutes.routes(this.app);
         this.app.use('/', express.static(path.join(__dirname, '../../../frontend')));
-        this.app.use('/room', express.static(path.join(__dirname, '../../../frontend')));
-        this.app.use('/room/*', express.static(path.join(__dirname, '../../../frontend')));
         this.db = new DB();
         
         

@@ -34,12 +34,13 @@ export class AppServer {
         }));
         this.app.use(bodyParser.json());
         this.app.use(cors());
-        this.app.use('/', express.static(path.join(__dirname, '../../../frontend')));
-        
-        this.db = new DB();
         this.apiroomRoutes.routes(this.app);
+        this.app.use('/', express.static(path.join(__dirname, '../../../frontend')));
         this.app.use('/room', express.static(path.join(__dirname, '../../../frontend')));
-        this.app.use('/room/**', express.static(path.join(__dirname, '../../../frontend')));
+        this.app.use('/room/*', express.static(path.join(__dirname, '../../../frontend')));
+        this.db = new DB();
+        
+        
         setInterval(this.clearCdMap, 3600000 ); // one hour sec(1000) * min(60) * hour(60)
         this.listen();
         
@@ -64,22 +65,18 @@ export class AppServer {
             });
             socket.on(SocketEvent.PLAY, (roomId:string) => {
                 this.io.to(roomId).emit(SocketEvent.PLAY);
-                console.log("Play in "+roomId);
             });
             socket.on(SocketEvent.PAUSE, (roomId:string) => {
                 this.io.to(roomId).emit(SocketEvent.PAUSE);
-                console.log("Pause in "+roomId);
             });
             socket.on(SocketEvent.NEXT, (roomId:string, nextVidId:string) => {
                 this.io.to(roomId).emit(SocketEvent.SET_VID,nextVidId);
                 this.io.to(roomId).emit(SocketEvent.ReadRoom,"Next!");
-                console.log("Next in "+roomId);
             });
             socket.on(SocketEvent.SYNCTIME, (roomId:string,time:number) => {
                 let syncCD = this.syncCoolDown.get(roomId);
                 if(this.syncCoolDown.get(roomId) == null || syncCD + 1000 < Date.now()){
                     this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
-                    console.log("SyncTime in "+roomId);
                     this.syncCoolDown.set(roomId, Date.now());
                 }         
             });
@@ -90,7 +87,6 @@ export class AppServer {
             });
             socket.on(SocketEvent.MSG, (roomId:string,msg:string) => {
                 this.io.to(roomId).emit(SocketEvent.MSG,msg);
-                console.log("MSG in "+roomId);
             });
         });
     }

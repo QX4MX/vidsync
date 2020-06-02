@@ -101,6 +101,7 @@ export class RoomComponent implements OnInit {
 			else{
 				this.messages.push([msg,"light"]);
 			}
+			//TODO doesnt scroll all the way down (1 msg is hidden)
 			let element = document.getElementById("msgList");
     		element.scrollTop = element.scrollHeight;
 		})

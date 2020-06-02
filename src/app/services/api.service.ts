@@ -12,7 +12,7 @@ export class ApiService {
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) {
-    console.log("Expecting Api at " + baseUrl);
+    console.log("Expecting Api at " + baseUrl+"/api");
    }
 
   // Create

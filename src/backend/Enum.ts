@@ -6,7 +6,7 @@ export enum SocketEvent {
     MSG = 'msg',
     ALERT = 'alert',
     SET_USERNAME = 'setUserName',
-    SET_ID = 'setId',
+    SET_VID = 'setId',
     LOAD_VID = 'loadId',
     PLAY = 'play',
     PAUSE = 'pause',

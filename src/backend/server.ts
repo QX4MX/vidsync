@@ -50,16 +50,38 @@ export class AppServer {
 
         this.io.on(SocketEvent.CONNECT, (socket: SocketIO.Socket) => {
             console.log("socket connected");
+            socket.on(SocketEvent.DISCONNECT, () => {
+                console.log("socket disconnected");
+            });
             socket.on(SocketEvent.JOIN, (roomId:string) => {
                 socket.join(roomId);
             });
-            socket.on(SocketEvent.PLAY, (roomId:string) => {this.io.to(roomId).emit(SocketEvent.PLAY)});
-            socket.on(SocketEvent.PAUSE, (roomId:string) => {this.io.to(roomId).emit(SocketEvent.PAUSE)});
-            socket.on(SocketEvent.NEXT, (roomId:string) => {this.io.to(roomId).emit(SocketEvent.NEXT)});
-            socket.on(SocketEvent.SYNCTIME, (roomId:string,time:number) => {this.io.to(roomId).emit(SocketEvent.SYNCTIME, time)});
+            socket.on(SocketEvent.PLAY, (roomId:string) => {
+                this.io.to(roomId).emit(SocketEvent.PLAY);
+                console.log("Play in "+roomId);
+            });
+            socket.on(SocketEvent.PAUSE, (roomId:string) => {
+                this.io.to(roomId).emit(SocketEvent.PAUSE);
+                console.log("Play in "+roomId);
+            });
+            socket.on(SocketEvent.NEXT, (roomId:string, nextVidId:string) => {
+                this.io.to(roomId).emit(SocketEvent.SET_VID,nextVidId);
+                this.io.to(roomId).emit(SocketEvent.ReadRoom,"Next!");
+                console.log("Next in "+roomId);
+            });
+            socket.on(SocketEvent.SYNCTIME, (roomId:string,time:number) => {
+                this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
+                console.log("SyncTime in "+roomId);
+            });
 
-            socket.on(SocketEvent.ReadRoom, (roomId:string) => {this.io.to(roomId).emit(SocketEvent.ReadRoom)});
-            socket.on(SocketEvent.MSG, (roomId:string,msg:string) => {this.io.to(roomId).emit(SocketEvent.MSG,msg)});
+            socket.on(SocketEvent.ReadRoom, (roomId:string, cause:string) => {
+                this.io.to(roomId).emit(SocketEvent.ReadRoom,cause);
+                console.log(cause+ " in "+roomId);
+            });
+            socket.on(SocketEvent.MSG, (roomId:string,msg:string) => {
+                this.io.to(roomId).emit(SocketEvent.MSG,msg);
+                console.log("MSG in "+roomId);
+            });
         });
     }
 

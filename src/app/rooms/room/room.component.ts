@@ -53,18 +53,31 @@ export class RoomComponent implements OnInit {
 		this.route.params.subscribe((params: Params) => {
 			this.roomId = params['id'];
 		});
-		this.readRoom();
+
+		this.readRoom("Load Room");
 		this.socket = socketService.socket;
 		this.socket.emit(SocketEvent.JOIN, this.roomId);
-		this.socket.on(SocketEvent.PLAY, () => { this.youtubePlayer.playVideo();});
-    	this.socket.on(SocketEvent.PAUSE, () => { this.youtubePlayer.pauseVideo();});
-		this.socket.on(SocketEvent.NEXT, () => { this.setVideoFromQueue(this.roomData.queue[0],0) });
+		
+		// VidCtrl
+		this.socket.on(SocketEvent.PLAY, () => { 
+			this.youtubePlayer.playVideo();
+		});
+    	this.socket.on(SocketEvent.PAUSE, () => { 
+			this.youtubePlayer.pauseVideo();
+		});
+		this.socket.on(SocketEvent.SET_VID, (videoId:string) => {
+			this.setVideo(videoId);
+		});
 		this.socket.on(SocketEvent.SYNCTIME, (time:number) => {
 			if(Math.abs(this.youtubePlayer.getCurrentTime() - time) > 1){
 				this.youtubePlayer.seekTo(time,true);
 			}
 		});
-		this.socket.on(SocketEvent.ReadRoom, () => {this.readRoom()});
+
+		//Room Ctrl
+		this.socket.on(SocketEvent.ReadRoom, (cause:string) => {
+			this.readRoom(cause);
+		});
 		this.socket.on(SocketEvent.MSG, (msg:string) => {
 			if(this.messages.length % 2 == 0){
 				this.messages.push([msg,"dark"]);
@@ -75,6 +88,12 @@ export class RoomComponent implements OnInit {
 			let element = document.getElementById("msgList");
     		element.scrollTop = element.scrollHeight;
 		})
+
+		// Disconnect
+		this.socket.on(SocketEvent.DISCONNECT, () => {
+			this.openSnackBar("Websocket lost Connection","X",5);
+		});
+
 		this.onResize();
 	}
 	  
@@ -83,11 +102,11 @@ export class RoomComponent implements OnInit {
 				
 	}
 
-	readRoom(){
+	readRoom(cause:string){
 		this.apiService.getRoom(this.roomId).subscribe((data) => {
-		this.roomData = data;
-		this.videoId = this.roomData.video;
-		this.openSnackBar("Video or Queue changed!","X");
+			this.roomData = data;
+			this.videoId = this.roomData.video;
+			this.openSnackBar(cause,"X",1);
 		});
 	}	
 	
@@ -106,24 +125,10 @@ export class RoomComponent implements OnInit {
 			this.socket.emit(SocketEvent.PAUSE,this.roomId);
 		}
 		else if(event.data == YT.PlayerState.BUFFERING){
-			
-			if(this.lastState == YT.PlayerState.UNSTARTED){
-				
-			}
 			// Pause -> Someone buffered mid video
-			else if(this.lastState == YT.PlayerState.PLAYING){
+			if(this.lastState == YT.PlayerState.PLAYING){
 				this.socket.emit(SocketEvent.PAUSE, this.roomId);
-			}
-			else if(this.lastState == YT.PlayerState.PAUSED){
-				
-			}
-
-			
-		}
-		else if(event.data == YT.PlayerState.UNSTARTED){
-
-		}
-		else if(event.data == YT.PlayerState.ENDED){
+			}			
 		}
 	}
 	// Video
@@ -135,10 +140,14 @@ export class RoomComponent implements OnInit {
 		this.msgValue = value;
 	}
 
+	setVideo(videoId:string){
+		this.roomData.video = videoId;
+	}
+
 	setVideoFromQueue(videoId:string, i:number){
 		this.roomData.video = videoId;
 		this.roomData.queue.splice(i, 1);
-		this.updateRoom();
+		this.updateRoom("Set Video From Queue");
 	}
 
 	addToQueue(){
@@ -148,25 +157,23 @@ export class RoomComponent implements OnInit {
 			vidId = this.addToQValue;
 		}
 		this.roomData.queue.push(vidId);
-		this.updateRoom();
+		this.updateRoom("Added Element To Queue");
 	}
 
 	removeFromQueue(i:number){
 		this.roomData.queue.splice(i, 1);
-		this.updateRoom();
+		this.updateRoom("Removed Element From Queue");
 	}
 
-	updateRoom(){
+	updateRoom(cause:string){
 		this.apiService.updateRoom(this.roomId,this.roomData).subscribe(
 			(res) => {
 			  console.log('Room updated!')
 			  this.ngZone.run(() => this.router.navigateByUrl('/room/'+this.roomId))
-			  this.socket.emit(SocketEvent.ReadRoom);
+			  this.socket.emit(SocketEvent.ReadRoom, this.roomId, cause);
 			}, (error) => {
 			  console.log(error);
-		});
-		this.socket.emit(SocketEvent.ReadRoom, this.roomId);
-		
+		});		
 	}
 
 	getParamFromUrl(urlString: string, param: string) {
@@ -186,9 +193,9 @@ export class RoomComponent implements OnInit {
 		this.msgValue = '';
 	}
 
-	openSnackBar(message: string, action: string) {
+	openSnackBar(message: string, action: string, time:number) {
 		this._snackBar.open(message, action, {
-		  duration: 1000,
+		  duration: time*1000,
 		});
 	}
 }

@@ -86,10 +86,8 @@ export class AppServer {
                 }
             });
             socket.on(SocketEvent.SYNCTIME, (roomId:string,time:number) => {
-                if(!this.hasCooldown(roomId)){
-                    this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
-                    this.syncCoolDown.set(roomId, Date.now());
-                }
+                this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
+                this.syncCoolDown.set(roomId, Date.now());
             });
 
             socket.on(SocketEvent.ReadRoom, (roomId:string, cause:string) => {

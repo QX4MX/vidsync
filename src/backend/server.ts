@@ -124,10 +124,12 @@ export class AppServer {
 
     clearCdMap(){
         console.log("Clearing Map");
-        for(let key of this.syncCoolDown.keys()){
-            let date = this.syncCoolDown.get(key);
-            if(date + this.coolDownTime < Date.now()){
-                this.syncCoolDown.delete(key);
+        if(this.syncCoolDown){
+            for(let key of this.syncCoolDown.keys()){
+                let date = this.syncCoolDown.get(key);
+                if(date + this.coolDownTime < Date.now()){
+                    this.syncCoolDown.delete(key);
+                }
             }
         }
     }

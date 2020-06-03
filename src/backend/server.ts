@@ -66,15 +66,18 @@ export class AppServer {
                 socket.leaveAll();
                 socket.join(roomId);
             });
-            socket.on(SocketEvent.PLAY, (roomId:string) => {
+            socket.on(SocketEvent.PLAY, (roomId:string, time:number) => {
                 if(!this.hasCooldown(roomId)){
                     this.io.to(roomId).emit(SocketEvent.PLAY);
+                    this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
                     this.syncCoolDown.set(roomId, Date.now());
                 }
             });
-            socket.on(SocketEvent.PAUSE, (roomId:string) => {
+
+            socket.on(SocketEvent.PAUSE, (roomId:string,time:number) => {
                 if(!this.hasCooldown(roomId)){
                     this.io.to(roomId).emit(SocketEvent.PAUSE);
+                    this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
                     this.syncCoolDown.set(roomId, Date.now());
                 }
             });
@@ -85,6 +88,7 @@ export class AppServer {
                     this.syncCoolDown.set(roomId, Date.now());
                 }
             });
+            // Should not be called atm
             socket.on(SocketEvent.SYNCTIME, (roomId:string,time:number) => {
                 this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
                 this.syncCoolDown.set(roomId, Date.now());

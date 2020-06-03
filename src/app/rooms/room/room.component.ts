@@ -130,12 +130,10 @@ export class RoomComponent implements OnInit {
 	onStateChange(event: YT.OnStateChangeEvent) {	
 		console.log(event.data);
 		if(event.data == YT.PlayerState.PLAYING){
-			this.socket.emit(SocketEvent.PLAY,this.roomId);
-			this.socket.emit(SocketEvent.SYNCTIME,this.roomId, this.youtubePlayer.getCurrentTime());
+			this.socket.emit(SocketEvent.PLAY,this.roomId,this.youtubePlayer.getCurrentTime());
 		}
 		else if(event.data == YT.PlayerState.PAUSED){
-			this.socket.emit(SocketEvent.PAUSE,this.roomId);
-			this.socket.emit(SocketEvent.SYNCTIME,this.roomId, this.youtubePlayer.getCurrentTime());
+			this.socket.emit(SocketEvent.PAUSE,this.roomId,this.youtubePlayer.getCurrentTime());
 		}
 		else if(event.data == YT.PlayerState.ENDED){
 			this.setVideoFromQueue(this.roomData[0],0);

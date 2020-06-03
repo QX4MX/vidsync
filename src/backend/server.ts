@@ -5,8 +5,8 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as path from 'path';
 import { SocketEvent } from "./Enum";
-import { DB } from './Database';
-import {RoomRoutes} from './routes/room.route';
+import { DB } from './api/Database';
+import {RoomRoutes} from './api/routes/room.route';
 
 
 
@@ -19,9 +19,9 @@ export class AppServer {
     private io: SocketIO.Server;
     private db: DB;
 
-    public apiroomRoutes: RoomRoutes = new RoomRoutes();
+    private apiroomRoutes: RoomRoutes;
 
-    syncCoolDown = new Map();
+    private syncCoolDown = new Map();
 
     constructor() {
         this.app = express();
@@ -29,6 +29,8 @@ export class AppServer {
         this.port = process.env.PORT || AppServer.PORT;
         this.server = createServer(this.app);
         this.io = socketIo(this.server);
+
+
         this.app.use(bodyParser.urlencoded({
             extended: false
         }));
@@ -37,13 +39,12 @@ export class AppServer {
         this.app.use('/', express.static(path.join(__dirname, '../../../frontend')));
         
         this.db = new DB();
+        this.apiroomRoutes = new RoomRoutes();
         this.apiroomRoutes.routes(this.app);
         this.app.use('/room', express.static(path.join(__dirname, '../../../frontend')));
         this.app.use('/room/**', express.static(path.join(__dirname, '../../../frontend')));
         setInterval(this.clearCdMap, 3600000 ); // one hour sec(1000) * min(60) * hour(60)
         this.listen();
-        
-        
     }
 
 

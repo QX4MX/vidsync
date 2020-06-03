@@ -2,7 +2,28 @@ form{
     background-color: rgb(34,34,34);
     text-align: center;
     width: 80%;
-    margin: 0 10%;
+	margin: 0 10%;
+	padding: 1rem;
+}
+
+mat-form-field{
+	display: block;
+	color: white;
+}
+
+mat-button-toggle-group{
+	width: 100%;
+	margin-bottom: 1rem;
+	color: white;
+
+	.mat-button-toggle{
+		
+		width: 50%;
+		background-color: rgb(50,50,50);
+		&-checked{
+			background-color: rgb(100, 100, 100);
+		}
+	}
 }
 
 ::ng-deep .mat-form-field-label {
@@ -14,3 +35,4 @@ form{
 	/*change color of underline*/
 	background-color: rgb(100, 100, 100) !important;
   } 
+

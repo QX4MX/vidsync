@@ -50,7 +50,8 @@ export class RoomCreateComponent implements OnInit {
       this.apiService.createRoom(this.createRoom.value).subscribe(
         (res) => {
           console.log('Room successfully created!')
-          this.ngZone.run(() => this.router.navigateByUrl('/room'))
+          console.log(res);
+          this.ngZone.run(() => this.router.navigateByUrl('/room/'+res._id));
         }, (error) => {
           console.log(error);
         });

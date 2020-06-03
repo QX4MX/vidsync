@@ -1,0 +1,14 @@
+<mat-form-field>
+  <mat-label>Admin Pw</mat-label>
+  <input #msgVal matInput (keyup)="onKeyPw($event)" type="password">
+</mat-form-field>
+  <button mat-raised-button (click)="readRoom()"><mat-icon>send</mat-icon></button>
+<mat-list id="pubRooms">
+    <mat-list-item  *ngFor="let room of Room; let i = index">
+        Name: {{room.name}} | 
+        Privacy : {{room.privacy}} |
+        <button mat-raised-button><a [routerLink]="['/room/', room._id]"> Join Room </a></button>
+        <button mat-raised-button (click) ="removeRoom(room,i)"> Delete Room </button>   
+          
+      </mat-list-item>
+</mat-list>

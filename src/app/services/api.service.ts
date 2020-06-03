@@ -16,47 +16,6 @@ export class ApiService {
    }
 
   // Create
-  createUser(data): Observable<any> {
-    let url = `${baseUrl}/api/users/create`;
-    return this.http.post(url, data)
-      .pipe(
-        catchError(this.errorMgmt)
-      )
-  }
-
-  // Get all users
-  getUsers() {
-    return this.http.get(`${baseUrl}/api/users/`);
-  }
-
-  // Get user
-  getUser(id): Observable<any> {
-    let url = `${baseUrl}/api/users/read/${id}`;
-    return this.http.get(url, {headers: this.headers}).pipe(
-      map((res: Response) => {
-        return res || {}
-      }),
-      catchError(this.errorMgmt)
-    )
-  }
-
-  // Update user
-  updateUser(id, data): Observable<any> {
-    let url = `${baseUrl}/api/users/update/${id}`;
-    return this.http.put(url, data, { headers: this.headers }).pipe(
-      catchError(this.errorMgmt)
-    )
-  }
-
-  // Delete user
-  deleteUser(id): Observable<any> {
-    let url = `${baseUrl}/api/users/delete/${id}`;
-    return this.http.delete(url, { headers: this.headers }).pipe(
-      catchError(this.errorMgmt)
-    )
-  }
-
-  // Create
   createRoom(data): Observable<any> {
     let url = `${baseUrl}/api/room`;
     return this.http.post(url, data)
@@ -94,13 +53,12 @@ export class ApiService {
     )
   }
 
-  // Delete user
-  deleteRoom(id): Observable<any> {
+  /* deleteRoom(id): Observable<any> {
     let url = `${baseUrl}/api/room/${id}`;
     return this.http.delete(url, { headers: this.headers }).pipe(
       catchError(this.errorMgmt)
     )
-  }
+  } */
 
   // Error handling 
   errorMgmt(error: HttpErrorResponse) {
@@ -115,4 +73,19 @@ export class ApiService {
     return throwError(errorMessage);
   }
 
+  // Get all users
+  adminGetRooms(pw:string) {
+    return this.http.get(`${baseUrl}/api/admin/room`,{
+      params:{
+        pw: pw
+      }
+    });
+  }
+
+  adminDeleteRoom(id,pw): Observable<any> {
+    let url = `${baseUrl}/api/room/${id}`;
+    return this.http.delete(url, { headers: this.headers, params:{pw:pw} }).pipe(
+      catchError(this.errorMgmt)
+    )
+  }
 }

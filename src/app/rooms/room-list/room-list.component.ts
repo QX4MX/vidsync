@@ -24,12 +24,4 @@ export class RoomListComponent implements OnInit {
 			this.Room = data;
 		})  
 	}
-
-	removeRoom(room, index) {
-		if(window.confirm('Are you sure?')) {
-			this.apiService.deleteRoom(room._id).subscribe((data) => {
-				this.Room.splice(index, 1);
-			}
-		)}
-	}
 }

@@ -22,6 +22,7 @@ export class AppServer {
     private apiroomRoutes: RoomRoutes;
 
     private syncCoolDown = new Map();
+    private coolDownTime: number = 250;
 
     constructor() {
         this.app = express();
@@ -66,29 +67,45 @@ export class AppServer {
                 socket.join(roomId);
             });
             socket.on(SocketEvent.PLAY, (roomId:string) => {
-                this.io.to(roomId).emit(SocketEvent.PLAY);
+                if(!this.hasCooldown(roomId)){
+                    this.io.to(roomId).emit(SocketEvent.PLAY);
+                    this.syncCoolDown.set(roomId, Date.now());
+                }
             });
             socket.on(SocketEvent.PAUSE, (roomId:string) => {
-                this.io.to(roomId).emit(SocketEvent.PAUSE);
+                if(!this.hasCooldown(roomId)){
+                    this.io.to(roomId).emit(SocketEvent.PAUSE);
+                    this.syncCoolDown.set(roomId, Date.now());
+                }
             });
             socket.on(SocketEvent.NEXT, (roomId:string, nextVidId:string) => {
-                this.io.to(roomId).emit(SocketEvent.SET_VID,nextVidId);
-                this.io.to(roomId).emit(SocketEvent.ReadRoom,"Next!");
+                if(!this.hasCooldown(roomId)){
+                    this.io.to(roomId).emit(SocketEvent.SET_VID,nextVidId);
+                    this.io.to(roomId).emit(SocketEvent.ReadRoom,"Next!");
+                    this.syncCoolDown.set(roomId, Date.now());
+                }
             });
             socket.on(SocketEvent.SYNCTIME, (roomId:string,time:number) => {
-                let syncCD = this.syncCoolDown.get(roomId);
-                if(this.syncCoolDown.get(roomId) == null || syncCD + 1000 < Date.now()){
+                if(!this.hasCooldown(roomId)){
                     this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
                     this.syncCoolDown.set(roomId, Date.now());
-                }         
+                }
             });
 
             socket.on(SocketEvent.ReadRoom, (roomId:string, cause:string) => {
-                this.io.to(roomId).emit(SocketEvent.ReadRoom,cause);
-                console.log(cause+ " in "+roomId);
+                if(!this.hasCooldown(roomId)){
+                    this.io.to(roomId).emit(SocketEvent.ReadRoom,cause);
+                    console.log(cause+ " in "+roomId);
+                }
             });
+
             socket.on(SocketEvent.MSG, (roomId:string,msg:string) => {
-                this.io.to(roomId).emit(SocketEvent.MSG,msg);
+                if (!msg.replace(/\s/g, '').length) {
+                    socket.emit(SocketEvent.MSG,"Unable to Send (whitespace/empty msg)");
+                }
+                else{
+                    this.io.to(roomId).emit(SocketEvent.MSG,msg);
+                }
             });
         });
     }
@@ -97,11 +114,19 @@ export class AppServer {
         return this.app;
     }
 
+    hasCooldown(roomId:string){
+        let syncCD = this.syncCoolDown.get(roomId);
+        if(this.syncCoolDown.get(roomId) == null || syncCD + this.coolDownTime < Date.now()){
+            return false;
+        }
+        return true;
+    }
+
     clearCdMap(){
         console.log("Clearing Map");
         for(let key of this.syncCoolDown.keys()){
             let date = this.syncCoolDown.get(key);
-            if(date + 1000 < Date.now()){
+            if(date + this.coolDownTime < Date.now()){
                 this.syncCoolDown.delete(key);
             }
         }

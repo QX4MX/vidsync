@@ -8,6 +8,7 @@ export class RoomRoutes {
         
     public routes(app:any): void {     
         //Rooms
+        app.get('/api/admin/room' , this.roomCtrl.getRooms)
         app.get('/api/room' , this.roomCtrl.getPublicRooms) 
         app.post('/api/room' ,this.roomCtrl.addNewRoom);
         app.get('/api/room/:roomID',this.roomCtrl.getRoomWithId)

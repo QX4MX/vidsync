@@ -43,6 +43,8 @@ export class AppServer {
         this.apiroomRoutes.routes(this.app);
         this.app.use('/room', express.static(path.join(__dirname, '../../../frontend')));
         this.app.use('/room/**', express.static(path.join(__dirname, '../../../frontend')));
+        this.app.use('/admin', express.static(path.join(__dirname, '../../../frontend')));
+        this.app.use('/admin/**', express.static(path.join(__dirname, '../../../frontend')));
         setInterval(this.clearCdMap, 3600000 ); // one hour sec(1000) * min(60) * hour(60)
         this.listen();
     }

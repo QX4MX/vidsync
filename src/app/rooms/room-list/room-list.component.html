@@ -5,13 +5,9 @@
         </mat-card-header>
         <img mat-card-image src='https://img.youtube.com/vi/{{room.video}}/hqdefault.jpg' alt="Video Thumbnail">
         <mat-card-content>
-            <span>Created by:</span>
-            <span>Users in Room:</span>
-            <span>Permanent: {{room.permanent}}</span>
-            <span>Editable: {{room.editable}}</span>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button><a [routerLink]="['/room/', room._id]"> Join Room </a></button>
+            <button mat-raised-button [routerLink]="['/room/', room._id]"> Join Room</button>
         </mat-card-actions>
       </mat-card>
 </div>

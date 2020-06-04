@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, NgZone, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, NgZone, HostListener, ElementRef } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import {SocketService} from 'src/app/services/socket.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -13,7 +13,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit {
+	@ViewChild(YouTubePlayer) youtubePlayer: YouTubePlayer;
 	public socket : SocketIOClient.Socket;
+
 	screenHeight:number;
 	screenWidth:number;
 	playerHeight: number;
@@ -30,33 +32,10 @@ export class RoomComponent implements OnInit {
 
 	lastState:YT.PlayerState = YT.PlayerState.UNSTARTED;
 
-	@HostListener('window:resize', ['$event'])
-	onResize(event?) {
-		this.screenHeight = window.innerHeight;
-		this.screenWidth = window.innerWidth;
-		if(this.screenWidth >= 1024){
-			this.playerWidth = this.screenWidth * 0.6;
-			this.playerHeight = this.playerWidth * 0.5625;
-		}
-		else{
-			this.playerWidth = this.screenWidth * 0.9;
-			this.playerHeight = this.playerWidth * 0.5625;
-		}
-		
-	}
-
-	@Output() public click: EventEmitter<MouseEvent> = new EventEmitter();
-	onButtonClick(event: MouseEvent) {
-		event.stopPropagation();
-		this.click.emit(event);
-	}
-
-	
-	@ViewChild(YouTubePlayer) youtubePlayer: YouTubePlayer;
 	
 	
-
-	constructor(private apiService: ApiService,private route: ActivatedRoute,private router: Router,private ngZone: NgZone, socketService:SocketService,private _snackBar: MatSnackBar) {
+	constructor(private apiService: ApiService,private route: ActivatedRoute,private router: Router,private ngZone: NgZone,
+		 socketService:SocketService,private _snackBar: MatSnackBar,private main: ElementRef) {
 		this.route.params.subscribe((params: Params) => {
 			this.roomId = params['id'];
 		});
@@ -96,14 +75,13 @@ export class RoomComponent implements OnInit {
 		});
 		this.socket.on(SocketEvent.MSG, (msg:string) => {
 			if(this.messages.length % 2 == 0){
-				this.messages.push([msg,"dark"]);
-			}
-			else{
 				this.messages.push([msg,"light"]);
 			}
+			else{
+				this.messages.push([msg,"dark"]);
+			}
 			//TODO doesnt scroll all the way down (1 msg is hidden)
-			let element = document.getElementById("msgList");
-    		element.scrollTop = element.scrollHeight;
+			
 		})
 
 		// Disconnect
@@ -111,12 +89,38 @@ export class RoomComponent implements OnInit {
 			this.openSnackBar("Websocket lost Connection","X",5);
 		});
 
-		this.onResize();
+		
+
+		
 	}
 	  
 	ngOnInit() {
 		// yt api already in app component loaded (so its ready (hopefully))
 				
+	}
+	ngDoCheck() {
+		this.onResize();
+		// scroll chat
+		let element = document.getElementById("msgList");
+		if(element){
+			element.scrollTop = element.scrollHeight;
+		}
+	}
+
+	@HostListener('window:resize', ['$event'])
+	onResize(event?) {
+		this.screenHeight = window.innerHeight;
+		this.screenWidth = window.innerWidth;
+		let chat = document.getElementById("Chat");
+
+		if(this.screenWidth >= 1024){
+			this.playerWidth = Math.floor(this.main.nativeElement.offsetWidth * 0.8);
+			this.playerHeight = Math.floor(this.playerWidth * 0.5625);
+		}
+		else{
+			this.playerWidth = Math.floor(this.main.nativeElement.offsetWidth);
+			this.playerHeight = Math.floor(this.playerWidth * 0.5625);
+		}
 	}
 
 	readRoom(cause:string){
@@ -156,12 +160,14 @@ export class RoomComponent implements OnInit {
 	}
 
 	addToQueue(){
-		//TODO get param if link
 		let vidId = this.getParamFromUrl(this.addToQValue, 'v');
 		if(!vidId){
 			vidId = this.addToQValue;
 		}
 		this.roomData.queue.push(vidId);
+		if(!this.videoId){
+			this.setVideoFromQueue(vidId,0);
+		}
 		this.updateRoom("Added Element To Queue");
 	}
 

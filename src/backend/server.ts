@@ -7,7 +7,6 @@ import * as path from 'path';
 import { SocketEvent } from "./Enum";
 import { DB } from './api/Database';
 import {RoomRoutes} from './api/routes/room.route';
-import { AdminRoutes } from './api/routes/admin.route';
 
 
 
@@ -45,8 +44,6 @@ export class AppServer {
         //API
         this.apiroomRoutes = new RoomRoutes();
         this.apiroomRoutes.routes(this.app);
-        this.apiAdminRoutes = new AdminRoutes();
-        this.apiAdminRoutes.routes(this.app);
         // Send Frontend Files
         this.app.use('/room', express.static(path.join(__dirname, '../../../frontend')));
         this.app.use('/room/**', express.static(path.join(__dirname, '../../../frontend')));

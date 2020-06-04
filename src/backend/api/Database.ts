@@ -28,7 +28,7 @@ export class DB {
         console.log('Mongoose has errored', error);
     }
 
-    public generateNewPw() {
+    private generateNewPw() {
         let password = '_' + Math.random().toString(36).substr(2, 9);
         console.log(password);
         this.passwordHash = createHash(password);

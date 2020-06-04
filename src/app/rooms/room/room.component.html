@@ -18,7 +18,7 @@
 			<form>
                 <mat-form-field>
                   <mat-label>Send Message</mat-label>
-                  <input #msgVal matInput (keyup)="msgonKey(msgVal.value)" value={{msgValue}} autocomplete="off">
+                  <input #msgVal matInput value={{msgValue}} autocomplete="off">
                 </mat-form-field>
                 <button hidden mat-raised-button (click)="sendMsg()"></button>
             </form>
@@ -32,17 +32,17 @@
         <form>
             <mat-form-field>
             <mat-label>Video Id/Url</mat-label>
-            <input #addVal matInput (keyup)="addToQueueonKey(addVal.value)">
+            <input #addVal matInput>
             </mat-form-field>
-            <button mat-raised-button (click)="addToQueue()"><mat-icon>playlist_add</mat-icon></button>
+            <button mat-raised-button (click)="addToQueue(null)"><mat-icon>playlist_add</mat-icon></button>
         </form>
 
         <form>
             <mat-form-field>
             <mat-label>Search Youtube (TODO)</mat-label>
-            <input #searchVal matInput (keyup)="seachYTonKey(searchVal.value)">
+            <input #searchVal matInput>
             </mat-form-field>
-            <button mat-raised-button (click)="searchYT()"><mat-icon>playlist_add</mat-icon></button>
+            <button mat-raised-button (click)="searchYT(searchVal.value)"><mat-icon>playlist_add</mat-icon></button>
         </form>
     </div>
 
@@ -55,8 +55,16 @@
                 <button mat-raised-button (click)="setVideoFromQueue(queueElem,i)"><mat-icon>play_arrow</mat-icon></button>
                 <button mat-raised-button (click)="removeFromQueue(i)"><mat-icon>remove</mat-icon></button>
             </div>
-            
-            
+        </li>
+    </ul>
+    <ul id="searchResults" *ngIf="results">
+        <p>Search Results</p>
+        <li *ngFor="let resultElem of results; let i = index">
+            <img id=''class='card-img' src='https://img.youtube.com/vi/{{resultElem[0]}}/hqdefault.jpg'>
+            <div class="btn-group">
+                <p>{{resultElem[1]}}</p>
+                <button mat-raised-button (click)="addToQueue(resultElem[0])"><mat-icon>playlist_add</mat-icon></button>
+            </div>
         </li>
     </ul>
 </div>

@@ -24,10 +24,9 @@ export class RoomComponent implements OnInit {
 	roomId : any;
 	roomData : Room;
 	videoId: string;
+	results: string[][];
 	messages: string[][] = [];
 	
-	addToQValue = '';
-	searchYTVal ='';
 	msgValue = '';
 	
 	
@@ -84,7 +83,14 @@ export class RoomComponent implements OnInit {
 			}
 			//TODO doesnt scroll all the way down (1 msg is hidden)
 			
-		})
+		});
+
+		this.socket.on(SocketEvent.searchYT, (result: string[][]) =>{
+			if(result){
+				console.log(result);
+				this.results = result;
+			}
+		});
 
 		// Disconnect
 		this.socket.on(SocketEvent.DISCONNECT, () => {
@@ -148,12 +154,6 @@ export class RoomComponent implements OnInit {
 	}
 	// Video
 
-	addToQueueonKey(value: string) {
-		this.addToQValue = value;
-	}
-	seachYTonKey(value: string){
-		this.searchYTVal = value;
-	}
 	msgonKey(value: string) {
 		this.msgValue = value;
 	}
@@ -164,10 +164,10 @@ export class RoomComponent implements OnInit {
 		this.updateRoom("Set Video From Queue");
 	}
 
-	addToQueue(){
-		let vidId = this.checkUrlForId(this.addToQValue);
+	addToQueue(videoId:string){
+		let vidId = this.checkUrlForId(videoId);
 		if(!vidId){
-			vidId = this.addToQValue;
+			vidId = videoId;
 		}
 		this.roomData.queue.push(vidId);
 		if(!this.videoId){
@@ -192,8 +192,8 @@ export class RoomComponent implements OnInit {
 		});		
 	}
 
-	searchYT(){
-		//TODO
+	searchYT(searchYTVal){
+		this.socket.emit(SocketEvent.searchYT, searchYTVal);
 	}
 
 	// 

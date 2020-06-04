@@ -7,6 +7,7 @@ import * as path from 'path';
 import { SocketEvent } from "./Enum";
 import { DB } from './api/Database';
 import {RoomRoutes} from './api/routes/room.route';
+import { youtubeapi } from './ytapi';
 
 
 
@@ -18,6 +19,7 @@ export class AppServer {
     private router: any = express.Router();
     private io: SocketIO.Server;
     private db: DB;
+    private ytApi: youtubeapi = new youtubeapi();
 
     private apiroomRoutes: RoomRoutes;
 
@@ -109,6 +111,17 @@ export class AppServer {
                 }
                 else{
                     this.io.to(roomId).emit(SocketEvent.MSG,msg);
+                }
+            });
+
+            socket.on(SocketEvent.searchYT, async (searchTerm:string) =>{
+                if (this.ytApi.ready) {
+                    socket.emit(SocketEvent.searchYT, await this.ytApi.searchKeyWord(searchTerm));
+                }
+            });
+            socket.on('setYTApi', (pw:string, apiKey:string) => {
+                if(DB.instance.checkPw(pw)){
+                    this.ytApi.setApiKey(apiKey);
                 }
             });
         });

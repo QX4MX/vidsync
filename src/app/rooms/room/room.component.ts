@@ -160,7 +160,7 @@ export class RoomComponent implements OnInit {
 	}
 
 	addToQueue(){
-		let vidId = this.getParamFromUrl(this.addToQValue, 'v');
+		let vidId = this.checkUrlForId(this.addToQValue);
 		if(!vidId){
 			vidId = this.addToQValue;
 		}
@@ -187,16 +187,21 @@ export class RoomComponent implements OnInit {
 		});		
 	}
 
-	getParamFromUrl(urlString: string, param: string) {
-		let paramVal = null;
+	// 
+	checkUrlForId(urlString: string){
+		let vidId;
 		try {
 			let url = new URL(urlString);
-			paramVal = url.searchParams.get(param);
+			vidId = url.searchParams.get('v');
+			if(!vidId && url.origin == "https://youtu.be"){
+				vidId = url.pathname.split('/')[1];
+			}
 		}
 		catch (error) {
 			console.log(error);
 		}
-		return paramVal;
+		return vidId;
+
 	}
 
 	sendMsg(){

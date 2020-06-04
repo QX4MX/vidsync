@@ -20,7 +20,6 @@ export class AppServer {
     private db: DB;
 
     private apiroomRoutes: RoomRoutes;
-    private apiAdminRoutes: AdminRoutes;
 
     private syncCoolDown = new Map();
     private coolDownTime: number = 250;

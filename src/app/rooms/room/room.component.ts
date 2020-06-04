@@ -27,7 +27,9 @@ export class RoomComponent implements OnInit {
 	messages: string[][] = [];
 	
 	addToQValue = '';
+	searchYTVal ='';
 	msgValue = '';
+	
 	
 
 	lastState:YT.PlayerState = YT.PlayerState.UNSTARTED;
@@ -149,6 +151,9 @@ export class RoomComponent implements OnInit {
 	addToQueueonKey(value: string) {
 		this.addToQValue = value;
 	}
+	seachYTonKey(value: string){
+		this.searchYTVal = value;
+	}
 	msgonKey(value: string) {
 		this.msgValue = value;
 	}
@@ -185,6 +190,10 @@ export class RoomComponent implements OnInit {
 			}, (error) => {
 			  console.log(error);
 		});		
+	}
+
+	searchYT(){
+		//TODO
 	}
 
 	// 

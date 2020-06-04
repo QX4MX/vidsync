@@ -28,13 +28,23 @@
     </div>
     <ng-template #noVideo>Add a Video to Start</ng-template>
     
-    <form>
-        <mat-form-field>
-          <mat-label>Video Id/Url</mat-label>
-          <input #addVal matInput (keyup)="addToQueueonKey(addVal.value)">
-        </mat-form-field>
-        <button mat-raised-button (click)="addToQueue()"><mat-icon>playlist_add</mat-icon></button>
-    </form>
+    <div style="display: flex;">
+        <form>
+            <mat-form-field>
+            <mat-label>Video Id/Url</mat-label>
+            <input #addVal matInput (keyup)="addToQueueonKey(addVal.value)">
+            </mat-form-field>
+            <button mat-raised-button (click)="searchYT()"><mat-icon>playlist_add</mat-icon></button>
+        </form>
+
+        <form>
+            <mat-form-field>
+            <mat-label>Search Youtube (TODO)</mat-label>
+            <input #searchVal matInput (keyup)="seachYTonKey(searchVal.value)">
+            </mat-form-field>
+            <button mat-raised-button (click)="addToQueue()"><mat-icon>playlist_add</mat-icon></button>
+        </form>
+    </div>
 
     <ul id="queue" *ngIf="roomData">
         <p>Queue</p>

@@ -7,6 +7,7 @@ import * as path from 'path';
 import { SocketEvent } from "./Enum";
 import { DB } from './api/Database';
 import {RoomRoutes} from './api/routes/room.route';
+import { AdminRoutes } from './api/routes/admin.route';
 
 
 
@@ -20,6 +21,7 @@ export class AppServer {
     private db: DB;
 
     private apiroomRoutes: RoomRoutes;
+    private apiAdminRoutes: AdminRoutes;
 
     private syncCoolDown = new Map();
     private coolDownTime: number = 250;
@@ -40,8 +42,12 @@ export class AppServer {
         this.app.use('/', express.static(path.join(__dirname, '../../../frontend')));
         
         this.db = new DB();
+        //API
         this.apiroomRoutes = new RoomRoutes();
         this.apiroomRoutes.routes(this.app);
+        this.apiAdminRoutes = new AdminRoutes();
+        this.apiAdminRoutes.routes(this.app);
+        // Send Frontend Files
         this.app.use('/room', express.static(path.join(__dirname, '../../../frontend')));
         this.app.use('/room/**', express.static(path.join(__dirname, '../../../frontend')));
         this.app.use('/admin', express.static(path.join(__dirname, '../../../frontend')));

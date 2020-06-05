@@ -7,7 +7,6 @@ import { YouTubePlayerModule } from "@angular/youtube-player";
 import { RoomsRoutingModule } from './rooms-routing.module';
 //Components
 import { RoomListComponent } from './room-list/room-list.component';
-import { RoomEditComponent } from './room-edit/room-edit.component';
 import { RoomCreateComponent } from './room-create/room-create.component';
 import { RoomComponent } from './room/room.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +28,7 @@ import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
-  declarations: [RoomListComponent, RoomEditComponent, RoomCreateComponent, RoomComponent],
+  declarations: [RoomListComponent, RoomCreateComponent, RoomComponent],
   imports: [
     CommonModule,
     RoomsRoutingModule,

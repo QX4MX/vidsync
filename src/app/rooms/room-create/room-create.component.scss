@@ -17,13 +17,12 @@ mat-button-toggle-group{
 	color: white;
 
 	.mat-button-toggle{
-		
+		background-color: rgb(55, 55, 55);
 		width: 50%;
-		background-color: rgb(50,50,50);
-		&-checked{
-			background-color: rgb(100, 100, 100);
-		}
 	}
+}
+.mat-button-toggle-checked{
+	background-color: rgb(100, 100, 100) !important;
 }
 
 ::ng-deep .mat-form-field-label {

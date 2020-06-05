@@ -1,5 +1,5 @@
 <div class="content" *ngIf="roomData">
-    <div #main class="" id="main" (window:resize)="onResize()" [style.height.px]="playerHeight" *ngIf="videoId; else noVideo">
+    <div #main class="" id="main" (window:resize)="onResize()" [style.height.px]="playerHeight" *ngIf="roomData.video; else noVideo">
         <!-- Video-Player -->
         
         <youtube-player
@@ -34,7 +34,7 @@
             <mat-label>Video Id/Url</mat-label>
             <input #addVal matInput>
             </mat-form-field>
-            <button mat-raised-button (click)="addToQueue(null)"><mat-icon>playlist_add</mat-icon></button>
+            <button mat-raised-button (click)="addToQueue(addVal.value)"><mat-icon>playlist_add</mat-icon></button>
         </form>
 
         <form>

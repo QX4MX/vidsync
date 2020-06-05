@@ -23,7 +23,6 @@ export class RoomComponent implements OnInit {
 
 	roomId : any;
 	roomData : Room;
-	videoId: string;
 	results: string[][];
 	messages: string[][] = [];
 	
@@ -37,11 +36,13 @@ export class RoomComponent implements OnInit {
 	
 	constructor(private apiService: ApiService,private route: ActivatedRoute,private router: Router,private ngZone: NgZone,
 		 socketService:SocketService,private _snackBar: MatSnackBar,private main: ElementRef) {
+
 		this.route.params.subscribe((params: Params) => {
 			this.roomId = params['id'];
 		});
 
 		this.readRoom("Load Room");
+		setInterval(this.checkVidId,250);
 		this.socket = socketService.socket;
 		this.socket.emit(SocketEvent.JOIN, this.roomId);
 		
@@ -74,6 +75,7 @@ export class RoomComponent implements OnInit {
 		this.socket.on(SocketEvent.ReadRoom, (cause:string) => {
 			this.readRoom(cause);
 		});
+
 		this.socket.on(SocketEvent.MSG, (msg:string) => {
 			if(this.messages.length % 2 == 0){
 				this.messages.push([msg,"light"]);
@@ -96,10 +98,6 @@ export class RoomComponent implements OnInit {
 		this.socket.on(SocketEvent.DISCONNECT, () => {
 			this.openSnackBar("Websocket lost Connection","X",5);
 		});
-
-		
-
-		
 	}
 	  
 	ngOnInit() {
@@ -134,10 +132,16 @@ export class RoomComponent implements OnInit {
 	readRoom(cause:string){
 		this.apiService.getRoom(this.roomId).subscribe((data) => {
 			this.roomData = data;
-			this.videoId = this.roomData.video;
+			this.youtubePlayer.videoId = this.roomData.video;;
 			this.openSnackBar(cause,"X",1);
 		});
-	}	
+	}
+	
+	checkVidId(){
+		if(this.roomData && this.roomData.video != this.youtubePlayer.videoId){
+			this.setVideo(this.youtubePlayer.videoId);
+		}
+	}
 	
 	onStateChange(event: YT.OnStateChangeEvent) {	
 		console.log(event.data);
@@ -148,7 +152,9 @@ export class RoomComponent implements OnInit {
 			this.socket.emit(SocketEvent.PAUSE,this.roomId,this.youtubePlayer.getCurrentTime());
 		}
 		else if(event.data == YT.PlayerState.ENDED){
-			this.setVideoFromQueue(this.roomData[0],0);
+			if(this.roomData.queue.length != 0){
+				this.setVideoFromQueue(this.roomData[0],0);
+			}
 		}
 		this.lastState = event.data;
 	}
@@ -156,6 +162,11 @@ export class RoomComponent implements OnInit {
 
 	msgonKey(value: string) {
 		this.msgValue = value;
+	}
+
+	setVideo(videoId){
+		this.roomData.video = videoId;
+		this.updateRoom("Set Video");
 	}
 
 	setVideoFromQueue(videoId:string, i:number){
@@ -169,11 +180,14 @@ export class RoomComponent implements OnInit {
 		if(!vidId){
 			vidId = videoId;
 		}
-		this.roomData.queue.push(vidId);
-		if(!this.videoId){
+		
+		if(!this.roomData.video){
 			this.setVideoFromQueue(vidId,0);
 		}
-		this.updateRoom("Added Element To Queue");
+		else{
+			this.roomData.queue.push(vidId);
+			this.updateRoom("Added Element To Queue");
+		}
 	}
 
 	removeFromQueue(i:number){
@@ -210,7 +224,6 @@ export class RoomComponent implements OnInit {
 			console.log(error);
 		}
 		return vidId;
-
 	}
 
 	sendMsg(){

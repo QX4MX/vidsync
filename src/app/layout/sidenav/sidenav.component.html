@@ -1,12 +1,14 @@
 <div class="sidenav">
     <mat-list>
-        <mat-divider></mat-divider>
         <div mat-subheader>Rooms</div>
         <mat-list-item>
             <a mat-button [routerLink]="'/room/'"><mat-icon>view_list</mat-icon> Public Rooms </a>
         </mat-list-item>
         <mat-list-item>
             <a mat-button [routerLink]="'/room/create'"><mat-icon>create</mat-icon> Create Room </a>
+        </mat-list-item>
+        <mat-list-item>
+            <a mat-button disabled><mat-icon>grade</mat-icon>Your Rooms</a>
         </mat-list-item>
         <mat-divider></mat-divider>
         <div class="column-flex">

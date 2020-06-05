@@ -117,7 +117,7 @@ export class RoomComponent implements OnInit {
 		this.screenHeight = window.innerHeight;
 		this.screenWidth = window.innerWidth;
 
-		if(this.screenWidth >= 1024){
+		if(this.screenWidth >= 1440){
 			this.playerWidth = Math.floor(this.main.nativeElement.offsetWidth * 0.8);
 			this.playerHeight = Math.floor(this.playerWidth * 0.5625);
 			this.mainHeight = this.playerHeight;

@@ -29,10 +29,16 @@
     <ng-template #noVideo>Add a Video to Start</ng-template>
     
     <div style="display: flex;">
+        <div id="Info">
+            <span>Views</span>
+            <span>Likes</span>
+            <span>Dislikes</span>
+        </div>
+
         <form>
             <mat-form-field>
             <mat-label>Video Id/Url</mat-label>
-            <input #addVal matInput>
+            <input #addVal matInput autocomplete="off">
             </mat-form-field>
             <button mat-raised-button (click)="addToQueue(addVal.value)"><mat-icon>playlist_add</mat-icon></button>
         </form>
@@ -40,9 +46,9 @@
         <form>
             <mat-form-field>
             <mat-label>Search Youtube </mat-label>
-            <input #searchVal matInput>
+            <input #searchVal matInput autocomplete="off">
             </mat-form-field>
-            <button mat-raised-button (click)="searchYT(searchVal.value)"><mat-icon>playlist_add</mat-icon></button>
+            <button mat-raised-button (click)="searchYT(searchVal.value)"><mat-icon>youtube_searched_for</mat-icon></button>
         </form>
     </div>
 
@@ -51,7 +57,6 @@
         <li *ngFor="let queueElem of roomData.queue; let i = index">
             <img id=''class='card-img' src='https://img.youtube.com/vi/{{queueElem}}/hqdefault.jpg'>
             <div class="btn-group">
-                <p>{{queueElem}}</p>
                 <button mat-raised-button (click)="setVideoFromQueue(queueElem,i)"><mat-icon>play_arrow</mat-icon></button>
                 <button mat-raised-button (click)="removeFromQueue(i)"><mat-icon>remove</mat-icon></button>
             </div>

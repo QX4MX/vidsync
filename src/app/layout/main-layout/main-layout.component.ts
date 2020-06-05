@@ -19,7 +19,7 @@ export class MainLayoutComponent implements OnInit {
 	}
 	@HostListener('window:resize', ['$event'])
 	onResize(event?) {
-		if(window.innerWidth < 1024){
+		if(window.innerWidth < 1440){
 			this.smallScreen = true;
 			this.navPosition = 'end';
 		}

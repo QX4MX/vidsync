@@ -2,14 +2,15 @@
   <mat-label>Admin Pw</mat-label>
   <input #pwVal matInput type="password">
 </mat-form-field>
-<br>
-<button mat-raised-button (click)="readRoom(pwVal.value)">Get All Rooms</button>
+<mat-icon>vpn_key</mat-icon>
 <br>
 <mat-form-field>
-  <mat-label>ApiKey Pw</mat-label>
+  <mat-label>ApiKey</mat-label>
   <input #apiKeyVal matInput type="password">
 </mat-form-field>
 <button mat-raised-button (click)="setYTApiKey(apiKeyVal.value,pwVal.value)">Set Api Key</button>
+<button mat-raised-button (click)="readRoom(pwVal.value)">Get All Rooms</button>
+
 <mat-list id="pubRooms">
     <mat-list-item  *ngFor="let room of Room; let i = index">
         Name: {{room.name}} | 

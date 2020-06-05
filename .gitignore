@@ -1,6 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-/src/backend/api/dbUrl.ts
+src/backend/api/dbUrl.ts
+src/app/services/baseUrl.ts
 
 # compiled output
 /dist

@@ -8,6 +8,7 @@ import {LayoutModule} from './layout/layout.module';
 import {RoomsModule} from './rooms/rooms.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
+import { UsersModule } from './users/users.module';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes),
     LayoutModule,
+    UsersModule,
     RoomsModule,
     AdminModule
   ],

@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { UsersRoutingModule } from './users-routing.module';
+import { DiscordComponent } from './discord/discord.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [DiscordComponent],
   imports: [
     CommonModule,
     UsersRoutingModule

@@ -1,4 +1,12 @@
+.sidenav{
+    height: 100%;
+}
 mat-list{
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    
     mat-list-item{
         color:white;
     }
@@ -15,3 +23,6 @@ mat-list{
     width: 1.5rem;
 }
 
+.column-flex{
+    height: 100%;
+}

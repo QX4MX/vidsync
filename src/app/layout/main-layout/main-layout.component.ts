@@ -6,26 +6,30 @@ import { Component, OnInit, Output, EventEmitter, HostListener } from '@angular/
   styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent implements OnInit {
-	@HostListener('window:resize', ['$event'])
-	onResize(event?) {
-		if(window.innerWidth < 1024){
-			this.smallScreen = true;
-		}
-		else{
-			this.smallScreen = false;
-			
-		}
-		this.onToggleSidenav();
-	}
+	
 	@Output() public sidenavToggle = new EventEmitter();
 	smallScreen = true;
+	navPosition = 'end';
 	constructor() {
 		console.log('Main layout constructor called');
    	}
 
   	ngOnInit(): void {
 		  this.onResize();
-  	}
+	}
+	@HostListener('window:resize', ['$event'])
+	onResize(event?) {
+		if(window.innerWidth < 1024){
+			this.smallScreen = true;
+			this.navPosition = 'end';
+		}
+		else{
+			this.smallScreen = false;
+			this.navPosition = 'start';
+			
+		}
+		this.onToggleSidenav();
+	}
 
 	public onToggleSidenav = () => {
 		this.sidenavToggle.emit();

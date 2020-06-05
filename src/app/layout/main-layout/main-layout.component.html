@@ -1,12 +1,12 @@
 
   <mat-drawer-container class="example-container" hasBackdrop="false">
-    <mat-drawer #drawer mode="side" opened={{!smallScreen}}><app-sidenav></app-sidenav></mat-drawer>
+    <mat-drawer #drawer mode="side" position={{navPosition}} opened={{!smallScreen}}><app-sidenav></app-sidenav></mat-drawer>
     <mat-drawer-content>
       <div class="header">
-        <button mat-icon-button *ngIf="smallScreen">
-          <mat-icon (click)="drawer.toggle()">menu</mat-icon>
-        </button>
         <app-header></app-header>
+        <button mat-icon-button *ngIf="smallScreen" (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
       </div>
         
       <div class="content">

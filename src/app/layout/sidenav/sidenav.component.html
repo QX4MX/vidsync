@@ -9,22 +9,22 @@
             <a mat-button [routerLink]="'/room/create'"><mat-icon>create</mat-icon> Create Room </a>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <div mat-subheader>Socials</div>
-        <mat-list-item>
-            <a mat-button [routerLink]="'/user/discord'"><mat-icon><img class="logo-image" src="https://discord.com/assets/8c9701b98ad4372b58f13fd9f65f966e.svg"></mat-icon>Join Discord</a>
-        </mat-list-item>
-        <mat-divider></mat-divider>
         <div class="column-flex">
             
             
         </div>
         <mat-divider></mat-divider>
+        <div mat-subheader>Socials</div>
+        <mat-list-item>
+            <a mat-button [routerLink]="'/user/discord'"><mat-icon><img class="logo-image" src="https://discord.com/assets/8c9701b98ad4372b58f13fd9f65f966e.svg"></mat-icon>Join Discord</a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
         <div mat-subheader>Account (Coming Soon)</div>
         <mat-list-item >
-            <a mat-button  ><mat-icon>login</mat-icon> Login </a>
+            <a mat-button  disabled><mat-icon>login</mat-icon> Login </a>
         </mat-list-item>
         <mat-list-item >
-            <a mat-button ><mat-icon>account_circle</mat-icon> Create Account </a>
+            <a mat-button disabled><mat-icon>account_circle</mat-icon> Create Account </a>
         </mat-list-item>        
     </mat-list>
 </div>

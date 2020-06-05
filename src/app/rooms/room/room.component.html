@@ -1,5 +1,5 @@
 <div class="content" *ngIf="roomData">
-    <div #main class="" id="main" (window:resize)="onResize()" [style.height.px]="playerHeight" *ngIf="roomData.video; else noVideo">
+    <div #main class="" id="main" (window:resize)="onResize()" [style.height.px]="mainHeight" *ngIf="roomData.video; else noVideo">
         <!-- Video-Player -->
         
         <youtube-player
@@ -9,8 +9,8 @@
                 [width]="playerWidth"
         >
         </youtube-player>
-        <div id="Chat">
-			<mat-list #msgList id="msgList">
+        <div id="Chat" [style.width.px]="playerWidth">
+			<mat-list #msgList id="msgList" [style.max-height.px]="mainHeight">
                 <mat-list-item *ngFor="let msg of messages; let i = index" class="{{msg[1]}}">
                     <p >{{msg[0]}}</p>
                 </mat-list-item>
@@ -18,9 +18,9 @@
 			<form>
                 <mat-form-field>
                   <mat-label>Send Message</mat-label>
-                  <input #msgVal matInput value={{msgValue}} autocomplete="off">
+                  <input #msgVal matInput autocomplete="off">
                 </mat-form-field>
-                <button hidden mat-raised-button (click)="sendMsg()"></button>
+                <button hidden mat-raised-button (click)="sendMsg(msgVal.value); msgVal.value = ''"></button>
             </form>
 		</div>
 

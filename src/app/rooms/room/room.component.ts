@@ -20,14 +20,13 @@ export class RoomComponent implements OnInit {
 	screenWidth:number;
 	playerHeight: number;
 	playerWidth : number;
+	mainHeight:number;
 
 	roomId : any;
 	roomData : Room;
 	results: string[][];
 	messages: string[][] = [];
-	
-	msgValue = '';
-	
+
 	
 
 	lastState:YT.PlayerState = YT.PlayerState.UNSTARTED;
@@ -117,15 +116,17 @@ export class RoomComponent implements OnInit {
 	onResize(event?) {
 		this.screenHeight = window.innerHeight;
 		this.screenWidth = window.innerWidth;
-		let chat = document.getElementById("Chat");
 
 		if(this.screenWidth >= 1024){
 			this.playerWidth = Math.floor(this.main.nativeElement.offsetWidth * 0.8);
 			this.playerHeight = Math.floor(this.playerWidth * 0.5625);
+			this.mainHeight = this.playerHeight;
 		}
 		else{
 			this.playerWidth = Math.floor(this.main.nativeElement.offsetWidth);
 			this.playerHeight = Math.floor(this.playerWidth * 0.5625);
+			this.mainHeight = this.playerHeight*2;
+			
 		}
 	}
 
@@ -159,10 +160,6 @@ export class RoomComponent implements OnInit {
 		this.lastState = event.data;
 	}
 	// Video
-
-	msgonKey(value: string) {
-		this.msgValue = value;
-	}
 
 	setVideo(videoId){
 		this.roomData.video = videoId;
@@ -226,9 +223,8 @@ export class RoomComponent implements OnInit {
 		return vidId;
 	}
 
-	sendMsg(){
-		this.socket.emit(SocketEvent.MSG, this.roomId,this.msgValue);
-		this.msgValue = '';
+	sendMsg(msg:string){
+		this.socket.emit(SocketEvent.MSG, this.roomId,msg);
 	}
 
 	openSnackBar(message: string, action: string, time:number) {

@@ -12,11 +12,8 @@ form{
 	}
 }
 
-
-
 #Chat{
 	width: 100%;
-	padding: 1rem;
 	background-color: rgba(40, 40, 40,0.8);
 	mat-list{
 		height: 90%;
@@ -37,10 +34,16 @@ form{
 		}
 		
 	}
-	mat-form-field{
-		width: 100%;
+	form{
 		height: 10%;
-		padding: 5px;
+		width: 100%;
+		position: relative;
+		bottom: 0;
+		margin: 0;
+		mat-form-field{
+			width: 90%;
+			padding: 5px;
+		}
 	}
 }
 
@@ -96,9 +99,6 @@ form{
 
 @media only screen and (max-width: 1024px) {
 	#main{
-		display: block;
-		#Chat{
-			padding: 0;
-		}
+		display: contents;
 	}
 }

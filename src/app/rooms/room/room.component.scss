@@ -24,17 +24,19 @@ form{
 }
 
 #Chat{
-	width: 100%;
+	width: 20%;
 	background-color: rgba(40, 40, 40,0.8);
+	overflow: hidden;
+	margin-left: 1rem;
 	mat-list{
 		height: 90%;
 		overflow: hidden;
 		word-wrap: break-word;
 		padding-right: 17px;
 		mat-list-item{
+			word-wrap: break-word;
 			padding: 5px;
 			color: white;
-			margin-bottom: 10px;
 		}
 		.light{
 			background-color: rgb(55, 55, 55);
@@ -107,9 +109,17 @@ form{
 	background-color: rgb(100, 100, 100) !important;
 }
 
+mat-divider{
+	border-top-color:rgb(100, 100, 100);
+}
+
 
 @media only screen and (max-width: 1440px) {
 	#main{
 		display: contents;
+		#Chat{
+			width: 100%;
+			margin-left: 0;
+		}
 	}
 }

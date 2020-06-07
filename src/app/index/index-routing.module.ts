@@ -5,18 +5,18 @@ import { IndexComponent } from './index/index.component';
 
 
 const routes: Routes = [
-  {
-    path: '',
-    component: MainLayoutComponent,
-    children: [
-      { path: '', component: IndexComponent },
-      
-    ]
-  }
+	{
+		path: '',
+		component: MainLayoutComponent,
+		children: [
+			{ path: '', component: IndexComponent },
+
+		]
+	}
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
 })
 export class IndexRoutingModule { }

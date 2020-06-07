@@ -5,15 +5,15 @@ import { IndexRoutingModule } from './index-routing.module';
 import { IndexComponent } from './index/index.component';
 
 //Material
-import {MatButtonModule} from '@angular/material/button'
+import { MatButtonModule } from '@angular/material/button'
 
 
 @NgModule({
-  declarations: [IndexComponent],
-  imports: [
-    CommonModule,
-    IndexRoutingModule,
-    MatButtonModule,
-  ]
+	declarations: [IndexComponent],
+	imports: [
+		CommonModule,
+		IndexRoutingModule,
+		MatButtonModule,
+	]
 })
 export class IndexModule { }

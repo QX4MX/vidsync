@@ -1,34 +1,31 @@
 <div class="content" *ngIf="roomData">
-    <div #main class="" id="main" (window:resize)="onResize()" [style.height.px]="mainHeight" *ngIf="roomData.video; else noVideo">
+    <div #main class="" id="main" (window:resize)="onResize()" [style.height.px]="mainHeight"
+        *ngIf="roomData.video; else noVideo">
         <!-- Video-Player -->
-        
-        <youtube-player
-                (stateChange)="onStateChange($event)"
-                [videoId]="roomData.video"
-                [height]="playerHeight"
-                [width]="playerWidth"
-        >
+
+        <youtube-player (stateChange)="onStateChange($event)" [videoId]="roomData.video" [height]="playerHeight"
+            [width]="playerWidth">
         </youtube-player>
         <div id="Chat" [style.width.px]="playerWidth">
-			<mat-list #msgList id="msgList" [style.max-height.px]="mainHeight">
+            <mat-list #msgList id="msgList" [style.max-height.px]="mainHeight">
                 <mat-list-item *ngFor="let msg of messages; let i = index" class="{{msg[1]}}">
-                    <p >{{msg[0]}}</p>
+                    <p>{{msg[0]}}</p>
                 </mat-list-item>
-            </mat-list> 
+            </mat-list>
             <mat-divider></mat-divider>
-			<form>
+            <form>
                 <mat-form-field>
-                  <mat-label>Send Message</mat-label>
-                  <input #msgVal matInput autocomplete="off">
+                    <mat-label>Send Message</mat-label>
+                    <input #msgVal matInput autocomplete="off">
                 </mat-form-field>
                 <button hidden mat-raised-button (click)="sendMsg(msgVal.value); msgVal.value = ''"></button>
             </form>
-		</div>
+        </div>
 
-        
+
     </div>
     <ng-template #noVideo>Add a Video to Start</ng-template>
-    
+
     <div style="display: flex;">
         <div id="Info">
             <span>Views</span>
@@ -38,38 +35,48 @@
 
         <form>
             <mat-form-field>
-            <mat-label>Video Id/Url</mat-label>
-            <input #addVal matInput autocomplete="off">
+                <mat-label>Video Id/Url</mat-label>
+                <input #addVal matInput autocomplete="off">
             </mat-form-field>
-            <button mat-raised-button (click)="addToQueue(addVal.value)"><mat-icon>playlist_add</mat-icon></button>
+            <button mat-raised-button (click)="addToQueue(addVal.value)">
+                <mat-icon>playlist_add</mat-icon>
+            </button>
         </form>
 
         <form>
             <mat-form-field>
-            <mat-label>Search Youtube </mat-label>
-            <input #searchVal matInput autocomplete="off">
+                <mat-label>Search Youtube </mat-label>
+                <input #searchVal matInput autocomplete="off">
             </mat-form-field>
-            <button mat-raised-button (click)="searchYT(searchVal.value)"><mat-icon>youtube_searched_for</mat-icon></button>
+            <button mat-raised-button (click)="searchYT(searchVal.value)">
+                <mat-icon>youtube_searched_for</mat-icon>
+            </button>
         </form>
     </div>
 
     <ul id="queue" *ngIf="roomData">
         <p>Queue</p>
         <li *ngFor="let queueElem of roomData.queue; let i = index">
-            <img id=''class='card-img' src='https://img.youtube.com/vi/{{queueElem}}/hqdefault.jpg'>
+            <img id='' class='card-img' src='https://img.youtube.com/vi/{{queueElem}}/hqdefault.jpg'>
             <div class="btn-group">
-                <button mat-raised-button (click)="setVideoFromQueue(queueElem,i)"><mat-icon>play_arrow</mat-icon></button>
-                <button mat-raised-button (click)="removeFromQueue(i)"><mat-icon>remove</mat-icon></button>
+                <button mat-raised-button (click)="setVideoFromQueue(queueElem,i)">
+                    <mat-icon>play_arrow</mat-icon>
+                </button>
+                <button mat-raised-button (click)="removeFromQueue(i)">
+                    <mat-icon>remove</mat-icon>
+                </button>
             </div>
         </li>
     </ul>
     <ul id="searchResults" *ngIf="results">
         <p>Search Results</p>
         <li *ngFor="let resultElem of results; let i = index">
-            <img id=''class='card-img' src='https://img.youtube.com/vi/{{resultElem[0]}}/hqdefault.jpg'>
+            <img id='' class='card-img' src='https://img.youtube.com/vi/{{resultElem[0]}}/hqdefault.jpg'>
             <div class="btn-group">
                 <p>{{resultElem[1]}}</p>
-                <button mat-raised-button (click)="addToQueue(resultElem[0])"><mat-icon>playlist_add</mat-icon></button>
+                <button mat-raised-button (click)="addToQueue(resultElem[0])">
+                    <mat-icon>playlist_add</mat-icon>
+                </button>
             </div>
         </li>
     </ul>

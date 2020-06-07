@@ -8,3 +8,9 @@ mat-toolbar{
     color: white;
     background-color: rgb(34, 34, 34);
 }
+
+@media only screen and (max-width: 1440px) {
+    img{
+        height: 1rem;
+    }
+}

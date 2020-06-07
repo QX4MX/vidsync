@@ -5,17 +5,17 @@ import { DiscordComponent } from './discord/discord.component';
 
 
 const routes: Routes = [
-  {
-    path: 'user',
-    component: MainLayoutComponent,
-    children: [
-      { path: 'discord', component: DiscordComponent }      
-    ]
-  }
+	{
+		path: 'user',
+		component: MainLayoutComponent,
+		children: [
+			{ path: 'discord', component: DiscordComponent }
+		]
+	}
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
 })
 export class UsersRoutingModule { }

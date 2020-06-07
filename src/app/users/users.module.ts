@@ -6,10 +6,10 @@ import { DiscordComponent } from './discord/discord.component';
 
 
 @NgModule({
-  declarations: [DiscordComponent],
-  imports: [
-    CommonModule,
-    UsersRoutingModule
-  ]
+	declarations: [DiscordComponent],
+	imports: [
+		CommonModule,
+		UsersRoutingModule
+	]
 })
 export class UsersModule { }

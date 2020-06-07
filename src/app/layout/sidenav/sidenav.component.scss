@@ -8,6 +8,10 @@ mat-list{
     margin-bottom: 1rem;
     
     mat-list-item{
+        a{
+            padding-left: 0;
+            padding-right: 0;
+        }
         color:white;
     }
     div{

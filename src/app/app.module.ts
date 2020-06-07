@@ -9,19 +9,20 @@ import {RoomsModule} from './rooms/rooms.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
+import { IndexModule } from './index/index.module';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/room',
+    redirectTo: '/',
     pathMatch: 'full'
   }
 ];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +30,7 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes),
     LayoutModule,
+    IndexModule,
     UsersModule,
     RoomsModule,
     AdminModule

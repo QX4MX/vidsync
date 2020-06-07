@@ -7,10 +7,11 @@ import { RoomComponent } from './room/room.component';
 
 const routes: Routes = [
   {
-    path: 'room',
+    path: 'rooms',
     component: MainLayoutComponent,
     children: [
       { path: '', component: RoomListComponent },
+      { path: 'all', component: RoomListComponent },
       { path: 'create', component: RoomCreateComponent },
       { path: ':id', component: RoomComponent },
       

@@ -6,19 +6,19 @@ import { RoomsComponent } from './rooms/rooms.component';
 
 
 const routes: Routes = [
-  {
-    path: 'admin',
-    component: MainLayoutComponent,
-    children: [
-      { path: '', component: RoomsComponent },
-      { path: 'rooms', component: RoomsComponent },      
-    ]
-  }
+	{
+		path: 'admin',
+		component: MainLayoutComponent,
+		children: [
+			{ path: '', component: RoomsComponent },
+			{ path: 'rooms', component: RoomsComponent },
+		]
+	}
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
 })
 export class AdminRoutingModule { }

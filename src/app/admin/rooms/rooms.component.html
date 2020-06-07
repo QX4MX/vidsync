@@ -1,21 +1,21 @@
 <mat-form-field>
-  <mat-label>Admin Pw</mat-label>
-  <input #pwVal matInput type="password">
+	<mat-label>Admin Pw</mat-label>
+	<input #pwVal matInput type="password">
 </mat-form-field>
 <mat-icon>vpn_key</mat-icon>
 <br>
 <mat-form-field>
-  <mat-label>ApiKey</mat-label>
-  <input #apiKeyVal matInput type="password">
+	<mat-label>ApiKey</mat-label>
+	<input #apiKeyVal matInput type="password">
 </mat-form-field>
 <button mat-raised-button (click)="setYTApiKey(apiKeyVal.value,pwVal.value)">Set Api Key</button>
 <button mat-raised-button (click)="readRoom(pwVal.value)">Get All Rooms</button>
 
 <mat-list id="pubRooms">
-    <mat-list-item  *ngFor="let room of Room; let i = index">
-        Name: {{room.name}} | 
-        Privacy : {{room.privacy}} | 
-        <button mat-raised-button [routerLink]="['/room/', room._id]"> Join Room </button>
-        <button mat-raised-button (click) ="removeRoom(room,i,pwVal.value)"> Delete Room </button>
-      </mat-list-item>
+	<mat-list-item *ngFor="let room of Room; let i = index">
+		Name: {{room.name}} |
+		Privacy : {{room.privacy}} |
+		<button mat-raised-button [routerLink]="['/room/', room._id]"> Join Room </button>
+		<button mat-raised-button (click)="removeRoom(room,i,pwVal.value)"> Delete Room </button>
+	</mat-list-item>
 </mat-list>

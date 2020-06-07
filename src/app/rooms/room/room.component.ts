@@ -26,12 +26,9 @@ export class RoomComponent implements OnInit {
 	roomData : Room;
 	results: string[][];
 	messages: string[][] = [];
-
-	
-
 	lastState:YT.PlayerState = YT.PlayerState.UNSTARTED;
 
-	
+	intervalId:any;
 	
 	constructor(private apiService: ApiService,private route: ActivatedRoute,private router: Router,private ngZone: NgZone,
 		 socketService:SocketService,private _snackBar: MatSnackBar,private main: ElementRef) {
@@ -40,8 +37,7 @@ export class RoomComponent implements OnInit {
 			this.roomId = params['id'];
 		});
 
-		this.readRoom("Load Room");
-		setInterval(this.checkVidId,250);
+		
 		this.socket = socketService.socket;
 		this.socket.emit(SocketEvent.JOIN, this.roomId);
 		
@@ -101,7 +97,8 @@ export class RoomComponent implements OnInit {
 	  
 	ngOnInit() {
 		// yt api already in app component loaded (so its ready (hopefully))
-				
+		this.readRoom("Load Room");
+		this.intervalId = setInterval(this.afterPlayerReady,250);
 	}
 	ngDoCheck() {
 		this.onResize();
@@ -110,6 +107,14 @@ export class RoomComponent implements OnInit {
 		if(element){
 			element.scrollTop = element.scrollHeight;
 		}
+	}
+
+	afterPlayerReady(){
+		if(this.youtubePlayer && this.youtubePlayer.ready){
+			this.youtubePlayer.videoId = this.roomData.video;
+			clearInterval(this.intervalId);
+		}
+
 	}
 
 	@HostListener('window:resize', ['$event'])
@@ -133,17 +138,10 @@ export class RoomComponent implements OnInit {
 	readRoom(cause:string){
 		this.apiService.getRoom(this.roomId).subscribe((data) => {
 			this.roomData = data;
-			this.youtubePlayer.videoId = this.roomData.video;;
 			this.openSnackBar(cause,"X",1);
 		});
 	}
-	
-	checkVidId(){
-		if(this.roomData && this.roomData.video != this.youtubePlayer.videoId){
-			this.setVideo(this.youtubePlayer.videoId);
-		}
-	}
-	
+		
 	onStateChange(event: YT.OnStateChangeEvent) {	
 		console.log(event.data);
 		if(event.data == YT.PlayerState.PLAYING){
@@ -161,10 +159,7 @@ export class RoomComponent implements OnInit {
 	}
 	// Video
 
-	setVideo(videoId){
-		this.roomData.video = videoId;
-		this.updateRoom("Set Video");
-	}
+
 
 	setVideoFromQueue(videoId:string, i:number){
 		this.roomData.video = videoId;
@@ -196,7 +191,6 @@ export class RoomComponent implements OnInit {
 		this.apiService.updateRoom(this.roomId,this.roomData).subscribe(
 			(res) => {
 			  console.log('Room updated!')
-			  this.ngZone.run(() => this.router.navigateByUrl('/room/'+this.roomId))
 			  this.socket.emit(SocketEvent.ReadRoom, this.roomId, cause);
 			}, (error) => {
 			  console.log(error);

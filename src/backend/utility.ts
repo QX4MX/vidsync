@@ -1,4 +1,4 @@
-export function createHash(str:string){
+export function createHash(str: string) {
     var hash = 0, i, chr;
     if (str.length === 0) return hash;
     for (i = 0; i < str.length; i++) {

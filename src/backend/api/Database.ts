@@ -1,5 +1,5 @@
 import { connect, connection, Connection, Schema } from 'mongoose';
-import {createHash} from '../utility';
+import { createHash } from '../utility';
 import { baseUrl } from './dbUrl';
 
 
@@ -7,13 +7,13 @@ export class DB {
 
     public static instance: DB;
     private _db: Connection;
-    private passwordHash:any;
+    private passwordHash: any;
 
     constructor() {
         this.generateNewPw();
         //mongodb.default.svc.cluster.local
         //mongodb://localhost:27017/vidsyncdb
-        connect(baseUrl,{ useNewUrlParser: true });
+        connect(baseUrl, { useNewUrlParser: true });
         //connect("mongodb://localhost:27017/vidsyncdb",{ useNewUrlParser: true });
         this._db = connection;
         this._db.on('open', this.connected);
@@ -25,7 +25,7 @@ export class DB {
         console.log('Mongoose has connected');
     }
 
-    private error(error:any) {
+    private error(error: any) {
         console.log('Mongoose has errored', error);
     }
 
@@ -35,8 +35,8 @@ export class DB {
         this.passwordHash = createHash(password);
     }
 
-    public checkPw(pw:string){
-        if(pw && this.passwordHash == createHash(pw)){
+    public checkPw(pw: string) {
+        if (pw && this.passwordHash == createHash(pw)) {
             return true;
         }
         return false;

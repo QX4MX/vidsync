@@ -11,20 +11,20 @@ export const RoomSchema = new Schema({
         type: String,
     },
     permanent: {
-        type: String            
+        type: String
     },
     editable: {
-        type: String            
+        type: String
     },
     creator: {
-        type: String            
+        type: String
     },
-    video:{
+    video: {
         type: String,
-        default:"",
+        default: "",
     },
-    queue:{
-        type : Array
+    queue: {
+        type: Array
     },
     created_date: {
         type: Date,

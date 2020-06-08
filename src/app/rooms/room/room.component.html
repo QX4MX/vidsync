@@ -24,10 +24,10 @@
     <ng-template #noVideo>Add a Video to Start</ng-template>
 
     <div id="Info">
-        <div>
-            <span>Views</span>
-            <span>Likes</span>
-            <span>Dislikes</span>
+        <div *ngIf="vidInfo">
+            <mat-icon>remove_red_eye</mat-icon><span>{{vidInfo[4]}}</span>
+            <mat-icon>thumb_up</mat-icon><span>{{vidInfo[5]}}</span>
+            <mat-icon>thumb_down</mat-icon><span>{{vidInfo[6]}}</span>
         </div>
 
         <form>

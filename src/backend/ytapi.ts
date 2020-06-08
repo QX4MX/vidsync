@@ -64,18 +64,19 @@ export class youtubeapi {
         return info;
     } */
 
-    /* async getVidInfo(videoId: string) {
+    async getVidInfo(videoId: string) {
         console.log("Api Request - vidinfo " + videoId);
-        let url = this.apiUrl +'videos?id='+videoId+'&part=snippet,contentDetails,statistics&key='+this.apikey;
+        let url = this.apiUrl + 'videos?id=' + videoId + '&part=snippet,contentDetails,statistics&key=' + this.apikey;
         let response = await this.fetch(url);
         let json = await response.json();
         let id = json.items[0].id;
         let title = json.items[0].snippet.title;
         let channel = json.items[0].snippet.channelTitle;
         let postedTime = json.items[0].snippet.publishedAt;
-        let views = json.items[0].statistics.viewCount; 
+        let views = json.items[0].statistics.viewCount;
         let likes = json.items[0].statistics.likeCount;
         let dislikes = json.items[0].statistics.dislikeCount;
-        return new Video(id,title,channel,postedTime,views,likes,dislikes);;
-    } */
+        let returnVal: string[] = [id, title, channel, postedTime, views, likes, dislikes];
+        return returnVal;
+    }
 }

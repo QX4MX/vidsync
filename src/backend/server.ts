@@ -114,11 +114,18 @@ export class AppServer {
                 }
             });
 
+            socket.on(SocketEvent.LOAD_VID, async (roomId: string, videoID: string) => {
+                if (this.ytApi.ready) {
+                    this.io.to(roomId).emit(SocketEvent.LOAD_VID, await this.ytApi.getVidInfo(videoID));
+                }
+            });
+
             socket.on(SocketEvent.searchYT, async (searchTerm: string) => {
                 if (this.ytApi.ready) {
                     socket.emit(SocketEvent.searchYT, await this.ytApi.searchKeyWord(searchTerm));
                 }
             });
+
             socket.on('setYTApi', (pw: string, apiKey: string) => {
                 if (DB.instance.checkPw(pw)) {
                     this.ytApi.setApiKey(apiKey);
@@ -140,7 +147,6 @@ export class AppServer {
     }
 
     clearCdMap() {
-        console.log("Clearing Map");
         if (this.syncCoolDown) {
             for (let key of this.syncCoolDown.keys()) {
                 let date = this.syncCoolDown.get(key);

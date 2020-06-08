@@ -21,6 +21,7 @@ export class RoomComponent implements OnInit {
 
     roomId: any;
     roomData: Room;
+    vidInfo: string[]
     results: string[][];
     messages: string[][] = [];
     lastState: YT.PlayerState = YT.PlayerState.UNSTARTED;
@@ -91,6 +92,12 @@ export class RoomComponent implements OnInit {
             }
         });
 
+        this.socket.on(SocketEvent.LOAD_VID, (result: string[]) => {
+            if (result) {
+                this.vidInfo = result;
+            }
+        });
+
         // Disconnect
         this.socket.on(SocketEvent.DISCONNECT, () => {
             this.openSnackBar("Websocket lost Connection", "X", 5);
@@ -120,6 +127,10 @@ export class RoomComponent implements OnInit {
         this.apiService.getRoom(this.roomId).subscribe((data) => {
             this.roomData = data;
             this.openSnackBar(cause, "X", 1);
+            if (!this.vidInfo) {
+                this.socket.emit(SocketEvent.LOAD_VID, this.roomId, this.roomData.video);
+                this.onResize();
+            }
         });
     }
 
@@ -144,6 +155,7 @@ export class RoomComponent implements OnInit {
 
     setVideoFromQueue(videoId: string, i: number) {
         this.roomData.video = videoId;
+        this.socket.emit(SocketEvent.LOAD_VID, this.roomId, videoId);
         this.roomData.queue.splice(i, 1);
         this.updateRoom("Set Video From Queue");
     }

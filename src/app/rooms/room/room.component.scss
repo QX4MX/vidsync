@@ -22,11 +22,14 @@ button{
     }
 	div{
         margin: 10px;
-        padding: 1em;
+        padding-top: 15px;
+        mat-icon{
+            vertical-align: bottom;
+        }
         span{
             font-family: Roboto, "Helvetica Neue", sans-serif;
-            padding: 0.5em;
-            margin-right: 5px;
+            margin-left: 10px;
+            margin-right: 20px;
             font-size: large;
         }
     }

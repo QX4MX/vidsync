@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, NgZone, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -14,10 +14,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class RoomComponent implements OnInit {
     @ViewChild(YouTubePlayer) youtubePlayer: YouTubePlayer;
-    @ViewChild('content') content: ElementRef;
-    public socket: SocketIOClient.Socket;
+
+    socket: SocketIOClient.Socket;
     playerHeight: number = 720;
-    chatHeight: number = 250;
 
     roomId: any;
     roomData: Room;
@@ -28,7 +27,7 @@ export class RoomComponent implements OnInit {
 
     intervalId: any;
 
-    constructor(private apiService: ApiService, private route: ActivatedRoute, private router: Router, private ngZone: NgZone,
+    constructor(private apiService: ApiService, private route: ActivatedRoute,
         socketService: SocketService, private _snackBar: MatSnackBar) {
 
         this.route.params.subscribe((params: Params) => {
@@ -77,7 +76,7 @@ export class RoomComponent implements OnInit {
                 this.messages.push([msg, "dark"]);
             }
             setTimeout(function () {
-                let element = document.getElementById("msgList");
+                let element = document.getElementById("chat-main");
                 if (element) {
                     element.scrollTop = element.scrollHeight;
                 }
@@ -106,21 +105,16 @@ export class RoomComponent implements OnInit {
 
     ngOnInit() {
         // yt api already in app component loaded (so its ready (hopefully))
+        console.log("Init");
         this.readRoom("Load Room");
+        this.onResize();
     }
-
 
     @HostListener('window:resize', ['$event'])
     onResize(event?) {
-        this.playerHeight = Math.floor(this.content.nativeElement.offsetWidth * 0.8 * 0.5625);
-        if (this.content.nativeElement.offsetWidth > 1024) {
-            this.chatHeight = this.playerHeight;
-        }
-        else {
-            this.chatHeight = 250;
-        }
-
-
+        console.log("Resize");
+        console.log(window.innerWidth);
+        this.playerHeight = window.innerHeight * 0.65;
     }
 
     readRoom(cause: string) {
@@ -129,7 +123,6 @@ export class RoomComponent implements OnInit {
             this.openSnackBar(cause, "X", 1);
             if (!this.vidInfo) {
                 this.socket.emit(SocketEvent.LOAD_VID, this.roomId, this.roomData.video);
-                this.onResize();
             }
         });
     }

@@ -22,29 +22,31 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 
 
 
 @NgModule({
-	declarations: [RoomListComponent, RoomCreateComponent, RoomComponent],
-	imports: [
-		CommonModule,
-		RoomsRoutingModule,
-		YouTubePlayerModule,
-		FormsModule,
-		MatInputModule,
-		ReactiveFormsModule,
-		MatFormFieldModule,
-		MatSelectModule,
-		MatRadioModule,
-		MatCardModule,
-		MatButtonModule,
-		MatButtonToggleModule,
-		MatSnackBarModule,
-		MatIconModule,
-		MatListModule
-	]
+    declarations: [RoomListComponent, RoomCreateComponent, RoomComponent],
+    imports: [
+        CommonModule,
+        RoomsRoutingModule,
+        YouTubePlayerModule,
+        FormsModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatCardModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatSnackBarModule,
+        MatIconModule,
+        MatListModule,
+        MatTabsModule
+    ]
 })
 export class RoomsModule { }

@@ -17,7 +17,7 @@ export class RoomComponent implements OnInit {
     @ViewChild('content') content: ElementRef;
     public socket: SocketIOClient.Socket;
     playerHeight: number = 720;
-    chatHeight: number = 720;
+    chatHeight: number = 250;
 
     roomId: any;
     roomData: Room;
@@ -110,7 +110,7 @@ export class RoomComponent implements OnInit {
             this.chatHeight = this.playerHeight;
         }
         else {
-            this.chatHeight = 300;
+            this.chatHeight = 250;
         }
 
 

@@ -1,8 +1,20 @@
-<div #main class="" id="main">
+<div #main class="" id="main" *ngIf="roomData;">
     <!-- Video-Player -->
-    <youtube-player (stateChange)="onStateChange($event)" [videoId]="roomData.video" width="100%" height="100%"
-        [ngStyle]="{'height.px': playerHeight}">
+    <youtube-player *ngIf="roomData.video;else addVideoFirst" (stateChange)="onStateChange($event)"
+        [videoId]="roomData.video" width="100%" height="100%" [ngStyle]="{'height.px': playerHeight}">
     </youtube-player>
+
+    <ng-template #addVideoFirst style="width: 50%;">
+        <form>
+            <mat-form-field>
+                <mat-label>Start Video Url/Id</mat-label>
+                <input #firstVidVal matInput autocomplete="off">
+            </mat-form-field>
+            <button mat-raised-button (click)="addToQueue(firstVidVal.value)">
+                <mat-icon>playlist_add</mat-icon>
+            </button>
+        </form>
+    </ng-template>
 
     <mat-tab-group [ngStyle]="{'height.px': playerHeight}">
         <mat-tab label="Chat">
@@ -29,7 +41,7 @@
                     <mat-icon>playlist_add</mat-icon>
                 </button>
             </form>
-            <mat-list id="queue">
+            <mat-list id="queue" *ngIf="roomData.queue">
                 <mat-list-item *ngFor="let queueElem of roomData.queue; let i = index">
                     <img id='' class='card-img' src='https://img.youtube.com/vi/{{queueElem}}/hqdefault.jpg'>
                     <div class="btn-group">
@@ -69,7 +81,7 @@
 
     </mat-tab-group>
 </div>
-<div id="vidInfo">
+<div id="vidInfo" *ngIf="vidInfo">
     <mat-icon>remove_red_eye</mat-icon><span>{{vidInfo[4]}}</span>
     <mat-icon>thumb_up</mat-icon><span>{{vidInfo[5]}}</span>
     <mat-icon>thumb_down</mat-icon><span>{{vidInfo[6]}}</span>

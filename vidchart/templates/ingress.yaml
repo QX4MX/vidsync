@@ -13,7 +13,7 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: angular.vidsync.de
+  - host: vidsync.de
     http:
       paths:
       - backend:
@@ -22,5 +22,5 @@ spec:
         path: /
   tls:
   - hosts:
-    - angular.vidsync.de
-    secretName: vidsync-angular-tls
+    - vidsync.de
+    secretName: vidchart-angular-tls

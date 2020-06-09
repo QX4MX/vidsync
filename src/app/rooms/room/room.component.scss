@@ -100,8 +100,15 @@ button{
 	background-color: rgb(100, 100, 100) !important;
 }
 
-::ng-deep.mat-tab-label-content{
+::ng-deep.mat-tab-label{
     color: white ;
+    padding: 0 !important;
+    min-width: 100px !important;
+    
+}
+
+::ng-deep.mat-tab-header-pagination-chevron{
+    border-color: white;
 }
 
 mat-spinner{

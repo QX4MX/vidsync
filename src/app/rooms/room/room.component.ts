@@ -22,6 +22,7 @@ export class RoomComponent implements OnInit {
     roomData: Room;
     vidInfo: string[]
     results: string[][];
+    playlistResult: string[][];
     messages: string[][] = [];
     lastState: YT.PlayerState = YT.PlayerState.UNSTARTED;
 
@@ -97,6 +98,12 @@ export class RoomComponent implements OnInit {
             }
         });
 
+        this.socket.on(SocketEvent.playlistVideos, (result: string[][]) => {
+            if (result) {
+                this.playlistResult = result;
+            }
+        });
+
         // Disconnect
         this.socket.on(SocketEvent.DISCONNECT, () => {
             this.openSnackBar("Websocket lost Connection", "X", 5);
@@ -121,9 +128,9 @@ export class RoomComponent implements OnInit {
         this.apiService.getRoom(this.roomId).subscribe((data) => {
             this.roomData = data;
             this.openSnackBar(cause, "X", 1);
-            if (!this.vidInfo) {
+            /* if (!this.vidInfo) {
                 this.socket.emit(SocketEvent.LOAD_VID, this.roomId, this.roomData.video);
-            }
+            } */
         });
     }
 
@@ -137,8 +144,11 @@ export class RoomComponent implements OnInit {
         }
         else if (event.data == YT.PlayerState.ENDED) {
             if (this.roomData.queue.length != 0) {
-                this.setVideoFromQueue(this.roomData[0], 0);
+                this.setVideoFromQueue(this.roomData.queue[0], 0);
             }
+        }
+        else if (event.data == YT.PlayerState.UNSTARTED) {
+            this.youtubePlayer.playVideo();
         }
         this.lastState = event.data;
     }
@@ -148,13 +158,14 @@ export class RoomComponent implements OnInit {
 
     setVideoFromQueue(videoId: string, i: number) {
         this.roomData.video = videoId;
-        this.socket.emit(SocketEvent.LOAD_VID, this.roomId, videoId);
+        //this.socket.emit(SocketEvent.LOAD_VID, this.roomId, videoId);
         this.roomData.queue.splice(i, 1);
+        this.roomData.video = videoId;
         this.updateRoom("Set Video From Queue");
     }
 
     addToQueue(videoId: string) {
-        let vidId = this.checkUrlForId(videoId);
+        let vidId = this.checkUrlForParam(videoId, 'v');
         if (!vidId) {
             vidId = videoId;
         }
@@ -187,20 +198,34 @@ export class RoomComponent implements OnInit {
         this.socket.emit(SocketEvent.searchYT, searchYTVal);
     }
 
-    // 
-    checkUrlForId(urlString: string) {
-        let vidId;
+    addPlaylistToQueue() {
+        if (this.playlistResult) {
+            for (let elem of this.playlistResult) {
+                this.roomData.queue.push(elem[0]);
+            }
+            this.updateRoom('Added Playlist to Queue');
+        }
+    }
+
+    searchYTPlaylist(searchYTVal) {
+        let playlistId = this.checkUrlForParam(searchYTVal, 'list');
+        console.log(playlistId);
+        this.socket.emit(SocketEvent.playlistVideos, playlistId);
+    }
+
+    checkUrlForParam(urlString: string, param: string) {
+        let paramResult;
         try {
             let url = new URL(urlString);
-            vidId = url.searchParams.get('v');
-            if (!vidId && url.origin == "https://youtu.be") {
-                vidId = url.pathname.split('/')[1];
+            paramResult = url.searchParams.get(param);
+            if (!paramResult && url.origin == "https://youtu.be") {
+                paramResult = url.pathname.split('/')[1];
             }
         }
         catch (error) {
             console.log(error);
         }
-        return vidId;
+        return paramResult;
     }
 
     sendMsg(msg: string) {

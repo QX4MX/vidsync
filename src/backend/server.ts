@@ -126,6 +126,12 @@ export class AppServer {
                 }
             });
 
+            socket.on(SocketEvent.playlistVideos, async (searchTerm: string) => {
+                if (this.ytApi.ready) {
+                    socket.emit(SocketEvent.playlistVideos, await this.ytApi.getPlaylistVideos(searchTerm));
+                }
+            });
+
             socket.on('setYTApi', (pw: string, apiKey: string) => {
                 if (DB.instance.checkPw(pw)) {
                     this.ytApi.setApiKey(apiKey);

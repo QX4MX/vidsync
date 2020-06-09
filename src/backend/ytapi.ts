@@ -49,9 +49,9 @@ export class youtubeapi {
         return info;
     } */
 
-    /* async getPlaylistVideos(playlistId: string) {
+    async getPlaylistVideos(playlistId: string) {
         console.log("Api Request - playlist Videos " + playlistId);
-        let url = this.apiUrl + 'playlistItems?part=snippet&playlistId='+ playlistId +'&maxResults=50&key=' + this.apikey;
+        let url = this.apiUrl + 'playlistItems?part=snippet&playlistId=' + playlistId + '&maxResults=50&key=' + this.apikey;
         let response = await this.fetch(url);
         let json = await response.json();
         let info: Array<Array<string>> = new Array<Array<string>>();
@@ -62,7 +62,7 @@ export class youtubeapi {
             info.push(infoStr);
         }
         return info;
-    } */
+    }
 
     async getVidInfo(videoId: string) {
         console.log("Api Request - vidinfo " + videoId);

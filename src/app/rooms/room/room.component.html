@@ -4,19 +4,32 @@
         [videoId]="roomData.video" width="100%" height="100%" [ngStyle]="{'height.px': playerHeight}">
     </youtube-player>
 
-    <ng-template #addVideoFirst style="width: 50%;">
-        <form>
-            <mat-form-field>
-                <mat-label>Start Video Url/Id</mat-label>
-                <input #firstVidVal matInput autocomplete="off">
-            </mat-form-field>
-            <button mat-raised-button (click)="addToQueue(firstVidVal.value)">
-                <mat-icon>playlist_add</mat-icon>
-            </button>
-        </form>
+    <ng-template #addVideoFirst>
+        <div style="width: 80%; background-color: rgb(30,30,30);">
+            <h1 style="text-align: center;">Add a Video to Start</h1>
+            <form style="text-align: center;">
+                <mat-form-field>
+                    <mat-label>Start Video Url/Id</mat-label>
+                    <input #firstVidVal matInput autocomplete="off">
+                </mat-form-field>
+                <button mat-raised-button (click)="addToQueue(firstVidVal.value);selectTab(1);">
+                    <mat-icon>playlist_add</mat-icon>
+                </button>
+            </form>
+            <h1 style="text-align: center;">Or Search YT for a Video</h1>
+            <form style="text-align: center;">
+                <mat-form-field>
+                    <mat-label>Search Youtube </mat-label>
+                    <input #firstVidSearch matInput autocomplete="off">
+                </mat-form-field>
+                <button mat-raised-button (click)="searchYT(firstVidSearch.value); selectTab(3);">
+                    <mat-icon>youtube_searched_for</mat-icon>
+                </button>
+            </form>
+        </div>
     </ng-template>
 
-    <mat-tab-group [ngStyle]="{'height.px': playerHeight}">
+    <mat-tab-group [ngStyle]="{'height.px': playerHeight}" [selectedIndex]="selectedIndex">
         <mat-tab label="Chat">
             <mat-list id="chat-main" [ngStyle]="{'height.px': playerHeight-160}">
                 <mat-list-item *ngFor="let msg of messages; let i = index" class="{{msg[1]}}">
@@ -81,7 +94,7 @@
         <mat-tab label="Add Playlist">
             <form>
                 <mat-form-field>
-                    <mat-label>Search Youtube </mat-label>
+                    <mat-label>Playlist Url/Id </mat-label>
                     <input #searchPlayListVal matInput autocomplete="off">
                 </mat-form-field>
                 <button mat-raised-button (click)="searchYTPlaylist(searchPlayListVal.value)">

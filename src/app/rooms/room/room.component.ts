@@ -26,7 +26,7 @@ export class RoomComponent implements OnInit {
     messages: string[][] = [];
     lastState: YT.PlayerState = YT.PlayerState.UNSTARTED;
 
-    intervalId: any;
+    selectedIndex: number;
 
     constructor(private apiService: ApiService, private route: ActivatedRoute,
         socketService: SocketService, private _snackBar: MatSnackBar) {
@@ -236,5 +236,9 @@ export class RoomComponent implements OnInit {
         this._snackBar.open(message, action, {
             duration: time * 1000,
         });
+    }
+
+    selectTab(index: number): void {
+        this.selectedIndex = index;
     }
 }

@@ -21,6 +21,7 @@ export class RoomComponent implements OnInit {
 
     roomId: any;
     roomData: Room;
+    onlineCount: number = 0;
     vidInfo: string[]
     results: string[][];
     messages: string[][] = [];
@@ -70,6 +71,9 @@ export class RoomComponent implements OnInit {
         });
 
         //Room Ctrl
+        this.socket.on(SocketEvent.GETUSERS, (userAmmount: number) => {
+            this.onlineCount = userAmmount;
+        })
         this.socket.on(SocketEvent.ReadRoom, (cause: string) => {
             this.readRoom(cause);
         });
@@ -141,6 +145,16 @@ export class RoomComponent implements OnInit {
         });
     }
 
+    updateRoom(cause: string) {
+        this.apiService.updateRoom(this.roomId, this.roomData).subscribe(
+            (res) => {
+                console.log('Room updated!')
+                this.socket.emit(SocketEvent.ReadRoom, this.roomId, cause);
+            }, (error) => {
+                console.log(error);
+            });
+    }
+
     onStateChange(event: YT.OnStateChangeEvent) {
         console.log(event.data);
         if (event.data == YT.PlayerState.PLAYING) {
@@ -191,15 +205,7 @@ export class RoomComponent implements OnInit {
         this.updateRoom("Removed Element From Queue");
     }
 
-    updateRoom(cause: string) {
-        this.apiService.updateRoom(this.roomId, this.roomData).subscribe(
-            (res) => {
-                console.log('Room updated!')
-                this.socket.emit(SocketEvent.ReadRoom, this.roomId, cause);
-            }, (error) => {
-                console.log(error);
-            });
-    }
+
 
     searchYT(searchYTVal) {
         this.socket.emit(SocketEvent.searchYT, searchYTVal);
@@ -220,6 +226,11 @@ export class RoomComponent implements OnInit {
         this.socket.emit(SocketEvent.playlistVideos, playlistId);
     }
 
+    sendMsg(msg: string) {
+        this.socket.emit(SocketEvent.MSG, this.roomId, msg);
+    }
+
+
     checkUrlForParam(urlString: string, param: string) {
         let paramResult;
         try {
@@ -235,9 +246,6 @@ export class RoomComponent implements OnInit {
         return paramResult;
     }
 
-    sendMsg(msg: string) {
-        this.socket.emit(SocketEvent.MSG, this.roomId, msg);
-    }
 
     openSnackBar(message: string, action: string, time: number) {
         this._snackBar.open(message, action, {

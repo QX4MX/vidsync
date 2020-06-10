@@ -23,7 +23,7 @@ export class AppServer {
 
     private apiroomRoutes: RoomRoutes;
 
-    private syncCoolDown = new Map();
+    private currentRooms = new Map();
     private coolDownTime: number = 250;
 
     constructor() {
@@ -57,20 +57,42 @@ export class AppServer {
         });
 
         this.io.on(SocketEvent.CONNECT, (socket: SocketIO.Socket) => {
-            console.log("socket connected");
+            console.log(socket.id + " connected");
+
             socket.on(SocketEvent.DISCONNECT, () => {
-                console.log("socket disconnected");
+                if (this.currentRooms) {
+                    for (let key of this.currentRooms.keys()) {
+                        let room = this.currentRooms.get(key);
+                        if (room[1].includes(socket.id)) {
+                            console.log(socket.id + ' left room: ' + room[0]);
+                            room[1].splice(room[1].indexOf(socket.id), 1);
+                            this.io.to(key).emit(SocketEvent.GETUSERS, room[1].length);
+                        }
+                    }
+                }
             });
             // TODO Handle roomid for user
             socket.on(SocketEvent.JOIN, (roomId: string) => {
                 socket.leaveAll();
                 socket.join(roomId);
+                let room = this.currentRooms.get(roomId);
+                if (!room) {
+                    let users: string[] = [socket.id];
+                    this.currentRooms.set(roomId, [Date.now(), users]);
+                }
+                else {
+                    room[1].push(socket.id);
+                }
+                this.io.to(roomId).emit(SocketEvent.GETUSERS, this.currentRooms.get(roomId)[1].length);
+
             });
+
             socket.on(SocketEvent.PLAY, (roomId: string, time: number) => {
                 if (!this.hasCooldown(roomId)) {
                     this.io.to(roomId).emit(SocketEvent.PLAY);
                     this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
-                    this.syncCoolDown.set(roomId, Date.now());
+                    let room = this.currentRooms.get(roomId);
+                    this.currentRooms.set(roomId, [Date.now(), room[1]]);
                 }
             });
 
@@ -78,20 +100,24 @@ export class AppServer {
                 if (!this.hasCooldown(roomId)) {
                     this.io.to(roomId).emit(SocketEvent.PAUSE);
                     this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
-                    this.syncCoolDown.set(roomId, Date.now());
+                    this.currentRooms.set(roomId, Date.now());
+                    let room = this.currentRooms.get(roomId);
+                    this.currentRooms.set(roomId, [Date.now(), room[1]]);
                 }
             });
             socket.on(SocketEvent.NEXT, (roomId: string, nextVidId: string) => {
                 if (!this.hasCooldown(roomId)) {
                     this.io.to(roomId).emit(SocketEvent.SET_VID, nextVidId);
                     this.io.to(roomId).emit(SocketEvent.ReadRoom, "Next!");
-                    this.syncCoolDown.set(roomId, Date.now());
+                    let room = this.currentRooms.get(roomId);
+                    this.currentRooms.set(roomId, [Date.now(), room[1]]);
                 }
             });
             // Should not be called atm
             socket.on(SocketEvent.SYNCTIME, (roomId: string, time: number) => {
                 this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
-                this.syncCoolDown.set(roomId, Date.now());
+                let room = this.currentRooms.get(roomId);
+                this.currentRooms.set(roomId, [Date.now(), room[1]]);
             });
 
             socket.on(SocketEvent.ReadRoom, (roomId: string, cause: string) => {
@@ -141,19 +167,19 @@ export class AppServer {
     }
 
     hasCooldown(roomId: string) {
-        let syncCD = this.syncCoolDown.get(roomId);
-        if (this.syncCoolDown.get(roomId) == null || syncCD + this.coolDownTime < Date.now()) {
+        let room = this.currentRooms.get(roomId);
+        if (!room || room[0] + this.coolDownTime < Date.now()) {
             return false;
         }
         return true;
     }
 
     clearCdMap() {
-        if (this.syncCoolDown) {
-            for (let key of this.syncCoolDown.keys()) {
-                let date = this.syncCoolDown.get(key);
-                if (date + this.coolDownTime < Date.now()) {
-                    this.syncCoolDown.delete(key);
+        if (this.currentRooms) {
+            for (let key of this.currentRooms.keys()) {
+                let room = this.currentRooms.get(key);
+                if (room[0] + this.coolDownTime < Date.now() || room[1] <= 0) {
+                    this.currentRooms.delete(key);
                 }
             }
         }

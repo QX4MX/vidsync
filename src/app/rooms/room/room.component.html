@@ -30,7 +30,7 @@
     </ng-template>
 
     <mat-tab-group [ngStyle]="{'height.px': playerHeight}" [selectedIndex]="selectedIndex">
-        <mat-tab label="Chat">
+        <mat-tab label='Chat'>
             <mat-list id="chat-main" [ngStyle]="{'height.px': playerHeight-160}">
                 <mat-list-item *ngFor="let msg of messages; let i = index" class="{{msg[1]}}">
                     <p>{{msg[0]}}</p>
@@ -111,6 +111,10 @@
 
     </mat-tab-group>
 </div>
+<span id="onlineCount">
+    <mat-icon>person</mat-icon>
+    {{onlineCount}}
+</span>
 <div id="vidInfo" *ngIf="roomData && vidInfo">
     <mat-icon>remove_red_eye</mat-icon><span>{{vidInfo[4]}}</span>
     <mat-icon>thumb_up</mat-icon><span>{{vidInfo[5]}}</span>

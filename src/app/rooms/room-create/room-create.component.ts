@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-room-create',
@@ -20,9 +21,11 @@ export class RoomCreateComponent implements OnInit {
         public fb: FormBuilder,
         private router: Router,
         private ngZone: NgZone,
-        private apiService: ApiService
+        private apiService: ApiService,
+        private titleService: Title
     ) {
         this.mainForm();
+        this.titleService.setTitle("vidsync - Create Room");
     }
 
     ngOnInit() { }

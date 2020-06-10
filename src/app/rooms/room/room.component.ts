@@ -6,6 +6,7 @@ import { YouTubePlayer } from '@angular/youtube-player';
 import { Room } from 'src/app/model/room';
 import { SocketEvent } from 'src/app/Enums';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-room',
@@ -28,15 +29,20 @@ export class RoomComponent implements OnInit {
 
     selectedIndex: number;
 
-    constructor(private apiService: ApiService, private route: ActivatedRoute,
-        socketService: SocketService, private _snackBar: MatSnackBar) {
+    constructor(private apiService: ApiService,
+        private route: ActivatedRoute,
+        private socketService: SocketService,
+        private _snackBar: MatSnackBar,
+        private titleService: Title,
+        private meta: Meta
+    ) {
 
         this.route.params.subscribe((params: Params) => {
             this.roomId = params['id'];
         });
 
 
-        this.socket = socketService.socket;
+        this.socket = this.socketService.socket;
         this.socket.emit(SocketEvent.JOIN, this.roomId);
 
         // VidCtrl
@@ -108,6 +114,7 @@ export class RoomComponent implements OnInit {
         this.socket.on(SocketEvent.DISCONNECT, () => {
             this.openSnackBar("Websocket lost Connection", "X", 5);
         });
+
     }
 
     ngOnInit() {
@@ -115,6 +122,7 @@ export class RoomComponent implements OnInit {
         console.log("Init");
         this.readRoom("Load Room");
         this.onResize();
+
     }
 
     @HostListener('window:resize', ['$event'])
@@ -128,9 +136,9 @@ export class RoomComponent implements OnInit {
         this.apiService.getRoom(this.roomId).subscribe((data) => {
             this.roomData = data;
             this.openSnackBar(cause, "X", 1);
-            /* if (!this.vidInfo) {
-                this.socket.emit(SocketEvent.LOAD_VID, this.roomId, this.roomData.video);
-            } */
+            this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
+            this.meta.updateTag({ name: 'og:image', content: 'https://img.youtube.com/vi/' + this.roomData.video + '/hqdefault.jpg' });
+            this.meta.updateTag({ name: 'twitter:image', content: 'https://img.youtube.com/vi/' + this.roomData.video + '/hqdefault.jpg' });
         });
     }
 

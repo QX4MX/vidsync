@@ -6,12 +6,13 @@ import { IndexComponent } from './index/index.component';
 import { DiscordComponent } from './discord/discord.component';
 
 //Material
-import { MatButtonModule } from '@angular/material/button'
+import { MatButtonModule } from '@angular/material/button';
+import { PrivacyComponent } from './privacy/privacy.component'
 
 
 
 @NgModule({
-    declarations: [IndexComponent, DiscordComponent],
+    declarations: [IndexComponent, DiscordComponent, PrivacyComponent],
     imports: [
         CommonModule,
         IndexRoutingModule,

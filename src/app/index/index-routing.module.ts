@@ -12,6 +12,7 @@ const routes: Routes = [
         children: [
             { path: '', component: IndexComponent },
             { path: 'discord', component: DiscordComponent },
+            { path: 'privacy', component: DiscordComponent },
 
         ]
     }

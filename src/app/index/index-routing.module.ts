@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainLayoutComponent } from '../layout/main-layout/main-layout.component';
 import { IndexComponent } from './index/index.component';
 import { DiscordComponent } from './discord/discord.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
         children: [
             { path: '', component: IndexComponent },
             { path: 'discord', component: DiscordComponent },
-            { path: 'privacy', component: DiscordComponent },
+            { path: 'privacy', component: PrivacyComponent },
 
         ]
     }

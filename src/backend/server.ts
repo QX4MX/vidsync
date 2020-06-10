@@ -39,17 +39,13 @@ export class AppServer {
         }));
         this.app.use(bodyParser.json());
         this.app.use(cors());
-        this.app.use('/', express.static(path.join(__dirname, '../../../frontend')));
-
         this.db = new DB();
         //API
         this.apiroomRoutes = new RoomRoutes();
         this.apiroomRoutes.routes(this.app);
         // Send Frontend Files
-        this.app.use('/rooms', express.static(path.join(__dirname, '../../../frontend')));
-        this.app.use('/rooms/**', express.static(path.join(__dirname, '../../../frontend')));
-        this.app.use('/admin', express.static(path.join(__dirname, '../../../frontend')));
-        this.app.use('/admin/**', express.static(path.join(__dirname, '../../../frontend')));
+        this.app.use('/', express.static(path.join(__dirname, '../../../frontend')));
+        this.app.use('/**', express.static(path.join(__dirname, '../../../frontend')));
         setInterval(this.clearCdMap, 3600000); // one hour sec(1000) * min(60) * hour(60)
         this.listen();
     }

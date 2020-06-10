@@ -92,7 +92,7 @@ export class AppServer {
                     this.io.to(roomId).emit(SocketEvent.PLAY);
                     this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
                     let room = this.currentRooms.get(roomId);
-                    this.currentRooms.set(roomId, [Date.now(), room[1]]);
+                    room[0] = Date.now();
                 }
             });
 
@@ -102,7 +102,7 @@ export class AppServer {
                     this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
                     this.currentRooms.set(roomId, Date.now());
                     let room = this.currentRooms.get(roomId);
-                    this.currentRooms.set(roomId, [Date.now(), room[1]]);
+                    room[0] = Date.now();
                 }
             });
             socket.on(SocketEvent.NEXT, (roomId: string, nextVidId: string) => {
@@ -110,14 +110,14 @@ export class AppServer {
                     this.io.to(roomId).emit(SocketEvent.SET_VID, nextVidId);
                     this.io.to(roomId).emit(SocketEvent.ReadRoom, "Next!");
                     let room = this.currentRooms.get(roomId);
-                    this.currentRooms.set(roomId, [Date.now(), room[1]]);
+                    room[0] = Date.now();
                 }
             });
             // Should not be called atm
             socket.on(SocketEvent.SYNCTIME, (roomId: string, time: number) => {
                 this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
                 let room = this.currentRooms.get(roomId);
-                this.currentRooms.set(roomId, [Date.now(), room[1]]);
+                room[0] = Date.now();
             });
 
             socket.on(SocketEvent.ReadRoom, (roomId: string, cause: string) => {

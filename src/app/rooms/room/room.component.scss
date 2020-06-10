@@ -89,6 +89,11 @@ button{
         vertical-align: bottom;
     }
 }
+#addFirstVideo{
+    width: 80%; 
+    background-color: rgb(30,30,30);
+    text-align: center;
+}
 
 ::ng-deep .mat-form-field-label {
 	/*change color of label*/

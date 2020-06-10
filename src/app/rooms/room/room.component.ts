@@ -23,7 +23,6 @@ export class RoomComponent implements OnInit {
     roomData: Room;
     vidInfo: string[]
     results: string[][];
-    playlistResult: string[][];
     messages: string[][] = [];
     lastState: YT.PlayerState = YT.PlayerState.UNSTARTED;
 
@@ -106,7 +105,7 @@ export class RoomComponent implements OnInit {
 
         this.socket.on(SocketEvent.playlistVideos, (result: string[][]) => {
             if (result) {
-                this.playlistResult = result;
+                this.results = result;
             }
         });
 
@@ -207,11 +206,11 @@ export class RoomComponent implements OnInit {
     }
 
     addPlaylistToQueue() {
-        if (this.playlistResult) {
-            for (let elem of this.playlistResult) {
+        if (this.results) {
+            for (let elem of this.results) {
                 this.roomData.queue.push(elem[0]);
             }
-            this.updateRoom('Added Playlist to Queue');
+            this.updateRoom('Added All to Queue');
         }
     }
 

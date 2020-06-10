@@ -178,7 +178,7 @@ export class AppServer {
         if (this.currentRooms) {
             for (let key of this.currentRooms.keys()) {
                 let room = this.currentRooms.get(key);
-                if (room[0] + this.coolDownTime < Date.now() || room[1] <= 0) {
+                if (room[0] + this.coolDownTime < Date.now() || room[1].length <= 0) {
                     this.currentRooms.delete(key);
                 }
             }

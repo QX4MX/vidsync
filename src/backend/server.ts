@@ -63,7 +63,7 @@ export class AppServer {
                 if (this.currentRooms) {
                     for (let key of this.currentRooms.keys()) {
                         let room = this.currentRooms.get(key);
-                        if (room[1].includes(socket.id)) {
+                        if (room && room[1] && room[1].includes(socket.id)) {
                             console.log(socket.id + ' left room: ' + room[0]);
                             room[1].splice(room[1].indexOf(socket.id), 1);
                             this.io.to(key).emit(SocketEvent.GETUSERS, room[1].length);

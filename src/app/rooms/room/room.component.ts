@@ -140,8 +140,8 @@ export class RoomComponent implements OnInit {
             this.roomData = data;
             this.openSnackBar(cause, "X", 1);
             this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
-            this.meta.updateTag({ name: 'og:image', content: 'https://img.youtube.com/vi/' + this.roomData.video + '/hqdefault.jpg' });
-            this.meta.updateTag({ name: 'twitter:image', content: 'https://img.youtube.com/vi/' + this.roomData.video + '/hqdefault.jpg' });
+            /* this.meta.updateTag({ name: 'og:image', content: 'https://img.youtube.com/vi/' + this.roomData.video + '/hqdefault.jpg' });
+            this.meta.updateTag({ name: 'twitter:image', content: 'https://img.youtube.com/vi/' + this.roomData.video + '/hqdefault.jpg' }); */
         });
     }
 

@@ -8,7 +8,7 @@ import { SocketEvent } from "./Enum";
 import { DB } from './api/Database';
 import { RoomRoutes } from './api/routes/room.route';
 import { youtubeapi } from './ytapi';
-
+import { SocketRoom } from './SocketRoom';
 
 
 export class AppServer {
@@ -23,8 +23,8 @@ export class AppServer {
 
     private apiroomRoutes: RoomRoutes;
 
-    private currentRooms = new Map();
-    private coolDownTime: number = 250;
+    private currentRooms: Map<string, SocketRoom> = new Map();
+    private coolDownTime: number = 150;
 
     constructor() {
         this.app = express();
@@ -46,7 +46,6 @@ export class AppServer {
         // Send Frontend Files
         this.app.use('/', express.static(path.join(__dirname, '../../../frontend')));
         this.app.use('/**', express.static(path.join(__dirname, '../../../frontend')));
-        setInterval(this.clearCdMap, 3600000); // one hour sec(1000) * min(60) * hour(60)
         this.listen();
     }
 
@@ -59,18 +58,63 @@ export class AppServer {
         this.io.on(SocketEvent.CONNECT, (socket: SocketIO.Socket) => {
             console.log("socket connected");
             socket.on(SocketEvent.DISCONNECT, () => {
+                this.currentRooms.forEach((room: SocketRoom, key: string) => {
+                    for (let user of room.getUsers()) {
+                        if (user == socket.id) {
+                            room.userLeave(socket.id);
+                            if (room.getUserCount() <= 0) {
+                                this.currentRooms.delete(key);
+                                console.log("cleared");
+                            }
+                            this.io.to(key).emit(SocketEvent.GETUSERS, room.getUserCount());
+                        }
+                    }
+                });
                 console.log("socket disconnected");
             });
             // TODO Handle roomid for user
             socket.on(SocketEvent.JOIN, (roomId: string) => {
-                socket.leaveAll();
-                socket.join(roomId);
+                socket.join(roomId, () => {
+                    console.log("Joined room " + roomId);
+                    let room = this.currentRooms.get(roomId);
+                    if (!room) {
+                        room = new SocketRoom(roomId);
+                        room.userJoin(socket.id);
+                        this.currentRooms.set(roomId, room);
+                    }
+                    else {
+                        room.userJoin(socket.id);
+                        this.currentRooms.set(roomId, room);
+                    }
+                    this.io.to(roomId).emit(SocketEvent.GETUSERS, room.getUserCount());
+                });
             });
+
+            socket.on(SocketEvent.LEAVE, () => {
+                this.currentRooms.forEach((room: SocketRoom, key: string) => {
+                    for (let user of room.getUsers()) {
+                        if (user == socket.id) {
+                            room.userLeave(socket.id);
+                            if (room.getUserCount() <= 0) {
+                                this.currentRooms.delete(key);
+                                console.log("cleared");
+                            }
+                            this.io.to(key).emit(SocketEvent.GETUSERS, room.getUserCount());
+                        }
+                    }
+                });
+                console.log("socket left");
+            });
+
+
             socket.on(SocketEvent.PLAY, (roomId: string, time: number) => {
                 if (!this.hasCooldown(roomId)) {
                     this.io.to(roomId).emit(SocketEvent.PLAY);
                     this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
-                    this.currentRooms.set(roomId, Date.now());
+                    let room = this.currentRooms.get(roomId);
+                    if (room) {
+                        room.use();
+                    }
                 }
             });
 
@@ -78,20 +122,30 @@ export class AppServer {
                 if (!this.hasCooldown(roomId)) {
                     this.io.to(roomId).emit(SocketEvent.PAUSE);
                     this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
-                    this.currentRooms.set(roomId, Date.now());
+                    let room = this.currentRooms.get(roomId);
+                    if (room) {
+                        room.use();
+                    }
+
                 }
             });
             socket.on(SocketEvent.NEXT, (roomId: string, nextVidId: string) => {
                 if (!this.hasCooldown(roomId)) {
                     this.io.to(roomId).emit(SocketEvent.SET_VID, nextVidId);
                     this.io.to(roomId).emit(SocketEvent.ReadRoom, "Next!");
-                    this.currentRooms.set(roomId, Date.now());
+                    let room = this.currentRooms.get(roomId);
+                    if (room) {
+                        room.use();
+                    }
                 }
             });
             // Should not be called atm
             socket.on(SocketEvent.SYNCTIME, (roomId: string, time: number) => {
                 this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
-                this.currentRooms.set(roomId, Date.now());
+                let room = this.currentRooms.get(roomId);
+                if (room) {
+                    room.use();
+                }
             });
 
             socket.on(SocketEvent.ReadRoom, (roomId: string, cause: string) => {
@@ -141,24 +195,16 @@ export class AppServer {
     }
 
     hasCooldown(roomId: string) {
-        let syncCD = this.currentRooms.get(roomId);
-        if (this.currentRooms.get(roomId) == null || syncCD + this.coolDownTime < Date.now()) {
-            return false;
-        }
-        return true;
-    }
-
-    clearCdMap() {
-        if (this.currentRooms) {
-            for (let key of this.currentRooms.keys()) {
-                let date = this.currentRooms.get(key);
-                if (date + this.coolDownTime < Date.now()) {
-                    this.currentRooms.delete(key);
-                }
+        let room = this.currentRooms.get(roomId);
+        if (room) {
+            if (room.getLastUsed() + this.coolDownTime < Date.now()) {
+                return false;
             }
+            return true;
         }
+        // if room unknown just ignore
+        return false;
     }
-
 }
 
 let appserver = new AppServer();

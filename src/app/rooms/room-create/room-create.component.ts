@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Title } from '@angular/platform-browser';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
     selector: 'app-room-create',
@@ -22,10 +23,12 @@ export class RoomCreateComponent implements OnInit {
         private router: Router,
         private ngZone: NgZone,
         private apiService: ApiService,
-        private titleService: Title
+        private titleService: Title,
+        private socketService: SocketService
     ) {
         this.mainForm();
         this.titleService.setTitle("vidsync - Create Room");
+        socketService.socket.emit('leave');
     }
 
     ngOnInit() { }

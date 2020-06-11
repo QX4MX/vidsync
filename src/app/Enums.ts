@@ -3,6 +3,7 @@ export enum SocketEvent {
     DISCONNECT = "disconnect",
     UPDATE = 'update',
     JOIN = 'join',
+    LEAVE = 'leave',
     MSG = 'msg',
     ALERT = 'alert',
     SET_USERNAME = 'setUserName',

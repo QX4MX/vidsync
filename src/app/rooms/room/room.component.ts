@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, HostListener, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { SocketService } from 'src/app/services/socket.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { YouTubePlayer } from '@angular/youtube-player';
 import { Room } from 'src/app/model/room';
 import { SocketEvent } from 'src/app/Enums';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title, Meta } from '@angular/platform-browser';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
     selector: 'app-room',
@@ -30,11 +30,10 @@ export class RoomComponent implements OnInit {
     selectedIndex: number;
 
     constructor(private apiService: ApiService,
-        private route: ActivatedRoute,
         private socketService: SocketService,
+        private route: ActivatedRoute,
         private _snackBar: MatSnackBar,
         private titleService: Title,
-        private meta: Meta
     ) {
 
         this.route.params.subscribe((params: Params) => {
@@ -42,7 +41,7 @@ export class RoomComponent implements OnInit {
         });
 
 
-        this.socket = this.socketService.socket;
+        this.socket = socketService.socket;
         this.socket.emit(SocketEvent.JOIN, this.roomId);
 
         // VidCtrl

@@ -1,33 +1,37 @@
-import * as mongoose from 'mongoose';
+import { Document, Schema, Model, model, Error } from 'mongoose';
 
-const Schema = mongoose.Schema;
+export interface IRoom extends Document {
+    name: String;
+    video: String;
+    queue: Array<String>;
+    privacy: String;
+    userCount: number;
+    created_date: Date;
+}
 
-export const RoomSchema = new Schema({
+export const roomSchema = new Schema({
     name: {
         type: String,
-        required: 'Enter a name'
+        required: true
+    },
+    video: {
+        type: String,
+    },
+    queue: {
+        type: Array,
+        default: new Array()
     },
     privacy: {
         type: String,
     },
-    permanent: {
-        type: String
-    },
-    editable: {
-        type: String
-    },
-    creator: {
-        type: String
-    },
-    video: {
-        type: String,
-        default: "",
-    },
-    queue: {
-        type: Array
+    userCount: {
+        type: Number,
+        default: 0
     },
     created_date: {
         type: Date,
         default: Date.now
     }
 });
+
+export const Room: Model<IRoom> = model<IRoom>("Room", roomSchema);

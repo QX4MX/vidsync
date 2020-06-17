@@ -27,7 +27,7 @@ button{
         overflow: hidden;
         padding-right: 17px;
         mat-list-item{
-            color: white;
+            height: fit-content;
             
         }
         &:hover{
@@ -47,13 +47,29 @@ button{
     }
     
 }
+::ng-deep.mat-card{
+    border-radius: 0 !important;
+    &.msgCard{
+        padding: 0px !important;
+        width: 100%;
+        max-width: 100%;
+        color: white;
+        .msg{
+            padding: 10px;
+            overflow-wrap: break-word;
+        }
 
-.dark{
-    background-color: rgb(55, 55, 55) !important;
+    }
+    &.dark{
+        background-color: rgb(55, 55, 55) !important;
+    }
+    &.light{
+        background-color: rgb(100, 100, 100) !important;
+    }
 }
-.light{
-    background-color: rgb(100, 100, 100) !important;
-}
+
+
+
 
 #queue,#searchResults{
     mat-list-item{

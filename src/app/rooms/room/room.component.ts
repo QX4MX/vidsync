@@ -7,6 +7,8 @@ import { SocketEvent } from 'src/app/Enums';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title, Meta } from '@angular/platform-browser';
 import { SocketService } from 'src/app/services/socket.service';
+import { RoomComponentSocket } from './room.component.socket';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-room',
@@ -16,7 +18,8 @@ import { SocketService } from 'src/app/services/socket.service';
 export class RoomComponent implements OnInit {
     @ViewChild(YouTubePlayer) youtubePlayer: YouTubePlayer;
 
-    socket: SocketIOClient.Socket;
+    roomSocket: RoomComponentSocket;
+    username;
     playerHeight: number = 720;
 
     roomId: any;
@@ -30,93 +33,17 @@ export class RoomComponent implements OnInit {
     selectedIndex: number;
 
     constructor(private apiService: ApiService,
-        private socketService: SocketService,
+        private authService: AuthService,
         private route: ActivatedRoute,
         private _snackBar: MatSnackBar,
         private titleService: Title,
-    ) {
+        private socketService: SocketService,
 
+    ) {
         this.route.params.subscribe((params: Params) => {
             this.roomId = params['id'];
         });
-
-
-        this.socket = socketService.socket;
-        this.socket.emit(SocketEvent.JOIN, this.roomId);
-
-        // VidCtrl
-        this.socket.on(SocketEvent.PLAY, () => {
-            if (this.lastState != YT.PlayerState.PLAYING) {
-                this.youtubePlayer.playVideo();
-                console.log("play");
-            }
-
-        });
-        this.socket.on(SocketEvent.PAUSE, () => {
-            if (this.lastState != YT.PlayerState.PAUSED) {
-                this.youtubePlayer.pauseVideo();
-            }
-        });
-        this.socket.on(SocketEvent.SET_VID, (videoId: string) => {
-            this.youtubePlayer.videoId = videoId;
-            if (this.youtubePlayer.getCurrentTime() != 0) {
-                this.youtubePlayer.seekTo(0, true);
-            }
-        });
-        this.socket.on(SocketEvent.SYNCTIME, (time: number) => {
-            if (Math.abs(this.youtubePlayer.getCurrentTime() - time) > 1) {
-                this.youtubePlayer.seekTo(time, true);
-            }
-        });
-
-        //Room Ctrl
-        this.socket.on(SocketEvent.GETUSERS, (userAmmount: number) => {
-            this.onlineCount = userAmmount;
-        })
-        this.socket.on(SocketEvent.ReadRoom, (cause: string) => {
-            this.readRoom(cause);
-        });
-
-        this.socket.on(SocketEvent.MSG, (msg: string) => {
-            if (this.messages.length % 2 == 0) {
-                this.messages.push([msg, "light"]);
-            }
-            else {
-                this.messages.push([msg, "dark"]);
-            }
-            setTimeout(function () {
-                let element = document.getElementById("chat-main");
-                if (element) {
-                    element.scrollTop = element.scrollHeight;
-                }
-            }, 100);
-
-        });
-
-        this.socket.on(SocketEvent.searchYT, (result: string[][]) => {
-            if (result) {
-                console.log(result);
-                this.results = result;
-            }
-        });
-
-        this.socket.on(SocketEvent.LOAD_VID, (result: string[]) => {
-            if (result) {
-                this.vidInfo = result;
-            }
-        });
-
-        this.socket.on(SocketEvent.playlistVideos, (result: string[][]) => {
-            if (result) {
-                this.results = result;
-            }
-        });
-
-        // Disconnect
-        this.socket.on(SocketEvent.DISCONNECT, () => {
-            this.openSnackBar("Websocket lost Connection", "X", 5);
-        });
-
+        this.roomSocket = new RoomComponentSocket(this.roomId, this, socketService.socket);
     }
 
     ngOnInit() {
@@ -136,6 +63,7 @@ export class RoomComponent implements OnInit {
 
     readRoom(cause: string) {
         this.apiService.getRoom(this.roomId).subscribe((data) => {
+            console.log('Room loaded! ', data)
             this.roomData = data;
             this.openSnackBar(cause, "X", 1);
             this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
@@ -145,22 +73,20 @@ export class RoomComponent implements OnInit {
     }
 
     updateRoom(cause: string) {
-        this.apiService.updateRoom(this.roomId, this.roomData).subscribe(
-            (res) => {
-                console.log('Room updated!')
-                this.socket.emit(SocketEvent.ReadRoom, this.roomId, cause);
-            }, (error) => {
-                console.log(error);
-            });
+        this.apiService.updateRoom(this.roomId, this.roomData).subscribe((res) => {
+            this.roomSocket.socket.emit(SocketEvent.ReadRoom, this.roomId, cause);
+        }, (error) => {
+            console.log(error);
+        });
     }
 
     onStateChange(event: YT.OnStateChangeEvent) {
         console.log(event.data);
         if (event.data == YT.PlayerState.PLAYING) {
-            this.socket.emit(SocketEvent.PLAY, this.roomId, this.youtubePlayer.getCurrentTime());
+            this.roomSocket.socket.emit(SocketEvent.PLAY, this.roomId, this.youtubePlayer.getCurrentTime());
         }
         else if (event.data == YT.PlayerState.PAUSED) {
-            this.socket.emit(SocketEvent.PAUSE, this.roomId, this.youtubePlayer.getCurrentTime());
+            this.roomSocket.socket.emit(SocketEvent.PAUSE, this.roomId, this.youtubePlayer.getCurrentTime());
         }
         else if (event.data == YT.PlayerState.ENDED) {
             if (this.roomData.queue.length != 0) {
@@ -207,7 +133,7 @@ export class RoomComponent implements OnInit {
 
 
     searchYT(searchYTVal) {
-        this.socket.emit(SocketEvent.searchYT, searchYTVal);
+        this.roomSocket.socket.emit(SocketEvent.searchYT, searchYTVal);
     }
 
     addPlaylistToQueue() {
@@ -222,11 +148,16 @@ export class RoomComponent implements OnInit {
     searchYTPlaylist(searchYTVal) {
         let playlistId = this.checkUrlForParam(searchYTVal, 'list');
         console.log(playlistId);
-        this.socket.emit(SocketEvent.playlistVideos, playlistId);
+        this.roomSocket.socket.emit(SocketEvent.playlistVideos, playlistId);
     }
 
     sendMsg(msg: string) {
-        this.socket.emit(SocketEvent.MSG, this.roomId, msg);
+        if (this.authService.user) {
+            this.roomSocket.socket.emit(SocketEvent.MSG, this.roomId, msg, this.authService.user.getBasicProfile().getName());
+        }
+        else {
+            this.roomSocket.socket.emit(SocketEvent.MSG, this.roomId, msg, '');
+        }
     }
 
 

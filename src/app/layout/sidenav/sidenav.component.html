@@ -34,14 +34,25 @@
             </a>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <div mat-subheader>Account (Soon)</div>
-        <mat-list-item>
-            <a mat-button disabled>
-                <mat-icon>login</mat-icon> Login
+        <div mat-subheader>Account</div>
+        <mat-list-item *ngIf='user'>
+            <a mat-button>
+                <mat-icon>person</mat-icon>{{user.getBasicProfile().getName()}}
+            </a>
+
+        </mat-list-item>
+        <mat-list-item *ngIf='!user'>
+            <a mat-button (click)='login()'>
+                <mat-icon>logout</mat-icon> Sign In Google
             </a>
         </mat-list-item>
-        <mat-list-item>
-            <a mat-button disabled>
+        <mat-list-item *ngIf='user'>
+            <a mat-button (click)='logout()'>
+                <mat-icon>logout</mat-icon> Logout
+            </a>
+        </mat-list-item>
+        <mat-list-item *ngIf='!user'>
+            <a mat-button [routerLink]="'/user/register'">
                 <mat-icon>account_circle</mat-icon> Create Account
             </a>
         </mat-list-item>

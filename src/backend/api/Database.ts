@@ -1,24 +1,20 @@
 import { connect, connection, Connection, Schema } from 'mongoose';
-import { createHash } from '../utility';
-import { baseUrl } from './dbUrl';
+import * as bcrypt from 'bcrypt';
+import { MONGODB_URI } from '../util/secret';
 
 
-export class DB {
+export class mongooseDB {
 
-    public static instance: DB;
+    public static instance: mongooseDB;
     private _db: Connection;
     private passwordHash: any;
 
     constructor() {
-        this.generateNewPw();
-        //mongodb.default.svc.cluster.local
-        //mongodb://localhost:27017/vidsyncdb
-        connect(baseUrl, { useNewUrlParser: true });
-        //connect("mongodb://localhost:27017/vidsyncdb",{ useNewUrlParser: true });
+        connect(MONGODB_URI, { useNewUrlParser: true });
         this._db = connection;
         this._db.on('open', this.connected);
         this._db.on('error', this.error);
-        DB.instance = this;
+        mongooseDB.instance = this;
     }
 
     private connected() {
@@ -27,19 +23,6 @@ export class DB {
 
     private error(error: any) {
         console.log('Mongoose has errored', error);
-    }
-
-    private generateNewPw() {
-        let password = '_' + Math.random().toString(36).substr(2, 9);
-        console.log(password);
-        this.passwordHash = createHash(password);
-    }
-
-    public checkPw(pw: string) {
-        if (pw && this.passwordHash == createHash(pw)) {
-            return true;
-        }
-        return false;
     }
 }
 

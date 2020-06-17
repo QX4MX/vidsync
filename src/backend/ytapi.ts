@@ -1,21 +1,15 @@
+import { ytApi } from './util/secret';
+
 export class youtubeapi {
-    private apikey: string;
+    private apikey: string = ytApi;
     public ready: boolean = false;
     private apiUrl: string = 'https://www.googleapis.com/youtube/v3/';
     private fetch = require('node-fetch');
     constructor() {
-    }
-
-    setApiKey(key: string) {
-        if (!this.ready) {
-            this.apikey = key;
+        if (this.apikey) {
             this.ready = true;
-            console.log("Set YT Api Key");
-            return true;
         }
-        return false;
     }
-
 
     async searchKeyWord(searchTerm: any) {
         console.log("Api Request - search " + searchTerm);

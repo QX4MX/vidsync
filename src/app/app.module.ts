@@ -8,34 +8,32 @@ import { LayoutModule } from './layout/layout.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
-import { UsersModule } from './users/users.module';
 import { IndexModule } from './index/index.module';
 
 
 const routes: Routes = [
-	{
-		path: '',
-		redirectTo: '/',
-		pathMatch: 'full'
-	}
+    {
+        path: '',
+        redirectTo: '/',
+        pathMatch: 'full'
+    }
 ];
 
 @NgModule({
-	declarations: [
-		AppComponent,
-	],
-	imports: [
-		BrowserModule,
-		BrowserAnimationsModule,
-		HttpClientModule,
-		RouterModule.forRoot(routes),
-		LayoutModule,
-		IndexModule,
-		UsersModule,
-		RoomsModule,
-		AdminModule
-	],
-	providers: [],
-	bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        RouterModule.forRoot(routes),
+        LayoutModule,
+        IndexModule,
+        RoomsModule,
+        AdminModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

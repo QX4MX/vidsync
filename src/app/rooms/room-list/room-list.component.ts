@@ -12,7 +12,7 @@ import { SocketService } from 'src/app/services/socket.service';
 
 export class RoomListComponent implements OnInit {
 
-    Room: any = [];
+    rooms: any = [];
 
     constructor(private apiService: ApiService, private titleService: Title, private socketService: SocketService) {
         console.log("Roomlist Called");
@@ -23,9 +23,13 @@ export class RoomListComponent implements OnInit {
 
     ngOnInit() { }
 
-    readRoom() {
-        this.apiService.getRooms().subscribe((data) => {
-            this.Room = data;
-        })
+    async readRoom() {
+        let val = await this.apiService.getRooms();
+        val.subscribe((data) => {
+            console.log(data);
+            let json = JSON.stringify(data);
+            var obj = JSON.parse(json);
+            this.rooms = obj.rooms;
+        });
     }
 }

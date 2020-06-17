@@ -4,6 +4,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Title } from '@angular/platform-browser';
 import { SocketService } from 'src/app/services/socket.service';
+import { json } from 'express';
 
 @Component({
     selector: 'app-room-create',
@@ -16,7 +17,6 @@ export class RoomCreateComponent implements OnInit {
     selected = 'option1';
     submitted = false;
     createRoom: FormGroup;
-    RoomProfile: any = ['Finance', 'BDM', 'HR', 'Sales', 'Admin']
 
     constructor(
         public fb: FormBuilder,
@@ -37,8 +37,6 @@ export class RoomCreateComponent implements OnInit {
         this.createRoom = this.fb.group({
             name: ['', [Validators.required]],
             privacy: ['Public', [Validators.required]],
-            permanent: ['True', [Validators.required]],
-            editable: ['True', [Validators.required]],
         })
     }
 
@@ -47,20 +45,28 @@ export class RoomCreateComponent implements OnInit {
         return this.createRoom.controls;
     }
 
-    onSubmit() {
+    async onSubmit() {
         this.submitted = true;
         if (!this.createRoom.valid) {
             console.log("Not Valid");
             return false;
         } else {
-            this.apiService.createRoom(this.createRoom.value).subscribe(
-                (res) => {
+            let val = await this.apiService.createRoom(this.createRoom.value);
+            if (val) {
+                val.subscribe((res) => {
                     console.log('Room successfully created!')
-                    console.log(res);
-                    this.ngZone.run(() => this.router.navigateByUrl('/rooms/' + res._id));
+                    let json = JSON.stringify(res);
+                    var obj = JSON.parse(json);
+                    this.ngZone.run(() => this.router.navigateByUrl('/rooms/' + obj.data._id));
+
                 }, (error) => {
                     console.log(error);
                 });
+            }
+            else {
+                this.ngZone.run(() => this.router.navigateByUrl('/user/login'));
+            }
+
         }
     }
 

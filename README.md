@@ -34,7 +34,9 @@ You can also use the specific commands which can be found in [package.json ](htt
 
 ## kubernetes with helm
 * make sure kubernetes is setup, helm installed und vidchart values set
-* `helm install vidchart path-vidchart`
+* `helm install vidchart --val MONGODB_URI=$MY_MONGODB_URI url --val ytApi=$MY_YTAPI_KEY path-vidchart`
+or
+* `helm install vidchart -f secrets.yaml path-vidchart`
 
 
 ## Running unit tests

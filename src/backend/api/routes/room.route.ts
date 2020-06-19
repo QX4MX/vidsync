@@ -16,6 +16,6 @@ export class RoomRoutes {
         this.router.get("/:id", this.roomController.getRoom);
         this.router.post("/", this.roomController.createRoom);
         this.router.put("/:id", this.roomController.updateRoom);
-        this.router.delete("/:id", this.authController.verify, this.roomController.deleteRoom);//TODO (able to del own rooms)
+        this.router.delete("/:id", this.authController.verifyGoogleToken, this.roomController.deleteRoom);//TODO (able to del own rooms)
     }
 }

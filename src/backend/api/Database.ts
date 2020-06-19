@@ -18,11 +18,11 @@ export class mongooseDB {
     }
 
     private connected() {
-        console.log('Mongoose has connected');
+        console.log('DB => Mongoose has connected');
     }
 
     private error(error: any) {
-        console.log('Mongoose has errored', error);
+        console.log('DB => Mongoose has errored', error);
     }
 }
 

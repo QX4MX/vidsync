@@ -7,7 +7,8 @@ export class AuthController {
 
     }
 
-    async verify(req: Request, res: Response, next: NextFunction) {
+    async verifyGoogleToken(req: Request, res: Response, next: NextFunction) {
+        console.log("Api => Authenticate with GoogleToken");
         await https.get('https://oauth2.googleapis.com/tokeninfo?id_token=' + req.headers.authorization, (resp) => {
             if (resp.statusCode == 200) {
                 return next();

@@ -13,7 +13,7 @@ export class SocketServer {
     constructor(server: Server, private ytApi: youtubeapi) {
         this.io = socketIo(server);
         this.io.on(SocketEvent.CONNECT, (socket: SocketIO.Socket) => {
-            console.log("socket connected");
+            console.log("Sockets => " + socket.id + " connected");
             socket.on(SocketEvent.DISCONNECT, () => {
                 this.currentRooms.forEach((room: SocketRoom, key: string) => {
                     for (let user of room.getUsers()) {
@@ -21,18 +21,18 @@ export class SocketServer {
                             room.userLeave(socket.id);
                             if (room.getUserCount() <= 0) {
                                 this.currentRooms.delete(key);
-                                console.log("cleared");
                             }
                             this.io.to(key).emit(SocketEvent.GETUSERS, room.getUserCount());
                         }
                     }
                 });
-                console.log("socket disconnected");
+                console.log("Sockets => " + socket.id + " disconnected");
+
             });
             // TODO Handle roomid for user
             socket.on(SocketEvent.JOIN, (roomId: string) => {
                 socket.join(roomId, () => {
-                    console.log("Joined room " + roomId);
+                    console.log("Sockets => " + socket.id + " join room: " + roomId);
                     let room = this.currentRooms.get(roomId);
                     if (!room) {
                         room = new SocketRoom(roomId);
@@ -51,16 +51,15 @@ export class SocketServer {
                 this.currentRooms.forEach((room: SocketRoom, key: string) => {
                     for (let user of room.getUsers()) {
                         if (user == socket.id) {
+                            console.log("Sockets => " + socket.id + " leave room: " + key);
                             room.userLeave(socket.id);
                             if (room.getUserCount() <= 0) {
-                                this.currentRooms.delete(key);
-                                console.log("cleared");
+                                this.currentRooms.delete(key);;
                             }
                             this.io.to(key).emit(SocketEvent.GETUSERS, room.getUserCount());
                         }
                     }
                 });
-                console.log("socket left");
             });
 
 
@@ -133,12 +132,6 @@ export class SocketServer {
                     socket.emit(SocketEvent.playlistVideos, await this.ytApi.getPlaylistVideos(searchTerm));
                 }
             });
-
-            /* socket.on('setYTApi', (pw: string, apiKey: string) => {
-                if (mongooseDB.instance.checkPw(pw)) {
-                    this.ytApi.setApiKey(apiKey);
-                }
-            }); */
         });
 
     }

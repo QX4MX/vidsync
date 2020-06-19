@@ -6,6 +6,7 @@ import { User, IUser } from "../models/user";
 export class UserController {
 
     public async registerUser(req: Request, res: Response): Promise<void> {
+        console.log("Api => Register");
         /*  const newUser: IUser = new User(req.body);
          console.log(newUser);
          await newUser.save((err, newUser) => {
@@ -19,6 +20,6 @@ export class UserController {
     }
 
     public async authenticateUser(req: Request, res: Response) {
-
+        console.log("Api => Login");
     }
 }

@@ -1,3 +1,10 @@
+<div *ngIf="!authenticated && getOwnRooms">
+    You need to
+    <button (click)="routeToLogin()">
+        Login
+    </button>
+    first.
+</div>
 <div id="pubRooms">
     <mat-card class="room-card" *ngFor="let room of rooms; let i = index">
         <mat-card-header>

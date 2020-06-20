@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Title } from '@angular/platform-browser';
 import { SocketService } from 'src/app/services/socket.service';
 import { json } from 'express';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-room-create',
@@ -17,12 +18,14 @@ export class RoomCreateComponent implements OnInit {
     selected = 'option1';
     submitted = false;
     createRoom: FormGroup;
+    authenticated: boolean;
 
     constructor(
         public fb: FormBuilder,
         private router: Router,
         private ngZone: NgZone,
         private apiService: ApiService,
+        private authService: AuthService,
         private titleService: Title,
         private socketService: SocketService
     ) {
@@ -31,7 +34,9 @@ export class RoomCreateComponent implements OnInit {
         socketService.socket.emit('leave');
     }
 
-    ngOnInit() { }
+    async ngOnInit() {
+        await this.setAuthenticated();
+    }
 
     mainForm() {
         this.createRoom = this.fb.group({
@@ -44,30 +49,54 @@ export class RoomCreateComponent implements OnInit {
     get myForm() {
         return this.createRoom.controls;
     }
+    async setAuthenticated() {
+        if (await this.authService.checkIfUserAuthenticated()) {
+            this.authenticated = true;
+        }
+        else {
+            this.authenticated = false;
+        }
+
+    }
 
     async onSubmit() {
         this.submitted = true;
         if (!this.createRoom.valid) {
             console.log("Not Valid");
             return false;
-        } else {
-            let val = await this.apiService.createRoom(this.createRoom.value);
-            if (val) {
-                val.subscribe((res) => {
-                    console.log('Room successfully created!')
-                    let json = JSON.stringify(res);
-                    var obj = JSON.parse(json);
-                    this.ngZone.run(() => this.router.navigateByUrl('/rooms/' + obj.data._id));
-
-                }, (error) => {
-                    console.log(error);
-                });
+        }
+        else {
+            if (this.createRoom.value.privacy == 'Private') {
+                await (await this.apiService.createPrivateRoom(this.createRoom.value)).subscribe(
+                    (res) => {
+                        console.log('Room successfully created!')
+                        let json = JSON.stringify(res);
+                        var obj = JSON.parse(json);
+                        this.ngZone.run(() => this.router.navigateByUrl('/rooms/' + obj.data._id));
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
             }
             else {
-                this.ngZone.run(() => this.router.navigateByUrl('/user/login'));
+                await this.apiService.createRoom(this.createRoom.value).subscribe(
+                    (res) => {
+                        console.log('Room successfully created!')
+                        let json = JSON.stringify(res);
+                        var obj = JSON.parse(json);
+                        this.ngZone.run(() => this.router.navigateByUrl('/rooms/' + obj.data._id));
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
             }
 
         }
     }
 
+    routeToLogin() {
+        this.router.navigate(['/login'], { queryParams: { returnUrl: 'rooms/create' } });
+    }
 }

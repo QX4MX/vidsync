@@ -1,26 +1,32 @@
 <form [formGroup]="createRoom" (ngSubmit)="onSubmit()">
-	<!-- Name -->
-	<mat-form-field class="example-full-width">
-		<input matInput placeholder="Name" formControlName="name" autocomplete="off">
-	</mat-form-field>
-	<mat-button-toggle-group formControlName="privacy">
-		<mat-button-toggle value="Public">Public</mat-button-toggle>
-		<mat-button-toggle value="Private">Private</mat-button-toggle>
-	</mat-button-toggle-group>
+    <!-- Name -->
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Name" formControlName="name" autocomplete="off">
+        <mat-error *ngIf="!createRoom.valid">
+            Name Cant Be Empty
+        </mat-error>
+    </mat-form-field>
+    <!-- TODO if not logged in -->
 
-	<!--
-	<mat-button-toggle-group formControlName="permanent">
-		<mat-button-toggle value="True">Permanent</mat-button-toggle>
-		<mat-button-toggle  value="False">Temporary</mat-button-toggle>
-	</mat-button-toggle-group>
-
-    <mat-button-toggle-group formControlName="editable">
-		<mat-button-toggle value="True">Editable</mat-button-toggle>
-		<mat-button-toggle  value="False">Not Editable</mat-button-toggle>
+    <mat-button-toggle-group formControlName="privacy">
+        <mat-button-toggle value="Public">Public</mat-button-toggle>
+        <mat-button-toggle value="Private" (click)="setAuthenticated()" [disabled]="!authenticated">
+            Private
+            <span *ngIf=" !authenticated">
+                (disabled)
+            </span>
+        </mat-button-toggle>
     </mat-button-toggle-group>
- -->
-	<!-- Submit -->
-	<div class="button-wrapper">
-		<button mat-flat-button color="primary">Submit</button>
-	</div>
+    <mat-error *ngIf=" !authenticated">
+        Private Rooms require you to
+        <button (click)="routeToLogin()">
+            Login
+        </button>
+        first
+
+    </mat-error>
+    <!-- Submit -->
+    <div class="button-wrapper">
+        <button mat-raised-button color="primary">Submit</button>
+    </div>
 </form>

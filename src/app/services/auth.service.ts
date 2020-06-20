@@ -73,13 +73,15 @@ export class AuthService {
         }
 
         // Resolve or reject signin Promise
-        return new Promise(async () => {
+        return new Promise(async (success) => {
             await this.authInstance.signIn().then(
                 user => {
                     this.user = user
+                    success(true);
                 },
                 error => {
                     this.error = error
+                    success(false);
                 }
             );
         });

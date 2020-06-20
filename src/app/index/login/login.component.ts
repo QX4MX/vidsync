@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { async } from '@angular/core/testing';
 
 @Component({
     selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private authService: AuthService
     ) {
-        this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+        this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/rooms/public';
 
 
         this.form = this.fb.group({
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit {
     async ngOnInit(): Promise<void> {
         if (await this.authService.checkIfUserAuthenticated()) {
             console.log("Is Already Logged In");
-            await this.router.navigate([this.returnUrl]);
+            this.router.navigate([this.returnUrl]);
         }
 
     }
@@ -59,9 +60,16 @@ export class LoginComponent implements OnInit {
 
     async googleLogin() {
         //TODO redirect / sidenav update
-        await this.authService.googleLogin();
-        if (await this.authService.checkIfUserAuthenticated()) {
-            this.router.navigate([this.returnUrl]);
-        }
+        await this.authService.googleLogin().then(
+            (success) => {
+                if (success) {
+                    console.log("LoggedIn");
+                    this.router.navigate([this.returnUrl]);
+                }
+                else {
+                    console.log("Login Failed");
+                }
+            }
+        );
     }
 }

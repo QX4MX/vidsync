@@ -19,7 +19,7 @@ export class ApiService {
 
     async getProfile() {
         if (await this.auth.checkIfUserAuthenticated()) {
-            const header = (this.auth.checkIfUserAuthenticated()) ? { Authorization: this.auth.user.getAuthResponse().id_token } : undefined;
+            const header = (this.auth.checkIfUserAuthenticated()) ? { Authorization: this.auth.getToken() } : undefined;
             return this.http.get(`${baseUrl}/api/user/profile`, { headers: header });
         }
         return null;
@@ -33,9 +33,28 @@ export class ApiService {
             )
     }
 
-    // Get all users
-    async getRooms() {
+    async createPrivateRoom(data): Promise<Observable<any>> {
+        let url = `${baseUrl}/api/room/private`;
+        if (await this.auth.checkIfUserAuthenticated()) {
+            const header = (this.auth.checkIfUserAuthenticated()) ? { Authorization: this.auth.getToken() } : undefined;
+            return this.http.post(url, data, { headers: header })
+                .pipe(
+                    catchError(this.errorMgmt)
+                )
+        }
+        return null;
+    }
+
+    async getPublicRooms() {
         return this.http.get(`${baseUrl}/api/room`);
+    }
+
+    async getOwnRooms() {
+        if (await this.auth.checkIfUserAuthenticated()) {
+            const header = (this.auth.checkIfUserAuthenticated()) ? { Authorization: this.auth.getToken() } : undefined;
+            return this.http.get(`${baseUrl}/api/room/private`, { headers: header });
+        }
+        return null;
     }
 
     // Get user

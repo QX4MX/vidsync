@@ -1,0 +1,23 @@
+mat-card {
+    max-width: 40%;
+    min-width: 200px;
+    margin: 2em auto;
+    text-align: center;
+    background-color: rgb(34, 34, 34);
+    color: white;
+  }
+  
+  mat-form-field {
+    display: block;
+    color: white;
+  }
+
+  ::ng-deep .mat-form-field-label {
+	/*change color of label*/
+	color: rgb(100, 100, 100) !important;
+}
+  
+::ng-deep.mat-form-field-underline {
+	/*change color of underline*/
+	background-color: rgb(100, 100, 100) !important;
+  } 

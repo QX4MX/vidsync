@@ -7,7 +7,7 @@ import { Title } from '@angular/platform-browser';
     styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
-
+    updates: string[] = ["updates", "updates", "updates", "updates", "updates"]
     constructor(private titleService: Title) {
         this.titleService.setTitle("vidsync - Watch Youtube Together");
     }

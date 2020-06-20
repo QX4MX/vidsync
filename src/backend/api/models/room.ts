@@ -6,6 +6,7 @@ export interface IRoom extends Document {
     queue: Array<String>;
     privacy: String;
     userCount: number;
+    creator: String;
     created_date: Date;
 }
 
@@ -27,6 +28,9 @@ export const roomSchema = new Schema({
     userCount: {
         type: Number,
         default: 0
+    },
+    creator: {
+        type: String
     },
     created_date: {
         type: Date,

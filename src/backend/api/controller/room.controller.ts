@@ -8,6 +8,12 @@ export class RoomController {
         res.json({ rooms });
     }
 
+    public async getOwnRooms(req: Request, res: Response): Promise<void> {
+        console.log("Api => Get Own Rooms of ", res.locals.authUserName);
+        const rooms = await Room.find({ creator: res.locals.authUserName });
+        res.json({ rooms });
+    }
+
     public async getRoom(req: Request, res: Response): Promise<void> {
         console.log("Api => Get Room ", req.params.id);
         const room = await Room.findById(req.params.id);
@@ -15,6 +21,17 @@ export class RoomController {
     }
 
     public async createRoom(req: Request, res: Response): Promise<void> {
+        console.log("Api => Create Room ", req.body);
+        req.body.privacy = 'Public';
+        const newRoom: IRoom = new Room(req.body);
+        await newRoom.save();
+        res.json({ status: res.status, data: newRoom });
+    }
+
+    public async createPrivateRoom(req: Request, res: Response): Promise<void> {
+        req.body.privacy = 'Private';
+        console.log(res.locals.authUserName);
+        req.body.creator = res.locals.authUserName;
         console.log("Api => Create Room ", req.body);
         const newRoom: IRoom = new Room(req.body);
         await newRoom.save();

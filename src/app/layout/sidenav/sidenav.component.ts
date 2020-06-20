@@ -18,33 +18,14 @@ export class SidenavComponent implements OnInit {
         }
     }
 
-    async login(): Promise<gapi.auth2.GoogleUser> {
-        // Initialize gapi if not done yet
-        if (!this.authService.gapiSetup) {
-            await this.authService.initGoogleAuth();
-        }
-
+    async logout() {
         // Resolve or reject signin Promise
-        return new Promise(async () => {
-            await this.authService.authInstance.signIn().then(
-
-                user => {
-                    this.user = user
-                    this.authService.user = user
-                },
-                error => this.authService.error = error);
-        });
-    }
-
-    logout() {
-        // Resolve or reject signin Promise
-        return new Promise(async () => {
-            await this.authService.authInstance.disconnect().then(
-                user => {
-                    this.authService.user = user
-                    this.user = this.authService.user
-                },
-                error => this.authService.error = error);
-        });
+        await this.authService.authInstance.disconnect().then(
+            user => {
+                this.authService.user = user
+                this.user = this.authService.user
+            },
+            error => this.authService.error = error
+        );
     }
 }

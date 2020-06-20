@@ -6,7 +6,7 @@
             </a>
         </mat-list-item>
         <mat-list-item>
-            <a mat-button [routerLink]="'/rooms/all'">
+            <a mat-button [routerLink]="'/rooms/public'">
                 <mat-icon>view_list</mat-icon> Public Rooms
             </a>
         </mat-list-item>
@@ -16,7 +16,7 @@
             </a>
         </mat-list-item>
         <mat-list-item>
-            <a mat-button disabled>
+            <a mat-button [routerLink]="'/rooms/private'">
                 <mat-icon>grade</mat-icon>Your Rooms
             </a>
         </mat-list-item>
@@ -42,8 +42,8 @@
 
         </mat-list-item>
         <mat-list-item *ngIf='!user'>
-            <a mat-button (click)='login()'>
-                <mat-icon>logout</mat-icon> Sign In Google
+            <a mat-button [routerLink]="'/login'">
+                <mat-icon>login</mat-icon> Login
             </a>
         </mat-list-item>
         <mat-list-item *ngIf='user'>
@@ -52,7 +52,7 @@
             </a>
         </mat-list-item>
         <mat-list-item *ngIf='!user'>
-            <a mat-button [routerLink]="'/user/register'">
+            <a mat-button [routerLink]="'/register'">
                 <mat-icon>account_circle</mat-icon> Create Account
             </a>
         </mat-list-item>

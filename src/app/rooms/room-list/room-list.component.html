@@ -5,12 +5,21 @@
     </button>
     first.
 </div>
-<div *ngIf="rooms.length == 0">
+
+<div class="filterForm">
+    <mat-form-field>
+        <input #searchVal matInput placeholder="Search" autocomplete="off" (keyup)="searchByName(searchVal.value)">
+    </mat-form-field>
+    <button mat-raised-button (click)="searchByName(searchVal.value)">
+        <mat-icon>search</mat-icon>
+    </button>
+    <button mat-raised-button (click)="sortByDate()">Show Newest First</button>
+</div>
+<div *ngIf="searchResults.length == 0">
     Didnt Find any Rooms.
 </div>
-
-<div id="pubRooms">
-    <mat-card class="room-card" *ngFor="let room of rooms; let i = index">
+<div class="roomList">
+    <mat-card class="room-card" *ngFor="let room of searchResults; let i = index">
         <mat-card-header>
             <mat-card-title>{{room.name}}</mat-card-title>
         </mat-card-header>

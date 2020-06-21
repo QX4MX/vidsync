@@ -1,4 +1,4 @@
-#pubRooms{
+.roomList{
     height: 100%;
 	width: 98%;
     margin: 0 1%;
@@ -23,17 +23,34 @@
     }
     .mat-card-actions{
         margin-bottom: .5rem;
-        button{
-            background-color: rgb(60, 60, 60);
-            color: white;
-        }
-        
     }
     
 }
 
+button{
+    background-color: rgb(60, 60, 60);
+    color: white;
+}
+
+.filterForm{
+    text-align: center;
+    mat-form-field, button{
+        margin-right: 1rem;
+        margin-left: 1rem;
+    }
+}
+::ng-deep .mat-form-field-label {
+	/*change color of label*/
+	color: rgb(100, 100, 100) !important;
+}
+  
+::ng-deep.mat-form-field-underline {
+	/*change color of underline*/
+	background-color: rgb(100, 100, 100) !important;
+  } 
+
 @media only screen and (max-width: 1024px) {
-    #pubRooms{
+    .roomList{
         height: 100%;
         width: 98%;
         margin: 0 1%;

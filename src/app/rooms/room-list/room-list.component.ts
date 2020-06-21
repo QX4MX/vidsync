@@ -14,7 +14,8 @@ import { AuthService } from 'src/app/services/auth.service';
 
 export class RoomListComponent implements OnInit {
     getOwnRooms: boolean = false;
-    rooms: any = [];
+    rooms: Array<Room> = [];
+    searchResults: Array<Room> = [];
     authenticated: boolean;
 
     constructor(private router: Router, private apiService: ApiService, private authService: AuthService, private titleService: Title, private socketService: SocketService, private ngZone: NgZone) {
@@ -46,6 +47,7 @@ export class RoomListComponent implements OnInit {
                 let json = JSON.stringify(data);
                 var obj = JSON.parse(json);
                 this.rooms = obj.rooms;
+                this.searchResults = this.rooms;
             });
         }
         else if (this.getOwnRooms && !await this.authService.checkIfUserAuthenticated()) {
@@ -58,6 +60,7 @@ export class RoomListComponent implements OnInit {
                 let json = JSON.stringify(data);
                 var obj = JSON.parse(json);
                 this.rooms = obj.rooms;
+                this.searchResults = this.rooms;
             });
         }
 
@@ -80,5 +83,23 @@ export class RoomListComponent implements OnInit {
     routeToLogin() {
         this.router.navigate(['/login'], { queryParams: { returnUrl: 'rooms/private' } });
     }
-    //TODO get UserCount in Room, Sort, Search
+
+    searchByName(searchStr: string) {
+        this.searchResults = [];
+        for (let room of this.rooms) {
+            if (room.name.toLowerCase().indexOf(searchStr.toLowerCase()) != -1) {
+                this.searchResults.push(room);
+            }
+        }
+    }
+
+    sortByDate() {
+        this.rooms.sort((a: Room, b: Room) => {
+            return new Date(b.created_date).getTime() - new Date(a.created_date).getTime();
+        });
+    }
+
+    sortByUserCount() {
+        //TODO
+    }
 }

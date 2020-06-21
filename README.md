@@ -42,7 +42,7 @@ or
 * `helm install vidchart -f secrets.yaml path-vidchart`
 
 which should look something like 
-----
+```
 apiVersion: v1
 kind: Secret
 metadata:
@@ -51,7 +51,7 @@ type: Opaque
 data:
     MONGODB_URI: MY_MONGODB_URI (base64)
     ytApi: MY_YTAPI_KEY (base64)
-----
+```
 
 ## Running unit tests
 

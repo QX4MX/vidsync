@@ -1,6 +1,6 @@
 mat-drawer-container{
     height: 100%;
-    background-color: rgb(22, 22, 22);
+    background-color: rgb(20, 20, 20);
 }
 mat-drawer{
     min-height: 100%;
@@ -8,12 +8,7 @@ mat-drawer{
 }
 button{
     width: 20%;
-    mat-icon{
-        margin-top: 1rem;
-        margin-right: 1rem;
-        font-size: 2rem;
-    }
-    
+    background-color: rgb(50,50,50);
 }
 .header{
     width: 100%;
@@ -29,7 +24,7 @@ button{
 .content{
     padding: 15px;
     color: white;
-    background-color: rgb(22, 22, 22);
+    background-color: rgb(20, 20, 20);
 }
 
 

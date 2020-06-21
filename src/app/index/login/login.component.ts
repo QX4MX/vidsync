@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
     }
 
-    async onSubmit() {
+    /* async onSubmit() {
         // TODO
         this.loginInvalid = false;
         this.formSubmitAttempt = false;
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
         } else {
             this.formSubmitAttempt = true;
         }
-    }
+    } */
 
     async googleLogin() {
         //TODO redirect / sidenav update

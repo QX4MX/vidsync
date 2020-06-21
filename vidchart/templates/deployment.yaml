@@ -29,17 +29,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: MONGODB_URI
-              valueFrom:
-                secretKeyRef:
-                  name: vidsync-env-var
-                  key: MONGODB_URI
-            - name: ytApi
-              valueFrom:
-                secretKeyRef:
-                  name: vidsync-env-var
-                  key: ytApi
+          envFrom:
+            - secretRef:
+                name: vidsync-env-var
           ports:
             - name: http
               containerPort: 4000

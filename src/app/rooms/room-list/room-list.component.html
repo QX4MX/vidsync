@@ -7,6 +7,9 @@
 </div>
 
 <div class="filterForm">
+    <button mat-raised-button (click)="readRoom()">
+        <mat-icon>refresh</mat-icon> Refresh List
+    </button>
     <mat-form-field>
         <input #searchVal matInput placeholder="Search" autocomplete="off" (keyup)="searchByName(searchVal.value)">
     </mat-form-field>

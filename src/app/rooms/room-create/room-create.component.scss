@@ -1,7 +1,7 @@
 form{
-    max-width: 40%;
-    min-width: 200px;
-    margin: 2em auto;
+    max-width: 50%;
+    min-width: 150px;
+    margin: auto;
     text-align: center;
     background-color: rgb(34,34,34);
     padding: 1rem;
@@ -14,12 +14,14 @@ mat-form-field{
 
 mat-button-toggle-group{
 	width: 100%;
-	margin-bottom: 1rem;
-	color: white;
-
+    color: white;
+    margin-bottom: 1rem;
 	.mat-button-toggle{
-		background-color: rgb(55, 55, 55);
-		width: 50%;
+        background-color: rgb(55, 55, 55);
+        width: 50%;
+        min-width: fit-content;
+        
+
 	}
 }
 .mat-button-toggle-checked{

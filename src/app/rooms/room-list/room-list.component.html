@@ -15,6 +15,7 @@
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button [routerLink]="['/rooms/', room._id]"> Join Room</button>
+            <button mat-raised-button *ngIf="getOwnRooms" (click)="deleteRoom(room._id,i)"> Delete Room</button>
         </mat-card-actions>
     </mat-card>
 </div>

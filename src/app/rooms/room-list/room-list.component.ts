@@ -64,6 +64,20 @@ export class RoomListComponent implements OnInit {
 
     }
 
+    async deleteRoom(id, index) {
+        if (this.getOwnRooms && await this.authService.checkIfUserAuthenticated()) {
+            let val = await this.apiService.deleteRoom(id);
+            val.subscribe((data) => {
+                console.log(data);
+                let json = JSON.stringify(data);
+                var obj = JSON.parse(json);
+                if (obj.response == "Room deleted successfully") {
+                    this.rooms.splice(index, 1);
+                }
+            });
+        }
+    }
+
     routeToLogin() {
         this.router.navigate(['/login'], { queryParams: { returnUrl: 'rooms/private' } });
     }

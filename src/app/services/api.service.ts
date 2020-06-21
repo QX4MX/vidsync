@@ -82,12 +82,15 @@ export class ApiService {
         )
     }
 
-	/* deleteRoom(id): Observable<any> {
-	  let url = `${baseUrl}/api/room/${id}`;
-	  return this.http.delete(url, { headers: this.headers }).pipe(
-		catchError(this.errorMgmt)
-	  )
-	} */
+    async deleteRoom(id) {
+        if (await this.auth.checkIfUserAuthenticated()) {
+            const header = (this.auth.checkIfUserAuthenticated()) ? { Authorization: this.auth.getToken() } : undefined;
+            return this.http.delete(`${baseUrl}/api/room/${id}`, { headers: header }).pipe(
+                catchError(this.errorMgmt)
+            );
+        }
+        return null;
+    }
 
     // Error handling 
     errorMgmt(error: HttpErrorResponse) {

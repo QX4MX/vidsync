@@ -10,8 +10,7 @@ export class mongooseDB {
     private passwordHash: any;
 
     constructor() {
-        console.log(MONGODB_URI);
-        connect(MONGODB_URI, { useNewUrlParser: true });
+        connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
         this._db = connection;
         this._db.on('open', this.connected);
         this._db.on('error', this.error);

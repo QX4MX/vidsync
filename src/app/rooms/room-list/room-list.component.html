@@ -5,6 +5,10 @@
     </button>
     first.
 </div>
+<div *ngIf="rooms.length == 0">
+    Didnt Find any Rooms.
+</div>
+
 <div id="pubRooms">
     <mat-card class="room-card" *ngFor="let room of rooms; let i = index">
         <mat-card-header>

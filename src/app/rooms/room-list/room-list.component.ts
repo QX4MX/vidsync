@@ -19,7 +19,6 @@ export class RoomListComponent implements OnInit {
 
     constructor(private router: Router, private apiService: ApiService, private authService: AuthService, private titleService: Title, private socketService: SocketService, private ngZone: NgZone) {
         //TODO differanciate between own private rooms / public rooms (prob by url)
-        console.log(this.router.url);
         if (this.router.url === '/rooms/private') {
             this.getOwnRooms = true;
         }

@@ -7,16 +7,18 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 * make sure [node.js](https://nodejs.org/en/download/) is installed and added to path
 * `npm install`
 
-### launch on localhost
-Make sure Mongodb installed and running -> change mongodb url in (https://gitlab.com/QX4MX/vidsync-angular/blob/master/src/backend/api/dbUrl.ts)
-Also change mongodb url in (https://gitlab.com/QX4MX/vidsync-angular/blob/master/src/app/services/baseUrl.ts) to localhost:4000
-To Star Frontend Dev Run `ng serve`. 
+### deploy dev on localhost
+Make sure Mongodb installed and running
+
+Create an .env file with secrets (MONGODB_URI && ytApi)
+
+To Start Frontend Dev Run `ng serve`. 
 To Start Backend Dev Run `nodemon` && `tsc --watch`.
 
 Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 
-### build project files
+### build and start project files
 Option1
 * Run `ng build --prod` && `tsc`  to build the project. The build artifacts will be stored in the `dist/` directory.
 Option2
@@ -32,12 +34,24 @@ You can also use the specific commands which can be found in [package.json ](htt
 * `docker-compose up --build` to launch on localhost:4000
 
 
-## kubernetes with helm
+## deploy on kubernetes with helm
 * make sure kubernetes is setup, helm installed und vidchart values set
+
 * `helm install vidchart --val MONGODB_URI=$MY_MONGODB_URI url --val ytApi=$MY_YTAPI_KEY path-vidchart`
 or
 * `helm install vidchart -f secrets.yaml path-vidchart`
 
+which should look something like 
+----
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vidsync-env-var
+type: Opaque
+data:
+    MONGODB_URI: MY_MONGODB_URI (base64)
+    ytApi: MY_YTAPI_KEY (base64)
+----
 
 ## Running unit tests
 

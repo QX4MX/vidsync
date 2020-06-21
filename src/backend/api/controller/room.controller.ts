@@ -30,7 +30,6 @@ export class RoomController {
 
     public async createPrivateRoom(req: Request, res: Response): Promise<void> {
         req.body.privacy = 'Private';
-        console.log(res.locals.authUserName);
         req.body.creator = res.locals.authUserName;
         console.log("Api => Create Room ", req.body);
         const newRoom: IRoom = new Room(req.body);
@@ -45,8 +44,20 @@ export class RoomController {
     }
 
     public async deleteRoom(req: Request, res: Response): Promise<void> {
-        console.log("Api => Delete Room ", req.params.id);
-        await Room.findOneAndDelete({ roomId: req.params.id });
-        res.json({ response: "Room deleted successfully" });
+        await Room.findOneAndDelete({ _id: req.params.id, creator: res.locals.authUserName }, (err, resp) => {
+            if (resp) {
+                console.log("Api => " + res.locals.authUserName + " deleted Room " + req.params.id);
+                res.json({ response: "Room deleted successfully" });
+            }
+            else if (err) {
+                console.log("Api => Room NOT deleted" + req.params.id);
+                console.log(err);
+                res.json({ response: "Room not deleted" });
+            }
+            else {
+                console.log("Api => Room NOT deleted" + req.params.id);
+                res.json({ response: "Room NOT deleted" });
+            }
+        });
     }
 }

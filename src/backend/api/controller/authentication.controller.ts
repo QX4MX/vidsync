@@ -39,7 +39,7 @@ export class AuthController {
 
         if (token === null || token === undefined) {
             res.status(201).send({ success: false, message: "Captcha Token is empty or invalid" })
-            return console.log("token empty");
+            return res.status(201).json({ status: "error", code: "captcha failed" });
         }
         else {
             request(url, function (err, response, body) {
@@ -48,7 +48,7 @@ export class AuthController {
                 //check if the validation failed
                 if (body.success !== undefined && !body.success) {
                     console.log(" Captcha failed");
-                    return res.status(body.statusCode).json({ status: "error", code: "captcha failed" });
+                    return res.status(201).json({ status: "error", code: "captcha failed" });
 
                 }
                 else {

@@ -28,10 +28,9 @@ export class RoomController {
         res.json({ status: res.status, data: newRoom });
     }
 
-    public async createPrivateRoom(req: Request, res: Response): Promise<void> {
-        req.body.privacy = 'Private';
+    public async createOwnRoom(req: Request, res: Response): Promise<void> {
         req.body.creator = res.locals.authUserName;
-        console.log("Api => Create Room ", req.body);
+        console.log("Api => " + req.body.creator + "create Room ", req.body);
         const newRoom: IRoom = new Room(req.body);
         await newRoom.save();
         res.json({ status: res.status, data: newRoom });

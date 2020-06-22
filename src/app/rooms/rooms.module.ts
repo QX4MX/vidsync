@@ -24,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 
 
@@ -35,6 +36,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         CommonModule,
         RoomsRoutingModule,
         YouTubePlayerModule,
+        RecaptchaModule,
+        RecaptchaFormsModule,
         FormsModule,
         MatInputModule,
         ReactiveFormsModule,
@@ -48,7 +51,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MatIconModule,
         MatListModule,
         MatTabsModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
     ]
 })
 export class RoomsModule { }

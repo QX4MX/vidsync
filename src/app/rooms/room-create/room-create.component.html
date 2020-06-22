@@ -1,7 +1,7 @@
 <form [formGroup]="createRoom" (ngSubmit)="onSubmit()">
     <!-- Name -->
-    <mat-form-field class="example-full-width">
-        <input matInput placeholder="Name" formControlName="name" autocomplete="off">
+    <mat-form-field>
+        <input matInput placeholder="Name" formControlName="name" autocomplete="off" required>
         <mat-error *ngIf="!createRoom.valid">
             Name Cant Be Empty
         </mat-error>
@@ -25,6 +25,12 @@
         first
 
     </mat-error>
+    <div class="recaptcha">
+        <re-captcha (resolved)="resolved($event)" siteKey="6LdR-KcZAAAAAHE0XeXkhYql-aEdmnt65OI_J9um" theme="dark"
+            required size="compact"></re-captcha>
+    </div>
+
+
     <!-- Submit -->
     <div class="submit">
         <button mat-raised-button>Create Room</button>

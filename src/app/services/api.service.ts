@@ -25,13 +25,14 @@ export class ApiService {
         return null;
     }
     // Create
-    async createRoom(data) {
+    async createRoom(data, recaptchaToken) {
         if (await this.auth.checkIfUserAuthenticated()) {
             const header = (this.auth.checkIfUserAuthenticated()) ? { Authorization: this.auth.getToken() } : undefined;
             return this.http.post(`${baseUrl}/api/room/create`, data, { headers: header }).pipe(catchError(this.errorMgmt));
         }
         else {
-            return this.http.post(`${baseUrl}/api/room`, data).pipe(catchError(this.errorMgmt));
+            const header = (true) ? { Authorization: recaptchaToken } : undefined;
+            return this.http.post(`${baseUrl}/api/room`, data, { headers: header }).pipe(catchError(this.errorMgmt));
         }
     }
 

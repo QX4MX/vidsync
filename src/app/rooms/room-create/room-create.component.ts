@@ -1,11 +1,12 @@
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-import { Component, OnInit, NgZone } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Component, OnInit, NgZone, Renderer2, Inject } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { Title } from '@angular/platform-browser';
 import { SocketService } from 'src/app/services/socket.service';
 import { json } from 'express';
 import { AuthService } from 'src/app/services/auth.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
     selector: 'app-room-create',
@@ -17,8 +18,10 @@ export class RoomCreateComponent implements OnInit {
 
     selected = 'option1';
     submitted = false;
+    formError = '';
     createRoom: FormGroup;
     authenticated: boolean;
+    captchaResponse: any;
 
     constructor(
         public fb: FormBuilder,
@@ -27,11 +30,10 @@ export class RoomCreateComponent implements OnInit {
         private apiService: ApiService,
         private authService: AuthService,
         private titleService: Title,
-        private socketService: SocketService
+        private socketService: SocketService,
     ) {
         this.mainForm();
         this.titleService.setTitle("vidsync - Create Room");
-        socketService.socket.emit('leave');
     }
 
     async ngOnInit() {
@@ -42,6 +44,7 @@ export class RoomCreateComponent implements OnInit {
         this.createRoom = this.fb.group({
             name: ['', [Validators.required]],
             privacy: ['Public', [Validators.required]],
+            recaptchaReactive: [null, [Validators.required]]
         })
     }
 
@@ -49,6 +52,12 @@ export class RoomCreateComponent implements OnInit {
     get myForm() {
         return this.createRoom.controls;
     }
+
+    async resolved(captchaResponse: string) {
+        this.captchaResponse = captchaResponse;
+        console.log("Resolved captcha with response");
+    }
+
     async setAuthenticated() {
         if (await this.authService.checkIfUserAuthenticated()) {
             this.authenticated = true;
@@ -61,7 +70,8 @@ export class RoomCreateComponent implements OnInit {
 
     async onSubmit() {
         this.submitted = true;
-        if (!this.createRoom.valid) {
+        let roomVal = this.createRoom.value
+        if (!this.createRoom.valid && !this.captchaResponse) {
             console.log("Not Valid");
             return false;
         }
@@ -80,7 +90,7 @@ export class RoomCreateComponent implements OnInit {
                 );
             }
             else {
-                await (await this.apiService.createRoom(this.createRoom.value)).subscribe(
+                await (await this.apiService.createRoom({ name: this.createRoom.value.name, privacy: this.createRoom.value.privacy }, this.captchaResponse)).subscribe(
                     (res) => {
                         console.log('Room successfully created!')
                         let json = JSON.stringify(res);

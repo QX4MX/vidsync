@@ -3,15 +3,82 @@ html, body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     height: 100%;
     margin: 0;
-    background-color: rgb(22, 22, 22);
+    background-color: rgb(20, 20, 20);
 }
+
 app-root{
     height: 100%;
 }
 
+.mat-toolbar{
+    color: white;
+    background-color: rgb(20, 20, 20);
+}
+
+.mat-drawer{
+    color: white;
+    background-color: rgb(20, 20, 20);
+}
+
+.mat-drawer-container{
+    color: white;
+    background-color: rgb(30, 30, 30);
+}
+
+.content{
+    color: white;
+    background-color: rgb(30, 30, 30);
+}
+
 button{
-    margin-left: 5px;
+    background-color: rgb(60, 60, 60);
     color: white !important;
-    background-color: rgb(55, 55, 55);
+    min-width: fit-content;   
+}
+
+.mat-raised-button{
+    background-color: rgb(80, 80, 80) !important;
+}
+
+.mat-flat-button{
+    background-color: rgb(80, 80, 80) !important;
+}
+
+
+
+.mat-button-toggle{
+    background-color: rgb(60, 60, 60) !important;
+}
+
+.mat-button-toggle-checked{
+    background-color: rgb(100, 100, 100) !important;
+}
+
+.mat-button-toggle-disabled{
+    background-color: rgb(30, 30, 30) !important;
+}
+
+
+.mat-card{
+    background-color: rgb(40, 40, 40);
+    color: white;
+}
+
+
+.dark{
+    background-color: rgb(40, 40, 40) !important;
+}
+.light{
+    background-color: rgb(100, 100, 100) !important;
+}
+
+.mat-form-field-label {
+	/*change color of label*/
+	color: rgb(100, 100, 100) !important;
+}
+  
+.mat-form-field-underline {
+	/*change color of underline*/
+    background-color: rgb(80, 80, 80) !important;
 }
 

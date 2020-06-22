@@ -19,14 +19,14 @@
     </mat-button-toggle-group>
     <mat-error *ngIf=" !authenticated">
         Private Rooms require you to
-        <button (click)="routeToLogin()">
+        <button mat-flat-button (click)="routeToLogin()">
             Login
         </button>
         first
 
     </mat-error>
     <!-- Submit -->
-    <div class="button-wrapper">
-        <button mat-raised-button color="primary">Submit</button>
+    <div class="submit">
+        <button mat-raised-button>Create Room</button>
     </div>
 </form>

@@ -1,28 +1,5 @@
-::ng-deep .mat-form-field-label {
-	/*change color of label*/
-	color: rgb(100, 100, 100) !important;
-}
-  
-::ng-deep.mat-form-field-underline {
-	/*change color of underline*/
-	background-color: rgb(100, 100, 100) !important;
-}
 
 button{
-    background-color: rgb(100, 100, 100);
-    color: white;
     margin-left: 1rem;
     margin-right: 1rem;
-    a{
-        text-decoration: none;
-        color: white;
-
-    }
-}
-
-mat-list{
-    mat-list-item{
-        color: white;
-    }
-
 }

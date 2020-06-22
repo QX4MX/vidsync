@@ -1,33 +1,21 @@
 mat-drawer-container{
     height: 100%;
-    background-color: rgb(20, 20, 20);
 }
 mat-drawer{
     min-height: 100%;
-    background-color: rgb(40, 40, 40);
 }
 button{
     width: 20%;
-    background-color: rgb(50,50,50);
 }
 .header{
     width: 100%;
     display: inline-flex;
-    mat-icon{
-        color: white;
-    }
     app-header{
         width: 100%;
     }
-    
 }
 .content{
     padding: 15px;
-    color: white;
-    background-color: rgb(20, 20, 20);
 }
-
-
-
 @media only screen and (max-width: 1440px) {
 }

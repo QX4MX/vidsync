@@ -1,42 +1,31 @@
 form{
+    background-color: rgb(40, 40, 40);
     max-width: 50%;
     min-width: 150px;
     margin: auto;
     text-align: center;
-    background-color: rgb(34,34,34);
     padding: 1rem;
 }
 
 mat-form-field{
 	display: block;
-	color: white;
+}
+
+.submit{
+    margin-top: 2rem;
+    button{
+        height: 4rem;
+    }
 }
 
 mat-button-toggle-group{
 	width: 100%;
-    color: white;
     margin-bottom: 1rem;
 	.mat-button-toggle{
-        background-color: rgb(55, 55, 55);
         width: 50%;
-        min-width: fit-content;
-        
-
 	}
 }
-.mat-button-toggle-checked{
-	background-color: rgb(100, 100, 100) !important;
-}
 
-::ng-deep .mat-form-field-label {
-	/*change color of label*/
-	color: rgb(100, 100, 100) !important;
-}
-  
-::ng-deep.mat-form-field-underline {
-	/*change color of underline*/
-	background-color: rgb(100, 100, 100) !important;
-  } 
 
 @media only screen and (max-width: 1440px) {
 }

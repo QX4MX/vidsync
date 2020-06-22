@@ -8,8 +8,6 @@
 }
 
 .mat-card {
-    background-color: rgb(40, 40, 40);
-    color: white;
     width: 21%;
     margin: 1%;
     padding: 1%;
@@ -27,11 +25,6 @@
     
 }
 
-button{
-    background-color: rgb(60, 60, 60);
-    color: white;
-}
-
 .filterForm{
     text-align: center;
     mat-form-field, button{
@@ -39,15 +32,6 @@ button{
         margin-left: 1rem;
     }
 }
-::ng-deep .mat-form-field-label {
-	/*change color of label*/
-	color: rgb(100, 100, 100) !important;
-}
-  
-::ng-deep.mat-form-field-underline {
-	/*change color of underline*/
-	background-color: rgb(100, 100, 100) !important;
-  } 
 
 @media only screen and (max-width: 1024px) {
     .roomList{
@@ -60,8 +44,6 @@ button{
     }
     
     .mat-card {
-        background-color: rgb(40, 40, 40);
-        color: white;
         width: 90%;
         margin: 5%;
         padding: 5%;

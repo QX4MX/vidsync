@@ -27,6 +27,7 @@ export class AuthController {
                 });
             }
             else {
+                console.log(" Authentication failed");
                 return res.status(resp.statusCode).json({ status: "error", code: "unauthorized" });
             }
         });
@@ -38,8 +39,8 @@ export class AuthController {
         const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${token}&remoteip=${req.connection.remoteAddress}`;
 
         if (token === null || token === undefined) {
-            res.status(201).send({ success: false, message: "Captcha Token is empty or invalid" })
-            return res.status(201).json({ status: "error", code: "captcha failed" });
+            console.log(" Failed Captcha Token is empty or invalid");
+            res.status(201).send({ success: false, message: "Captcha Token is empty or invalid" });
         }
         else {
             request(url, function (err, response, body) {

@@ -12,3 +12,5 @@ if (!MONGODB_URI) {
 }
 
 export const ytApi = process.env.ytApi;
+
+export const recaptchaSecret = process.env.recaptchaSecret;

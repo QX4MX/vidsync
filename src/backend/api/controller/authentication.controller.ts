@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response, json } from "express";
+import * as request from 'request';
 import * as https from 'https';
+import { recaptchaSecret } from '../../util/secret';
+
 
 
 export class AuthController {
@@ -27,5 +30,35 @@ export class AuthController {
                 return res.status(resp.statusCode).json({ status: "error", code: "unauthorized" });
             }
         });
+    }
+
+    async verifyGoogleCaptchaToken(req: Request, res: Response, next: NextFunction) {
+        console.log("Api => Authenticate with Chaptcha-GoogleToken");
+        let token = req.headers.authorization;
+        const url = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${token}&remoteip=${req.connection.remoteAddress}`;
+
+        if (token === null || token === undefined) {
+            res.status(201).send({ success: false, message: "Captcha Token is empty or invalid" })
+            return console.log("token empty");
+        }
+        else {
+            request(url, function (err, response, body) {
+                //the body is the data that contains success message
+                body = JSON.parse(body);
+                //check if the validation failed
+                if (body.success !== undefined && !body.success) {
+                    console.log(" Captcha failed");
+                    return res.status(body.statusCode).json({ status: "error", code: "captcha failed" });
+
+                }
+                else {
+                    //if passed response success message to client
+                    console.log(" Captcha success");
+                    return next();
+                }
+            })
+        }
+
+
     }
 }

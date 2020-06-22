@@ -12,9 +12,6 @@
         <mat-button-toggle value="Public">Public</mat-button-toggle>
         <mat-button-toggle value="Private" (click)="setAuthenticated()" [disabled]="!authenticated">
             Private
-            <span *ngIf=" !authenticated">
-                (disabled)
-            </span>
         </mat-button-toggle>
     </mat-button-toggle-group>
     <mat-error *ngIf=" !authenticated">

@@ -25,22 +25,21 @@ export class ApiService {
         return null;
     }
     // Create
-    createRoom(data): Observable<any> {
-        let url = `${baseUrl}/api/room`;
-        return this.http.post(url, data)
-            .pipe(
-                catchError(this.errorMgmt)
-            )
-    }
-
-    async createPrivateRoom(data): Promise<Observable<any>> {
-        let url = `${baseUrl}/api/room/private`;
+    async createRoom(data) {
         if (await this.auth.checkIfUserAuthenticated()) {
             const header = (this.auth.checkIfUserAuthenticated()) ? { Authorization: this.auth.getToken() } : undefined;
-            return this.http.post(url, data, { headers: header })
-                .pipe(
-                    catchError(this.errorMgmt)
-                )
+            return this.http.post(`${baseUrl}/api/room/create`, data, { headers: header }).pipe(catchError(this.errorMgmt));
+        }
+        else {
+            return this.http.post(`${baseUrl}/api/room`, data).pipe(catchError(this.errorMgmt));
+        }
+    }
+
+    async createPrivateRoom(data) {
+        let url = `${baseUrl}/api/room/create`;
+        if (await this.auth.checkIfUserAuthenticated()) {
+            const header = (this.auth.checkIfUserAuthenticated()) ? { Authorization: this.auth.getToken() } : undefined;
+            return this.http.post(url, data, { headers: header }).pipe(catchError(this.errorMgmt))
         }
         return null;
     }

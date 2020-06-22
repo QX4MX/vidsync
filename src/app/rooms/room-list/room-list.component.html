@@ -26,14 +26,23 @@
 <div class="roomList">
     <mat-card class="room-card" *ngFor="let room of searchResults; let i = index">
         <mat-card-header>
-            <mat-card-title>{{room.name}}</mat-card-title>
+            <mat-card-title>
+                {{room.name}}
+                <span *ngIf="authenticated && room.creator == authenticatedUserName">
+                    (Your Room)
+                </span>
+            </mat-card-title>
         </mat-card-header>
         <img mat-card-image src='https://img.youtube.com/vi/{{room.video}}/hqdefault.jpg' alt="Video Thumbnail">
         <mat-card-content>
+            <p *ngIf="room.creator != null">{{room.creator}}</p>
+            <p *ngIf="authenticated && getOwnRooms">{{room.privacy}}</p>
+            <p>{{room.created_date}}</p>
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button [routerLink]="['/rooms/', room._id]"> Join Room</button>
-            <button mat-raised-button *ngIf="getOwnRooms" (click)="deleteRoom(room._id,i)"> Delete Room</button>
+            <button mat-raised-button *ngIf="authenticated && room.creator == authenticatedUserName"
+                (click)="deleteRoom(room._id,i)"> Delete Room</button>
         </mat-card-actions>
     </mat-card>
 </div>

@@ -80,7 +80,7 @@ export class RoomCreateComponent implements OnInit {
                 );
             }
             else {
-                await this.apiService.createRoom(this.createRoom.value).subscribe(
+                await (await this.apiService.createRoom(this.createRoom.value)).subscribe(
                     (res) => {
                         console.log('Room successfully created!')
                         let json = JSON.stringify(res);

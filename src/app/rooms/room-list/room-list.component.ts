@@ -17,21 +17,25 @@ export class RoomListComponent implements OnInit {
     rooms: Array<Room> = [];
     searchResults: Array<Room> = [];
     authenticated: boolean;
+    authenticatedUserName: string;
 
     constructor(private router: Router, private apiService: ApiService, private authService: AuthService, private titleService: Title, private socketService: SocketService, private ngZone: NgZone) {
         //TODO differanciate between own private rooms / public rooms (prob by url)
         if (this.router.url === '/rooms/private') {
             this.getOwnRooms = true;
+            this.titleService.setTitle("vidsync - Own Rooms");
+        }
+        else {
+            this.titleService.setTitle("vidsync - Public Rooms");
         }
         this.readRoom();
-        console.log("Roomlist Called");
-        this.titleService.setTitle("vidsync - Public Rooms");
         socketService.socket.emit('leave');
     }
 
     async ngOnInit() {
         if (await this.authService.checkIfUserAuthenticated()) {
             this.authenticated = true;
+            this.authenticatedUserName = this.authService.user.getBasicProfile().getName();
         }
         else {
             this.authenticated = false;
@@ -52,6 +56,7 @@ export class RoomListComponent implements OnInit {
         }
         else if (this.getOwnRooms && !await this.authService.checkIfUserAuthenticated()) {
             this.authenticated = false;
+
         }
         else {
             let val = await this.apiService.getPublicRooms();
@@ -67,7 +72,7 @@ export class RoomListComponent implements OnInit {
     }
 
     async deleteRoom(id, index) {
-        if (this.getOwnRooms && await this.authService.checkIfUserAuthenticated()) {
+        if (await this.authService.checkIfUserAuthenticated()) {
             let val = await this.apiService.deleteRoom(id);
             val.subscribe((data) => {
                 console.log(data);

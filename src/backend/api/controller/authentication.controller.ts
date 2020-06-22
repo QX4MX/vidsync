@@ -21,7 +21,7 @@ export class AuthController {
                 });
                 resp.on('end', function () {
                     const data = JSON.parse(json);
-                    console.log("Authenticated : ", data.name);
+                    console.log(" Authenticated : ", data.name);
                     res.locals.authUserName = data.name;
                     return next();
                 });

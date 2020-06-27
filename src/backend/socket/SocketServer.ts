@@ -4,6 +4,7 @@ import { SocketEvent } from './SocketEvents';
 import { SocketRoom } from './SocketRoom';
 import { mongooseDB } from '../api/Database';
 import { youtubeapi } from '../ytapi';
+import { IRoom } from '../api/models/room';
 
 export class SocketServer {
     private io: SocketIO.Server;
@@ -22,7 +23,7 @@ export class SocketServer {
                             if (room.getUserCount() <= 0) {
                                 this.currentRooms.delete(key);
                             }
-                            this.io.to(key).emit(SocketEvent.GETUSERS, room.getUserCount());
+                            this.io.to(key).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
                         }
                     }
                 });
@@ -43,7 +44,7 @@ export class SocketServer {
                         room.userJoin(socket.id);
                         this.currentRooms.set(roomId, room);
                     }
-                    this.io.to(roomId).emit(SocketEvent.GETUSERS, room.getUserCount());
+                    this.io.to(roomId).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
                 });
             });
 
@@ -56,7 +57,7 @@ export class SocketServer {
                             if (room.getUserCount() <= 0) {
                                 this.currentRooms.delete(key);;
                             }
-                            this.io.to(key).emit(SocketEvent.GETUSERS, room.getUserCount());
+                            this.io.to(key).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
                         }
                     }
                 });
@@ -84,24 +85,16 @@ export class SocketServer {
                 let room = this.currentRooms.get(roomId);
                 if (room && (room.getLastUsed() + this.coolDownTime < Date.now())) {
                     this.io.to(roomId).emit(SocketEvent.SET_VID, nextVidId);
-                    this.io.to(roomId).emit(SocketEvent.ReadRoom, "Next!");
+                    this.io.to(roomId).emit(SocketEvent.UPDATEROOM, "Next!");
                     let room = this.currentRooms.get(roomId);
                     room.lastUsed = Date.now();
                 }
             });
-            // Should not be called atm
-            socket.on(SocketEvent.SYNCTIME, (roomId: string, time: number) => {
-                let room = this.currentRooms.get(roomId);
-                this.io.to(roomId).emit(SocketEvent.SYNCTIME, time);
-                if (room) {
-                    room.lastUsed = Date.now();
-                }
-            });
 
-            socket.on(SocketEvent.ReadRoom, (roomId: string, cause: string) => {
+            socket.on(SocketEvent.UPDATEROOM, (roomId: string, cause: string) => {
                 let room = this.currentRooms.get(roomId);
                 if (room && (room.getLastUsed() + this.coolDownTime < Date.now())) {
-                    this.io.to(roomId).emit(SocketEvent.ReadRoom, cause);
+                    this.io.to(roomId).emit(SocketEvent.UPDATEROOM, cause);
                     console.log(cause + " in " + roomId);
                 }
             });
@@ -121,16 +114,26 @@ export class SocketServer {
                 }
             });
 
-            socket.on(SocketEvent.searchYT, async (searchTerm: string) => {
+            socket.on(SocketEvent.YTSEARCH, async (searchTerm: string) => {
                 if (this.ytApi.ready) {
-                    socket.emit(SocketEvent.searchYT, await this.ytApi.searchKeyWord(searchTerm));
+                    socket.emit(SocketEvent.YTSEARCH, await this.ytApi.searchKeyWord(searchTerm));
                 }
             });
 
-            socket.on(SocketEvent.playlistVideos, async (searchTerm: string) => {
+            socket.on(SocketEvent.YTGETPLAYLIST, async (searchTerm: string) => {
                 if (this.ytApi.ready) {
-                    socket.emit(SocketEvent.playlistVideos, await this.ytApi.getPlaylistVideos(searchTerm));
+                    socket.emit(SocketEvent.YTGETPLAYLIST, await this.ytApi.getPlaylistVideos(searchTerm));
                 }
+            });
+
+            socket.on(SocketEvent.GETACTIVEROOMS, (rooms: Array<any>) => {
+                for (let room of rooms) {
+                    let current = this.currentRooms.get(room._id);
+                    if (current) {
+                        room.userCount = current.getUserCount();
+                    }
+                }
+                socket.emit(SocketEvent.GETACTIVEROOMS, rooms);
             });
         });
 

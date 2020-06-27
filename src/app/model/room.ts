@@ -3,6 +3,7 @@ export class Room {
     privacy: string
     creator: string;
     video: string;
+    userCount: number;
     queue: Array<string>;
     created_date: Date
 }

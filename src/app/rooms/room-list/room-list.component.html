@@ -23,6 +23,8 @@
         <mat-select>
             <mat-option (click)="sortByOldestDate()" value="oldestFirst">Show Oldest First</mat-option>
             <mat-option (click)="sortByNewestDate()" value="newestFirst"> Show Newest First </mat-option>
+            <mat-option (click)="sortByMostUserCount()" value="mostUserFirst"> Most Users First </mat-option>
+            <mat-option (click)="sortByLeastUserCount()" value="mostUserFirst"> Least Users First </mat-option>
         </mat-select>
     </mat-form-field>
 </div>
@@ -41,9 +43,10 @@
         </mat-card-header>
         <img mat-card-image src='https://img.youtube.com/vi/{{room.video}}/hqdefault.jpg' alt="Video Thumbnail">
         <mat-card-content>
-            <p *ngIf="room.creator != null">{{room.creator}}</p>
+            <p>
+                <mat-icon>person</mat-icon>{{room.userCount}}
+            </p>
             <p *ngIf="authenticated && getOwnRooms">{{room.privacy}}</p>
-            <p>{{room.created_date}}</p>
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button [routerLink]="['/rooms/', room._id]"> Join Room</button>

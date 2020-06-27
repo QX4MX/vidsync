@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { SocketService } from 'src/app/services/socket.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { SocketEvent } from 'src/app/Enums';
 
 @Component({
     selector: 'app-room-list',
@@ -30,6 +31,12 @@ export class RoomListComponent implements OnInit {
         }
         this.readRoom();
         socketService.socket.emit('leave');
+
+
+        socketService.socket.on(SocketEvent.GETACTIVEROOMS, (rooms: Array<Room>) => {
+            console.log(rooms);
+            this.searchResults = rooms;
+        });
     }
 
     async ngOnInit() {
@@ -52,6 +59,8 @@ export class RoomListComponent implements OnInit {
                 var obj = JSON.parse(json);
                 this.rooms = obj.rooms;
                 this.searchResults = this.rooms;
+                this.socketService.socket.emit(SocketEvent.GETACTIVEROOMS, this.searchResults);
+
             });
         }
         else if (this.getOwnRooms && !await this.authService.checkIfUserAuthenticated()) {
@@ -66,9 +75,10 @@ export class RoomListComponent implements OnInit {
                 var obj = JSON.parse(json);
                 this.rooms = obj.rooms;
                 this.searchResults = this.rooms;
+                this.socketService.socket.emit(SocketEvent.GETACTIVEROOMS, this.searchResults);
+
             });
         }
-
     }
 
     async deleteRoom(id, index) {
@@ -109,7 +119,15 @@ export class RoomListComponent implements OnInit {
         });
     }
 
-    sortByUserCount() {
-        //TODO
+    sortByMostUserCount() {
+        this.searchResults.sort((a: Room, b: Room) => {
+            return b.userCount - a.userCount;
+        });
+    }
+
+    sortByLeastUserCount() {
+        this.searchResults.sort((a: Room, b: Room) => {
+            return a.userCount - b.userCount;
+        });
     }
 }

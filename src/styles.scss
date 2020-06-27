@@ -109,10 +109,13 @@ button{
 }
 
 
-.mat-select{
-
+.mat-option.mat-active {
+    background: $selected !important;
 }
 
+.mat-option:hover:not(.mat-option-disabled) {
+    background: $dark !important;
+}
 .mat-option{
     background-color: $darker;
     &:hover{

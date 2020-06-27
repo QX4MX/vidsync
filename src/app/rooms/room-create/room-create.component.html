@@ -10,17 +10,16 @@
 
     <mat-button-toggle-group formControlName="privacy">
         <mat-button-toggle value="Public">Public</mat-button-toggle>
-        <mat-button-toggle value="Private" (click)="setAuthenticated()" [disabled]="!authenticated">
+        <mat-button-toggle value="Private" (click)="setAuthenticated()">
             Private
         </mat-button-toggle>
     </mat-button-toggle-group>
-    <mat-error *ngIf=" !authenticated">
+    <mat-error *ngIf=" !authenticated && createRoom.value.privacy == 'Private'">
         Private Rooms require you to
         <button mat-flat-button (click)="routeToLogin()">
             Login
         </button>
         first
-
     </mat-error>
     <div class="recaptcha">
         <re-captcha (resolved)="resolved($event)" siteKey="6LdR-KcZAAAAAHE0XeXkhYql-aEdmnt65OI_J9um" theme="dark"

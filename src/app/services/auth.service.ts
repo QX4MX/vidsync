@@ -12,8 +12,6 @@ export class AuthService {
     public error: string;
     public user: gapi.auth2.GoogleUser;
 
-    public isAuthenticated: boolean = false;
-
     jwtToken: any;
 
     constructor(private http: HttpClient) {

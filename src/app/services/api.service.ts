@@ -106,18 +106,26 @@ export class ApiService {
     }
 
     // Get all users
-    adminGetRooms(pw: string) {
-        return this.http.get(`${baseUrl}/api/admin/room`, {
-            params: {
-                pw: pw
-            }
-        });
+    async adminGetRooms() {
+        if (await this.auth.checkIfUserAuthenticated()) {
+            let url = `${baseUrl}/api/admin/`;
+            const header = (this.auth.checkIfUserAuthenticated()) ? { Authorization: this.auth.getToken() } : undefined;
+            return this.http.get(url, { headers: header }).pipe(catchError(this.errorMgmt));
+        }
+        else {
+            return null;
+        }
     }
 
-    adminDeleteRoom(id, pw): Observable<any> {
-        let url = `${baseUrl}/api/room/${id}`;
-        return this.http.delete(url, { headers: this.headers, params: { pw: pw } }).pipe(
-            catchError(this.errorMgmt)
-        )
+    async adminDeleteRoom(id): Promise<Observable<any>> {
+        if (await this.auth.checkIfUserAuthenticated()) {
+            let url = `${baseUrl}/api/admin/rooms/${id}`;
+            const header = (this.auth.checkIfUserAuthenticated()) ? { Authorization: this.auth.getToken() } : undefined;
+            return this.http.delete(url, { headers: header }).pipe(catchError(this.errorMgmt));
+        }
+        else {
+            return null;
+        }
+
     }
 }

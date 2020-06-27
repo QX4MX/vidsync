@@ -59,4 +59,30 @@ export class RoomController {
             }
         });
     }
+
+    public async adminGetRooms(req: Request, res: Response): Promise<void> {
+        console.log("ADMIN => Get Rooms");
+        const rooms = await Room.find();
+        res.json({ rooms });
+    }
+
+    public async adminDeleteRoom(req: Request, res: Response): Promise<void> {
+        console.log(req.params.id);
+        await Room.findOneAndDelete({ _id: req.params.id }, (err, resp) => {
+            if (resp) {
+                console.log("ADMIN => Deleted Room " + req.params.id);
+                res.json({ response: "Room deleted successfully" });
+            }
+            else if (err) {
+                console.log("ADMIN => Room NOT deleted " + req.params.id + " " + err);
+                console.log(err);
+                res.json({ response: "Room NOT deleted" });
+            }
+            else {
+                console.log("ADMIN => Room NOT deleted " + req.params.id);
+                res.json({ response: "Room NOT deleted" });
+            }
+        });
+    }
+
 }

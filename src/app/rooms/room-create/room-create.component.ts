@@ -44,7 +44,6 @@ export class RoomCreateComponent implements OnInit {
         this.createRoom = this.fb.group({
             name: ['', [Validators.required]],
             privacy: ['Public', [Validators.required]],
-            recaptchaReactive: [null, [Validators.required]]
         })
     }
 

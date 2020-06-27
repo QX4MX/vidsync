@@ -67,7 +67,6 @@ export class RoomController {
     }
 
     public async adminDeleteRoom(req: Request, res: Response): Promise<void> {
-        console.log(req.params.id);
         await Room.findOneAndDelete({ _id: req.params.id }, (err, resp) => {
             if (resp) {
                 console.log("ADMIN => Deleted Room " + req.params.id);

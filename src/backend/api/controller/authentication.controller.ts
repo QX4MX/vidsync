@@ -95,9 +95,13 @@ export class AuthController {
                     resp.on('end', function () {
                         const data = JSON.parse(json);
                         let email: string = data.email;
-                        if (ADMINS.includes(email.toLowerCase())) {
+                        if (ADMINS.includes(email)) {
                             console.log(" ADMIN authenticated: ", data.name);
                             return next();
+                        }
+                        else {
+                            console.log(" Authentication failed");
+                            res.status(201).send({ success: false, message: "unauthorized" });
                         }
                     });
                 }

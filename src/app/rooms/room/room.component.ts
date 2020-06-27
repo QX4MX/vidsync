@@ -74,7 +74,7 @@ export class RoomComponent implements OnInit {
 
     updateRoom(cause: string) {
         this.apiService.updateRoom(this.roomId, this.roomData).subscribe((res) => {
-            this.roomSocket.socket.emit(SocketEvent.ReadRoom, this.roomId, cause);
+            this.roomSocket.socket.emit(SocketEvent.UPDATEROOM, this.roomId, cause);
         }, (error) => {
             console.log(error);
         });
@@ -133,7 +133,7 @@ export class RoomComponent implements OnInit {
 
 
     searchYT(searchYTVal) {
-        this.roomSocket.socket.emit(SocketEvent.searchYT, searchYTVal);
+        this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchYTVal);
     }
 
     addPlaylistToQueue() {
@@ -148,7 +148,7 @@ export class RoomComponent implements OnInit {
     searchYTPlaylist(searchYTVal) {
         let playlistId = this.checkUrlForParam(searchYTVal, 'list');
         console.log(playlistId);
-        this.roomSocket.socket.emit(SocketEvent.playlistVideos, playlistId);
+        this.roomSocket.socket.emit(SocketEvent.YTGETPLAYLIST, playlistId);
     }
 
     sendMsg(msg: string) {

@@ -36,10 +36,10 @@ export class RoomComponentSocket {
         });
 
         //Room Ctrl
-        this.socket.on(SocketEvent.GETUSERS, (userAmmount: number) => {
+        this.socket.on(SocketEvent.GETUSERCOUNT, (userAmmount: number) => {
             room.onlineCount = userAmmount;
         })
-        this.socket.on(SocketEvent.ReadRoom, (cause: string) => {
+        this.socket.on(SocketEvent.UPDATEROOM, (cause: string) => {
             room.readRoom(cause);
         });
 
@@ -63,7 +63,7 @@ export class RoomComponentSocket {
 
         });
 
-        this.socket.on(SocketEvent.searchYT, (result: string[][]) => {
+        this.socket.on(SocketEvent.YTSEARCH, (result: string[][]) => {
             if (result) {
                 console.log(result);
                 room.results = result;
@@ -76,7 +76,7 @@ export class RoomComponentSocket {
             }
         });
 
-        this.socket.on(SocketEvent.playlistVideos, (result: string[][]) => {
+        this.socket.on(SocketEvent.YTGETPLAYLIST, (result: string[][]) => {
             if (result) {
                 room.results = result;
             }

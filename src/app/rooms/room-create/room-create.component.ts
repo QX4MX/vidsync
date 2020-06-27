@@ -71,7 +71,7 @@ export class RoomCreateComponent implements OnInit {
     async onSubmit() {
         this.submitted = true;
         let roomVal = this.createRoom.value
-        if (!this.createRoom.valid && !this.captchaResponse) {
+        if (!this.createRoom.valid || !this.captchaResponse) {
             console.log("Not Valid");
             return false;
         }

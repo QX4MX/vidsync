@@ -98,9 +98,14 @@ export class RoomListComponent implements OnInit {
         }
     }
 
-    sortByDate() {
+    sortByNewestDate() {
         this.searchResults.sort((a: Room, b: Room) => {
             return new Date(b.created_date).getTime() - new Date(a.created_date).getTime();
+        });
+    }
+    sortByOldestDate() {
+        this.searchResults.sort((a: Room, b: Room) => {
+            return new Date(a.created_date).getTime() - new Date(b.created_date).getTime();
         });
     }
 

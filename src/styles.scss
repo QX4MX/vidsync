@@ -49,6 +49,10 @@ button{
     } 
 }
 
+.mat-active{
+    background-color: $selected !important;
+}
+
 .mat-raised-button{
     background-color: $lighter !important;
 }
@@ -102,4 +106,16 @@ button{
 
 .mat-tab-header-pagination-chevron{
     border-color: $selected;
+}
+
+
+.mat-select{
+
+}
+
+.mat-option{
+    background-color: $darker;
+    &:hover{
+        background-color: $selected;
+    }
 }

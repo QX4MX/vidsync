@@ -16,9 +16,15 @@
     <button mat-raised-button (click)="searchByName(searchVal.value)">
         <mat-icon>search</mat-icon>
     </button>
-    <button mat-raised-button (click)="sortByDate()">
-        <mat-icon>sort</mat-icon>Show Newest First
-    </button>
+    <mat-form-field>
+        <mat-label>
+            <mat-icon>sort</mat-icon> Sort
+        </mat-label>
+        <mat-select>
+            <mat-option (click)="sortByNewestDate()" value="newestFirst"> Show Newest First </mat-option>
+            <mat-option (click)="sortByOldestDate()" value="oldestFirst">Show Oldest First</mat-option>
+        </mat-select>
+    </mat-form-field>
 </div>
 <div *ngIf="searchResults.length == 0">
     Didnt Find any Rooms.

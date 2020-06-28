@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: registry.gitlab.com/qx4mx/vidsync-angular
+  repository: registry.gitlab.com/qx4mx/vidsync
   tag: latest
   pullPolicy: Always
 

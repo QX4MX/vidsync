@@ -1,4 +1,4 @@
-[![pipeline status](https://gitlab.com/QX4MX/vidsync-angular/badges/master/pipeline.svg)](https://gitlab.com/QX4MX/vidsync-angular/pipelines)
+[![pipeline status](https://gitlab.com/QX4MX/vidsync/badges/master/pipeline.svg)](https://gitlab.com/QX4MX/vidsync/pipelines)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.3.
 ## local with node
@@ -27,7 +27,7 @@ Option2
 Once build
 * `npm run launch` will start node server http://localhost:4000/ 
 
-You can also use the specific commands which can be found in [package.json ](https://gitlab.com/QX4MX/vidsync-angular/blob/master/package.json) -> scripts
+You can also use the specific commands which can be found in [package.json ](https://gitlab.com/QX4MX/vidsync/blob/master/package.json) -> scripts
 
 ## local with docker
 * make sure docker is installed and added to path 

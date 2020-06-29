@@ -1,23 +1,18 @@
-# 1. specify docker-compose version
 version: "3.0"
-
-# 2. Defining the application containers to be run
 services:
-  #  2a. name of the application
   express:
-    # 2b. specify the directory of the application containing of the Dockerfile
+    #path to dockerfile
     build: .
     ports:
-      # 2c. specify ports mapping
       - "4000:4000"
-    image: qx4mx/vidsync2.0
+    # username/image-name
+    image: qx4mx/vidsync
+    #make sure .env file is created in root or use envoirment: - MONGO_URI = xxx ytApi = xxx instead
+    env_file:
+      - .env
     links:
-      # 2d. link this service to the database service
       - db
-  # 2e. name of the database service
   db:
-    # 2f. specify image to build container from mongo
     image: mongo
     ports:
-      # 2g. specify port mapping for the database
       - "27017:27017"

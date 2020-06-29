@@ -28,6 +28,17 @@ export class RoomController {
         res.json({ status: res.status, data: newRoom });
     }
 
+    public async createOneHourRoom(req: Request, res: Response) {
+        console.log("Api => Create Single HOUR Room ");
+        req.body.name = req.params.id;
+        req.body.privacy = 'Public';
+        req.body.video = req.params.id;
+        const newRoom: IRoom = new Room(req.body);
+        await newRoom.save();
+        setTimeout(async function () { await Room.findOneAndDelete({ _id: newRoom.id }) }, 3600000);
+        res.redirect('/rooms/' + newRoom.id);
+    }
+
     public async createOwnRoom(req: Request, res: Response): Promise<void> {
         req.body.creator = res.locals.authUserName;
         console.log("Api => " + req.body.creator + "create Room ", req.body);
@@ -83,5 +94,4 @@ export class RoomController {
             }
         });
     }
-
 }

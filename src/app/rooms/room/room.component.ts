@@ -31,6 +31,8 @@ export class RoomComponent implements OnInit {
     lastState: YT.PlayerState = YT.PlayerState.UNSTARTED;
 
     selectedIndex: number;
+    setVideoParam;
+    paramAdded = false;
 
     constructor(private apiService: ApiService,
         private authService: AuthService,
@@ -44,6 +46,8 @@ export class RoomComponent implements OnInit {
             this.roomId = params['id'];
         });
         this.roomSocket = new RoomComponentSocket(this.roomId, this, socketService.socket);
+        this.setVideoParam = this.route.snapshot.queryParams.setVideo;
+        console.log(this.setVideoParam);
     }
 
     ngOnInit() {
@@ -67,6 +71,10 @@ export class RoomComponent implements OnInit {
             this.roomData = data;
             this.openSnackBar(cause, "X", 1);
             this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
+            if (this.setVideoParam && !this.paramAdded) {
+                this.addToQueue(this.setVideoParam);
+                this.paramAdded = true;
+            }
             /* this.meta.updateTag({ name: 'og:image', content: 'https://img.youtube.com/vi/' + this.roomData.video + '/hqdefault.jpg' });
             this.meta.updateTag({ name: 'twitter:image', content: 'https://img.youtube.com/vi/' + this.roomData.video + '/hqdefault.jpg' }); */
         });

@@ -8,6 +8,7 @@ part of this project was generated with [Angular CLI](https://github.com/angular
 ### node deploy on localhost
 * make sure [node.js](https://nodejs.org/en/download/) is installed and added to path
 * make sure [Mongodb](https://docs.mongodb.com/manual/installation/) is installed and running
+* make sure [Angular Cli](https://angular.io/guide/setup-local) (`npm install -g @angular/cli`) is installed
 * create an .env file with secrets (MONGODB_URI && ytApi) in the root folder.
 ```
 MONGODB_URI = MY_MONGODB_URI

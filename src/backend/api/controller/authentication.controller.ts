@@ -1,45 +1,35 @@
 import { NextFunction, Request, Response, json } from "express";
 import * as request from 'request';
 import * as https from 'https';
-import { ADMINS, recaptchaSecret } from '../../util/secret';
-
+import { ADMIN, recaptchaSecret, jwtSecret } from '../../util/secret';
+import * as jwt from 'jsonwebtoken';
 
 
 export class AuthController {
     constructor() {
     }
 
-    async verifyGoogleToken(req: Request, res: Response, next: NextFunction) {
-        var json = "";
-        console.log("Api => Authenticate with GoogleToken");
+    async verifyJwtToken(req: Request, res: Response, next: NextFunction) {
+        console.log("Api => Authenticate with Token");
         let token = req.headers.authorization;
-        const url = `https://oauth2.googleapis.com/tokeninfo?id_token=${token}`;
-
-        if (token === null || token === undefined) {
+        if (!token || token == "undefined") {
             console.log(" Failed Token is empty or invalid");
-            res.status(201).send({ success: false, message: "Token is empty or invalid" });
+            res.status(201).send({ success: false, message: "no token" });
         }
         else {
-            res.locals.authUserName = null;
-            await https.get(url, (resp) => {
-                if (resp.statusCode == 200) {
-                    resp.on('data', function (d) {
-                        json += d.toString();
-
-                    });
-                    resp.on('end', function () {
-                        const data = JSON.parse(json);
-                        console.log(" Authenticated : ", data.name);
-                        res.locals.authUserName = data.name;
-                        return next();
-                    });
-                }
-                else {
-                    console.log(" Authentication failed");
+            await jwt.verify(token, jwtSecret, function (err, decoded) {
+                if (err) {
+                    console.log("JWT TOKEN NOT VALID");
                     res.status(201).send({ success: false, message: "unauthorized" });
                 }
+                else if (decoded) {
+                    console.log(" Authenticated : ", decoded.user.username);
+                    res.locals.token = token;
+                    res.locals.username = decoded.user.username;
+                    res.locals.password = decoded.user.password;
+                    return next();
+                }
             });
-
         }
 
     }
@@ -69,44 +59,30 @@ export class AuthController {
                 }
             })
         }
-
-
     }
 
     async verifyAdmin(req: Request, res: Response, next: NextFunction) {
-        var json = "";
-
-        console.log("Api => Authenticate ADMIN with GoogleToken");
+        console.log("Admin => Authenticate with Token");
         let token = req.headers.authorization;
-        const url = `https://oauth2.googleapis.com/tokeninfo?id_token=${token}`;
-
-        if (token === null || token === undefined) {
+        if (!token || token == "undefined") {
             console.log(" Failed Token is empty or invalid");
-            res.status(201).send({ success: false, message: "Token is empty or invalid" });
+            res.status(201).send({ success: false, message: "no token" });
         }
         else {
-            res.locals.authUserName = null;
-            await https.get(url, (resp) => {
-                if (resp.statusCode == 200) {
-                    resp.on('data', function (d) {
-                        json += d.toString();
-
-                    });
-                    resp.on('end', function () {
-                        const data = JSON.parse(json);
-                        let email: string = data.email;
-                        if (ADMINS.includes(email)) {
-                            console.log(" ADMIN authenticated: ", data.name);
-                            return next();
-                        }
-                        else {
-                            console.log(" Authentication failed");
-                            res.status(201).send({ success: false, message: "unauthorized" });
-                        }
-                    });
+            await jwt.verify(token, jwtSecret, function (err, decoded) {
+                if (err) {
+                    console.log("JWT TOKEN NOT VALID");
+                    res.status(201).send({ success: false, message: "unauthorized" });
+                }
+                else if (decoded && decoded.user.username.toString().toLowerCase() == ADMIN.toLowerCase()) {
+                    console.log(" Authenticated : ", decoded.user.username);
+                    res.locals.token = token;
+                    res.locals.username = decoded.user.username;
+                    res.locals.password = decoded.user.password;
+                    return next();
                 }
                 else {
-                    console.log(" Authentication failed");
+                    console.log("unauthorized");
                     res.status(201).send({ success: false, message: "unauthorized" });
                 }
             });

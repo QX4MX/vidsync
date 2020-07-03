@@ -5,7 +5,6 @@ import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms"
 import { Title } from '@angular/platform-browser';
 import { SocketService } from 'src/app/services/socket.service';
 import { json } from 'express';
-import { AuthService } from 'src/app/services/auth.service';
 import { DOCUMENT } from '@angular/common';
 
 @Component({
@@ -28,7 +27,6 @@ export class RoomCreateComponent implements OnInit {
         private router: Router,
         private ngZone: NgZone,
         private apiService: ApiService,
-        private authService: AuthService,
         private titleService: Title,
         private socketService: SocketService,
     ) {
@@ -58,7 +56,7 @@ export class RoomCreateComponent implements OnInit {
     }
 
     async setAuthenticated() {
-        if (await this.authService.checkIfUserAuthenticated()) {
+        if ((this.apiService.user)) {
             this.authenticated = true;
         }
         else {
@@ -77,27 +75,22 @@ export class RoomCreateComponent implements OnInit {
         else {
             if (this.createRoom.value.privacy == 'Private') {
                 await (await this.apiService.createPrivateRoom(this.createRoom.value)).subscribe(
-                    (res) => {
-                        console.log('Room successfully created!')
-                        let json = JSON.stringify(res);
-                        var obj = JSON.parse(json);
-                        this.ngZone.run(() => this.router.navigateByUrl('/rooms/' + obj.data._id));
-                    },
-                    (error) => {
-                        console.log(error);
+                    (res: any) => {
+                        if (res.success) {
+                            console.log('Room successfully created!')
+                            this.ngZone.run(() => this.router.navigateByUrl('/rooms/' + res.data._id));
+                        }
                     }
                 );
             }
             else {
                 await (await this.apiService.createRoom({ name: this.createRoom.value.name, privacy: this.createRoom.value.privacy }, this.captchaResponse)).subscribe(
-                    (res) => {
-                        console.log('Room successfully created!')
-                        let json = JSON.stringify(res);
-                        var obj = JSON.parse(json);
-                        this.ngZone.run(() => this.router.navigateByUrl('/rooms/' + obj.data._id));
-                    },
-                    (error) => {
-                        console.log(error);
+                    (res: any) => {
+                        if (res.success) {
+                            console.log('Room successfully created!')
+                            this.ngZone.run(() => this.router.navigateByUrl('/rooms/' + res.data._id));
+                        }
+
                     }
                 );
             }

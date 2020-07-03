@@ -4,7 +4,6 @@ import { Room } from 'src/app/model/room';
 import { Title } from '@angular/platform-browser';
 import { SocketService } from 'src/app/services/socket.service';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
 import { SocketEvent } from 'src/app/Enums';
 
 @Component({
@@ -20,7 +19,7 @@ export class RoomListComponent implements OnInit {
     authenticated: boolean;
     authenticatedUserName: string;
 
-    constructor(private router: Router, private apiService: ApiService, private authService: AuthService, private titleService: Title, private socketService: SocketService, private ngZone: NgZone) {
+    constructor(private router: Router, private apiService: ApiService, private titleService: Title, private socketService: SocketService, private ngZone: NgZone) {
         //TODO differanciate between own private rooms / public rooms (prob by url)
         if (this.router.url === '/rooms/private') {
             this.getOwnRooms = true;
@@ -40,9 +39,9 @@ export class RoomListComponent implements OnInit {
     }
 
     async ngOnInit() {
-        if (await this.authService.checkIfUserAuthenticated()) {
+        if (this.apiService.user) {
             this.authenticated = true;
-            this.authenticatedUserName = this.authService.user.getBasicProfile().getName();
+            this.authenticatedUserName = this.apiService.user.username;
         }
         else {
             this.authenticated = false;
@@ -50,39 +49,36 @@ export class RoomListComponent implements OnInit {
     }
 
     async readRoom() {
-        //TODO differanciate between own private rooms / public rooms (prob by url)
-        if (this.getOwnRooms && await this.authService.checkIfUserAuthenticated()) {
+        if (this.getOwnRooms && this.apiService.user) {
             let val = await this.apiService.getOwnRooms();
-            val.subscribe((data) => {
-                console.log(data);
-                let json = JSON.stringify(data);
-                var obj = JSON.parse(json);
-                this.rooms = obj.rooms;
-                this.searchResults = this.rooms;
-                this.socketService.socket.emit(SocketEvent.GETACTIVEROOMS, this.searchResults);
-
+            val.subscribe((res: any) => {
+                if (res.success) {
+                    console.log(res.data);
+                    this.rooms = res.data;
+                    this.searchResults = this.rooms;
+                    this.socketService.socket.emit(SocketEvent.GETACTIVEROOMS, this.searchResults);
+                }
             });
         }
-        else if (this.getOwnRooms && !await this.authService.checkIfUserAuthenticated()) {
+        else if (this.getOwnRooms && !(this.apiService.user)) {
             this.authenticated = false;
-
         }
         else {
             let val = await this.apiService.getPublicRooms();
-            val.subscribe((data) => {
-                console.log(data);
-                let json = JSON.stringify(data);
-                var obj = JSON.parse(json);
-                this.rooms = obj.rooms;
-                this.searchResults = this.rooms;
-                this.socketService.socket.emit(SocketEvent.GETACTIVEROOMS, this.searchResults);
+            val.subscribe((res: any) => {
+                if (res.success) {
+                    console.log(res.data);
+                    this.rooms = res.data;
+                    this.searchResults = this.rooms;
+                    this.socketService.socket.emit(SocketEvent.GETACTIVEROOMS, this.searchResults);
+                }
 
             });
         }
     }
 
     async deleteRoom(id, index) {
-        if (await this.authService.checkIfUserAuthenticated()) {
+        if ((this.apiService.user)) {
             let val = await this.apiService.deleteRoom(id);
             val.subscribe((data) => {
                 console.log(data);

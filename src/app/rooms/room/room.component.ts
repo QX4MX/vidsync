@@ -8,7 +8,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title, Meta } from '@angular/platform-browser';
 import { SocketService } from 'src/app/services/socket.service';
 import { RoomComponentSocket } from './room.component.socket';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-room',
@@ -34,8 +33,8 @@ export class RoomComponent implements OnInit {
     setVideoParam;
     paramAdded = false;
 
-    constructor(private apiService: ApiService,
-        private authService: AuthService,
+    constructor(
+        private apiService: ApiService,
         private route: ActivatedRoute,
         private _snackBar: MatSnackBar,
         private titleService: Title,
@@ -66,26 +65,28 @@ export class RoomComponent implements OnInit {
     }
 
     readRoom(cause: string) {
-        this.apiService.getRoom(this.roomId).subscribe((data) => {
-            console.log('Room loaded! ', data)
-            this.roomData = data;
-            this.openSnackBar(cause, "X", 1);
-            this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
-            if (this.setVideoParam && !this.paramAdded) {
-                this.addToQueue(this.setVideoParam);
-                this.paramAdded = true;
+        this.apiService.getRoom(this.roomId).subscribe((res) => {
+            if (res.success) {
+                console.log('Room loaded! ', res.data)
+                this.roomData = res.data;
+                this.openSnackBar(cause, "X", 1);
+                this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
+                if (this.setVideoParam && !this.paramAdded) {
+                    this.addToQueue(this.setVideoParam);
+                    this.paramAdded = true;
+                }
             }
-            /* this.meta.updateTag({ name: 'og:image', content: 'https://img.youtube.com/vi/' + this.roomData.video + '/hqdefault.jpg' });
-            this.meta.updateTag({ name: 'twitter:image', content: 'https://img.youtube.com/vi/' + this.roomData.video + '/hqdefault.jpg' }); */
         });
     }
 
+
     updateRoom(cause: string) {
-        this.apiService.updateRoom(this.roomId, this.roomData).subscribe((res) => {
-            this.roomSocket.socket.emit(SocketEvent.UPDATEROOM, this.roomId, cause);
-        }, (error) => {
-            console.log(error);
-        });
+        this.apiService.updateRoom(this.roomId, this.roomData).subscribe(
+            (res) => {
+                this.roomSocket.socket.emit(SocketEvent.UPDATEROOM, this.roomId, cause);
+            }, (error) => {
+                console.log(error);
+            });
     }
 
     onStateChange(event: YT.OnStateChangeEvent) {
@@ -155,13 +156,12 @@ export class RoomComponent implements OnInit {
 
     searchYTPlaylist(searchYTVal) {
         let playlistId = this.checkUrlForParam(searchYTVal, 'list');
-        console.log(playlistId);
         this.roomSocket.socket.emit(SocketEvent.YTGETPLAYLIST, playlistId);
     }
 
     sendMsg(msg: string) {
-        if (this.authService.user) {
-            this.roomSocket.socket.emit(SocketEvent.MSG, this.roomId, msg, this.authService.user.getBasicProfile().getName());
+        if (this.apiService.user) {
+            this.roomSocket.socket.emit(SocketEvent.MSG, this.roomId, msg, this.apiService.user.username);
         }
         else {
             this.roomSocket.socket.emit(SocketEvent.MSG, this.roomId, msg, '');

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, json } from "express";
 import * as request from 'request';
 import * as https from 'https';
-import { ADMIN, recaptchaSecret, jwtSecret } from '../../util/secret';
+import { ADMINPW, recaptchaSecret, jwtSecret } from '../../util/secret';
 import * as jwt from 'jsonwebtoken';
 
 
@@ -74,7 +74,7 @@ export class AuthController {
                     console.log("JWT TOKEN NOT VALID");
                     res.status(201).send({ success: false, message: "unauthorized" });
                 }
-                else if (decoded && decoded.user.username.toString().toLowerCase() == ADMIN.toLowerCase()) {
+                else if (ADMINPW && decoded && req.headers.pw && req.headers.pw == ADMINPW) {
                     console.log(" Authenticated : ", decoded.user.username);
                     res.locals.token = token;
                     res.locals.username = decoded.user.username;

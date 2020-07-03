@@ -1,13 +1,16 @@
 <head>
     <title>Admin</title>
 </head>
-<button mat-raised-button (click)="readRooms()">Get All Rooms</button>
+<mat-form-field>
+    <input matInput #pw type="password" placeholder="Password">
+</mat-form-field>
+<button mat-raised-button (click)="readRooms(pw.value)">Get All Rooms</button>
 
 <mat-list id="rooms">
     <mat-list-item *ngFor="let room of rooms; let i = index">
         Name: {{room.name}} |
         Privacy : {{room.privacy}} |
         <button mat-raised-button [routerLink]="['/rooms/', room._id]"> Join Room </button>
-        <button mat-raised-button (click)="removeRoom(room,i)"> Delete Room </button>
+        <button mat-raised-button (click)="removeRoom(pw.value,room,i)"> Delete Room </button>
     </mat-list-item>
 </mat-list>

@@ -19,9 +19,9 @@ export class AdminComponent implements OnInit {
 
     ngOnInit() { }
 
-    async readRooms() {
+    async readRooms(pw) {
         if (this.apiService.token) {
-            (await this.apiService.adminGetRooms()).subscribe((res: any) => {
+            (await this.apiService.adminGetRooms(pw)).subscribe((res: any) => {
                 if (res.success) {
                     this.rooms = res.data;
                 }
@@ -30,9 +30,9 @@ export class AdminComponent implements OnInit {
 
     }
 
-    async removeRoom(room, index) {
+    async removeRoom(pw, room, index) {
         if (this.apiService.token && window.confirm('Are you sure?')) {
-            (await this.apiService.adminDeleteRoom(room._id)).subscribe((res) => {
+            (await this.apiService.adminDeleteRoom(pw, room._id)).subscribe((res) => {
                 if (res.success && res.response == "Room deleted successfully") {
                     this.rooms.splice(index, 1);
                 }

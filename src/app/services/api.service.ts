@@ -114,10 +114,10 @@ export class ApiService {
     }
 
     // Get all users
-    async adminGetRooms() {
+    async adminGetRooms(pw) {
         let url = `${baseUrl}/api/admin/`;
         if (this.token) {
-            const header = { Authorization: this.token };
+            const header = { Authorization: this.token, pw: pw };
             return this.http.get(url, { headers: header });
         }
         else {
@@ -125,10 +125,10 @@ export class ApiService {
         }
     }
 
-    async adminDeleteRoom(id): Promise<Observable<any>> {
+    async adminDeleteRoom(pw, id): Promise<Observable<any>> {
         let url = `${baseUrl}/api/admin/rooms/${id}`;
         if (this.token) {
-            const header = { Authorization: this.token };
+            const header = { Authorization: this.token, pw: pw };
             return this.http.delete(url, { headers: header });
         }
         else {

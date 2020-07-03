@@ -1,8 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { async } from '@angular/core/testing';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
     selector: 'app-login',
@@ -20,13 +19,13 @@ export class LoginComponent implements OnInit {
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private authService: AuthService
+        private apiService: ApiService,
     ) {
         this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/rooms/public';
 
 
         this.form = this.fb.group({
-            username: ['', Validators.email],
+            username: ['', Validators.required],
             password: ['', Validators.required]
         });
 
@@ -34,42 +33,36 @@ export class LoginComponent implements OnInit {
     }
 
     async ngOnInit(): Promise<void> {
-        if (await this.authService.checkIfUserAuthenticated()) {
+        if (this.apiService.token && this.apiService.user) {
             console.log("Is Already Logged In");
             this.router.navigate([this.returnUrl]);
+        }
+        else if (this.apiService.token && !this.apiService.user) {
+            (await this.apiService.login(null)).subscribe((data: any) => {
+                if (data.success) {
+                    this.apiService.user = data.user;
+                    console.log(data);
+                    this.router.navigate([this.returnUrl]);
+                }
+            })
         }
 
     }
 
-    /* async onSubmit() {
-        // TODO
-        this.loginInvalid = false;
-        this.formSubmitAttempt = false;
+    async onSubmit() {
         if (this.form.valid) {
-            try {
-                const username = this.form.get('username').value;
-                const password = this.form.get('password').value;
-                await this.authService.login(username, password);
-            } catch (err) {
-                this.loginInvalid = true;
-            }
-        } else {
-            this.formSubmitAttempt = true;
-        }
-    } */
-
-    async googleLogin() {
-        //TODO redirect / sidenav update
-        await this.authService.googleLogin().then(
-            (success) => {
-                if (success) {
-                    console.log("LoggedIn");
+            (await this.apiService.login(this.form.value)).subscribe((data: any) => {
+                if (data.success) {
+                    this.apiService.user = data.user;
+                    this.apiService.token = data.token;
+                    localStorage.setItem('jwtToken', data.token.toString());
+                    console.log("Login Success");
                     this.router.navigate([this.returnUrl]);
                 }
                 else {
                     console.log("Login Failed");
                 }
-            }
-        );
+            });
+        }
     }
 }

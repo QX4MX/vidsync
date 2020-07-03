@@ -14,6 +14,11 @@ button{
         width: 100%;
     }
 }
+#sideNavToggleBtn{
+    position: absolute;
+    z-index: 100;
+    right: 0;
+}
 .content{
     padding: 15px;
 }

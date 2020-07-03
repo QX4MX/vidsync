@@ -1,9 +1,11 @@
 <mat-toolbar>
     <mat-toolbar-row>
-        <a mat-button [routerLink]="'/'" *ngIf="!smallScreen"><img src="favicon.ico" alt=""></a>
-        <a mat-button [routerLink]="'/'">
-            <h1>Vidsync</h1>
-        </a>
+        <div class="LogoAndTitle">
+            <a mat-button [routerLink]="'/'"><img src="favicon.ico" alt=""></a>
+            <a mat-button [routerLink]="'/'">
+                <h1>Vidsync</h1>
+            </a>
+        </div>
     </mat-toolbar-row>
 
 </mat-toolbar>

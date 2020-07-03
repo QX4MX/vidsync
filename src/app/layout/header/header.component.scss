@@ -1,5 +1,6 @@
-.menu-spacer{
+.LogoAndTitle{
     flex: 1 0 auto;
+    text-align: center;
 }
 img{
     height: 2rem;
@@ -8,5 +9,9 @@ img{
 @media only screen and (max-width: 1440px) {
     img{
         height: 1rem;
+    }
+    .LogoAndTitle{
+        flex: 1 0 auto;
+        text-align: left;
     }
 }

@@ -5,7 +5,7 @@
     <mat-drawer-content>
         <div class="header">
             <app-header></app-header>
-            <button mat-raised-button *ngIf="smallScreen" (click)="drawer.toggle()">
+            <button mat-raised-button id="sideNavToggleBtn" *ngIf="smallScreen" (click)="drawer.toggle()">
                 <mat-icon>menu</mat-icon>
             </button>
         </div>

@@ -17,8 +17,6 @@ export class SidenavComponent implements OnInit {
             this.username = this.authService.user.getBasicProfile().getName();
         } */
         if (this.apiService.user) {
-            console.log(this.apiService.user);
-            console.log(this.apiService.user.username);
             this.username = this.apiService.user.username;
         }
         else if (this.apiService.token) {

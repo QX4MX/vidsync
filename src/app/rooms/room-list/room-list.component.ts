@@ -33,7 +33,6 @@ export class RoomListComponent implements OnInit {
 
 
         socketService.socket.on(SocketEvent.GETACTIVEROOMS, (rooms: Array<Room>) => {
-            console.log(rooms);
             this.searchResults = rooms;
         });
     }
@@ -53,7 +52,6 @@ export class RoomListComponent implements OnInit {
             let val = await this.apiService.getOwnRooms();
             val.subscribe((res: any) => {
                 if (res.success) {
-                    console.log(res.data);
                     this.rooms = res.data;
                     this.searchResults = this.rooms;
                     this.socketService.socket.emit(SocketEvent.GETACTIVEROOMS, this.searchResults);
@@ -67,7 +65,6 @@ export class RoomListComponent implements OnInit {
             let val = await this.apiService.getPublicRooms();
             val.subscribe((res: any) => {
                 if (res.success) {
-                    console.log(res.data);
                     this.rooms = res.data;
                     this.searchResults = this.rooms;
                     this.socketService.socket.emit(SocketEvent.GETACTIVEROOMS, this.searchResults);

@@ -1,10 +1,10 @@
 export class Room {
+    id: string
     name: string
-    privacy: string
-    creator: string;
-    video: string;
-    userCount: number;
-    queue: Array<string>;
+    video: string
+    userCount: number
+    queue: Array<string>
+    creator: string
     created_date: Date
 }
 

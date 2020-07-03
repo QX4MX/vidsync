@@ -15,4 +15,6 @@ export const ytApi = process.env.ytApi;
 
 export const recaptchaSecret = process.env.recaptchaSecret;
 
-export const ADMINS = process.env.ADMINS.split(' ');
+export const ADMIN = process.env.ADMIN;
+
+export const jwtSecret = process.env.jwtSecret;

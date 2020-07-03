@@ -4,6 +4,7 @@ import * as bcrypt from "bcrypt";
 export interface IUser extends Document {
     username: string;
     password: string;
+    created_date: Date;
 }
 
 export const userSchema: Schema = new Schema({

@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title, Meta } from '@angular/platform-browser';
 import { SocketService } from 'src/app/services/socket.service';
 import { RoomComponentSocket } from './room.component.socket';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
     selector: 'app-room',
@@ -193,5 +194,9 @@ export class RoomComponent implements OnInit {
 
     selectTab(index: number): void {
         this.selectedIndex = index;
+    }
+
+    onTabChange(event: MatTabChangeEvent) {
+        this.selectedIndex = event.index;
     }
 }

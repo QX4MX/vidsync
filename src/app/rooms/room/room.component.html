@@ -29,7 +29,8 @@
         </div>
     </ng-template>
 
-    <mat-tab-group [ngStyle]="{'height.px': playerHeight}" [selectedIndex]="selectedIndex">
+    <mat-tab-group [ngStyle]="{'height.px': playerHeight}" [selectedIndex]="selectedIndex"
+        (selectedTabChange)="onTabChange($event)">
         <mat-tab label='Chat'>
             <mat-list id="chat-main" [ngStyle]="{'height.px': playerHeight-160}">
                 <mat-list-item *ngFor="let msg of messages; let i = index">

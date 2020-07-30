@@ -6,6 +6,14 @@
 
     <ng-template #addVideoFirst>
         <div id="addFirstVideo">
+            <h1>Invite a friend</h1>
+            <textarea matInput rows="1" [(ngModel)]="roominvite" readonly></textarea>
+            <button mat-raised-button [cdkCopyToClipboard]="roominvite"
+                (click)="this.openSnackBar('Copied to Clipboard', 'X', 1);">
+                <mat-icon>content_copy</mat-icon> Copy
+            </button>
+
+
             <h1>Add a Video to Start</h1>
             <form>
                 <mat-form-field>

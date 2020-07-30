@@ -34,6 +34,7 @@ export class RoomComponent implements OnInit {
     lastSearch: number = Date.now();
     setVideoParam;
     paramAdded = false;
+    roominvite: string;
 
     constructor(
         private apiService: ApiService,
@@ -49,6 +50,7 @@ export class RoomComponent implements OnInit {
         this.roomSocket = new RoomComponentSocket(this.roomId, this, socketService.socket);
         this.setVideoParam = this.route.snapshot.queryParams.setVideo;
         console.log(this.setVideoParam);
+        this.roominvite = window.location.toString();
     }
 
     ngOnInit() {

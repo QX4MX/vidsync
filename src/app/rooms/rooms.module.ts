@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+
+import { ClipboardModule } from '@angular/cdk/clipboard';
 // Youtube
 import { YouTubePlayerModule } from "@angular/youtube-player";
 //Routing
@@ -52,6 +54,8 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
         MatListModule,
         MatTabsModule,
         MatProgressSpinnerModule,
+        ClipboardModule
+
     ]
 })
 export class RoomsModule { }

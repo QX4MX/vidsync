@@ -31,6 +31,7 @@ export class RoomComponent implements OnInit {
     lastState: YT.PlayerState = YT.PlayerState.UNSTARTED;
 
     selectedIndex: number;
+    lastSearch: number = Date.now();
     setVideoParam;
     paramAdded = false;
 
@@ -143,7 +144,12 @@ export class RoomComponent implements OnInit {
 
 
     searchYT(searchYTVal) {
-        this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchYTVal);
+        // 1 sec cooldown
+        if (this.lastSearch < Date.now() - 1000) {
+            this.lastSearch = Date.now();
+            this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchYTVal);
+        }
+
     }
 
     addPlaylistToQueue() {

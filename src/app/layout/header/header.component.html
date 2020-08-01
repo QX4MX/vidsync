@@ -1,18 +1,14 @@
 <mat-toolbar>
     <mat-toolbar-row>
-        <div class="LogoAndTitle">
-            <a mat-button [routerLink]="'/'"><img src="favicon.ico" alt=""></a>
-            <a mat-button [routerLink]="'/'">
-                <h1>Vidsync</h1>
-            </a>
-        </div>
-        <div>
-            <a mat-button [routerLink]="'/profile'">
+        <a id="logo" mat-button [routerLink]="'/'"><img src="favicon.ico" alt="">
+            Vidsync
+        </a>
+        <span style="flex: 1;"></span>
+        <div id="menu">
+            <a mat-button (click)="openUserInfo()">
                 <mat-icon>account_circle</mat-icon>
             </a>
-        </div>
-        <div>
-            <a mat-button [routerLink]="'/settings'">
+            <a mat-button (click)="openSettings()">
                 <mat-icon>settings</mat-icon>
             </a>
         </div>

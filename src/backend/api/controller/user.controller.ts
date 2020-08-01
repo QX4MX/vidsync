@@ -11,6 +11,7 @@ export class UserController {
         console.log("Api => Register");
         const newUser: IUser = new User();
         let user = await newUser.save();
+        console.log(user.id);
         let token = jwt.sign({ user }, jwtSecret, { expiresIn: '30d' });
         console.log("Success : user created");
         let returnUser = {
@@ -18,7 +19,6 @@ export class UserController {
             created_date: user.created_date,
         }
         res.status(200).send({ success: true, token: token, user: returnUser });
-
     }
 
     public async getUser(req: Request, res: Response) {

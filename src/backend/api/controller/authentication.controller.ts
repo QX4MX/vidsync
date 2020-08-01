@@ -26,7 +26,7 @@ export class AuthController {
                     console.log(" Authenticated : ", decoded.user.username);
                     res.locals.token = token;
                     res.locals.username = decoded.user.username;
-                    res.locals.id = decoded.user.id;
+                    res.locals.id = decoded.user._id;
                     return next();
                 }
             });

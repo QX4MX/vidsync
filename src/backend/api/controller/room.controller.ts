@@ -9,7 +9,7 @@ export class RoomController {
     }
 
     public async createRoom(req: Request, res: Response): Promise<void> {
-        console.log("Api => Create Room ", req.body);
+        console.log("Api => Create Room ");
         req.body.creatorid = res.locals.id;
         const newRoom: IRoom = new Room(req.body);
         await newRoom.save();

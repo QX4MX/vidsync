@@ -12,13 +12,8 @@ export class RoomRoutes {
     }
 
     routes() {
-        this.router.get("/", this.roomController.getPublicRooms);
-        this.router.get("/create/:id", this.roomController.createOneHourRoom);
-        this.router.get("/private", this.authController.verifyJwtToken, this.roomController.getOwnRooms);
+        this.router.post("/", this.authController.verifyJwtToken, this.roomController.createRoom);
         this.router.get("/:id", this.roomController.getRoom);
-        this.router.post("/", this.authController.verifyGoogleCaptchaToken, this.roomController.createRoom);
-        this.router.post("/create", this.authController.verifyJwtToken, this.roomController.createOwnRoom);
         this.router.put("/:id", this.roomController.updateRoom);
-        this.router.delete("/:id", this.authController.verifyJwtToken, this.roomController.deleteRoom);
     }
 }

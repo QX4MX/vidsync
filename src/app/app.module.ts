@@ -5,10 +5,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutModule } from './layout/layout.module';
-import { RoomsModule } from './rooms/rooms.module';
 import { HttpClientModule } from '@angular/common/http';
-import { AdminModule } from './admin/admin.module';
-import { IndexModule } from './index/index.module';
+import { MainModule } from './main/main.module';
 
 
 const routes: Routes = [
@@ -29,9 +27,7 @@ const routes: Routes = [
         HttpClientModule,
         RouterModule.forRoot(routes),
         LayoutModule,
-        IndexModule,
-        RoomsModule,
-        AdminModule
+        MainModule
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -10,7 +10,6 @@ export class RoomComponentSocket {
 
         // VidCtrl
         this.socket.on(SocketEvent.PLAY, () => {
-            console.log("test");
             if (room.lastState != YT.PlayerState.PLAYING) {
                 room.youtubePlayer.playVideo();
                 console.log("play");

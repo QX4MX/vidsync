@@ -74,7 +74,7 @@ export class RoomComponent implements OnInit {
                 console.log('Room loaded! ', res.data)
                 this.roomData = res.data;
                 this.openSnackBar(cause, "X", 1);
-                this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
+                //this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
                 if (this.setVideoParam && !this.paramAdded) {
                     this.addToQueue(this.setVideoParam);
                     this.paramAdded = true;

@@ -5,7 +5,7 @@
     </youtube-player>
 
     <ng-template #addVideoFirst>
-        <div id="addFirstVideo">
+        <div id="addFirstVideo" class="bg-dark">
             <h1>Invite a friend</h1>
             <textarea matInput rows="1" [(ngModel)]="roominvite" readonly></textarea>
             <button mat-raised-button [cdkCopyToClipboard]="roominvite"

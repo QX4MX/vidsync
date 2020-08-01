@@ -6,6 +6,9 @@ import { IndexComponent } from './index/index.component';
 import { RoomComponent } from './room/room.component';
 import { DiscordComponent } from './discord/discord.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { JoinComponent } from './join/join.component';
+import { SettingsComponent } from './settings/settings.component';
+import { UserinfoComponent } from './userinfo/userinfo.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -19,11 +22,14 @@ import { MatInputModule } from '@angular/material/input'
 import { MatCardModule } from '@angular/material/card'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 
 
 @NgModule({
-    declarations: [IndexComponent, RoomComponent, DiscordComponent, PrivacyComponent],
+    declarations: [IndexComponent, RoomComponent, DiscordComponent, PrivacyComponent, JoinComponent, SettingsComponent, UserinfoComponent],
     imports: [
         CommonModule,
         MainRoutingModule,
@@ -38,6 +44,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatCardModule,
         MatProgressSpinnerModule,
         MatSnackBarModule,
+        MatBottomSheetModule,
+        MatMenuModule,
         ClipboardModule,
     ]
 })

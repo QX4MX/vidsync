@@ -37,4 +37,26 @@ export class UserController {
         }
 
     }
+
+    public async updateUser(req: Request, res: Response) {
+        console.log("Api => UpdateUser");
+        let user = await User.findOneAndUpdate({ _id: res.locals.id }, req.body, { new: true }, (err, user) => {
+            if (err) {
+                console.log("Something wrong when updating data!");
+            }
+            else if (!user) {
+                console.log("Failed : doesnt exist");
+                res.status(201).send({ success: false, message: "Not Valid" });
+            }
+            else {
+                let token = jwt.sign({ user }, jwtSecret, { expiresIn: '30d' });
+                let returnUser = {
+                    username: user.username,
+                    created_date: user.created_date,
+                }
+                res.status(200).send({ success: true, token: token, user: returnUser });
+            }
+        });
+    }
+
 }

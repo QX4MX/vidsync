@@ -13,7 +13,7 @@ export class RoomRoutes {
 
     routes() {
         this.router.get("/create", this.authController.verifyJwtToken, this.roomController.createRoom);
-        this.router.get("/:id", this.roomController.getRoom);
-        this.router.put("/:id", this.roomController.updateRoom);
+        this.router.get("/:id", this.authController.verifyJwtToken, this.roomController.getRoom);
+        this.router.put("/:id", this.authController.verifyJwtToken, this.roomController.updateRoom);
     }
 }

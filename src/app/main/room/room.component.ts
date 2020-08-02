@@ -71,7 +71,6 @@ export class RoomComponent implements OnInit {
     readRoom(cause: string) {
         this.apiService.getRoom(this.roomId).subscribe((res) => {
             if (res.success) {
-                console.log('Room loaded! ', res.data)
                 this.roomData = res.data;
                 this.openSnackBar(cause, "X", 1);
                 //this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
@@ -94,7 +93,6 @@ export class RoomComponent implements OnInit {
     }
 
     onStateChange(event: YT.OnStateChangeEvent) {
-        console.log(event.data);
         if (event.data == YT.PlayerState.PLAYING) {
             this.roomSocket.socket.emit(SocketEvent.PLAY, this.roomId, this.youtubePlayer.getCurrentTime());
         }

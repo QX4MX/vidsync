@@ -12,7 +12,6 @@ export class MainLayoutComponent implements OnInit {
     smallScreen = true;
     navPosition = 'end';
     constructor(private socketService: SocketService) {
-        console.log('Main layout constructor called');
         socketService.socket.emit('leave');
     }
 

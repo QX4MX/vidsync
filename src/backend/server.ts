@@ -9,7 +9,6 @@ import { youtubeapi } from './ytapi';
 import { UserRoutes } from './api/routes/user.route';
 import { SocketServer } from './socket/SocketServer';
 import { PORT } from './util/secret';
-import { AdminRoutes } from './api/routes/admin.route';
 
 
 class AppServer {
@@ -22,7 +21,6 @@ class AppServer {
 
     private apiroomRoutes: RoomRoutes;
     private apiuserRoutes: UserRoutes;
-    private apiadminRoutes: AdminRoutes;
 
 
 
@@ -49,7 +47,6 @@ class AppServer {
     private routes() {
         this.app.use("/api/user", new UserRoutes().router);
         this.app.use("/api/room", new RoomRoutes().router);
-        this.app.use("/api/admin", new AdminRoutes().router);
         this.app.use('/', express.static(path.join(__dirname, '../../../frontend')));
         this.app.use('/**', express.static(path.join(__dirname, '../../../frontend')));
     }

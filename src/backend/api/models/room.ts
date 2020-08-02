@@ -1,20 +1,14 @@
 import { Document, Schema, Model, model, Error } from 'mongoose';
 
 export interface IRoom extends Document {
-    name: String;
     video: String;
     queue: Array<String>;
-    privacy: String;
     userCount: number;
-    creator: String;
+    creatorid: string;
     created_date: Date;
 }
 
 export const roomSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
     video: {
         type: String,
     },
@@ -22,14 +16,11 @@ export const roomSchema = new Schema({
         type: Array,
         default: new Array()
     },
-    privacy: {
-        type: String,
-    },
     userCount: {
         type: Number,
         default: 0
     },
-    creator: {
+    creatorid: {
         type: String
     },
     created_date: {

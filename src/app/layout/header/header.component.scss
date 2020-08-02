@@ -1,17 +1,13 @@
-.LogoAndTitle{
-    flex: 1 0 auto;
+#logo{
+    margin-left: 1rem;
     text-align: center;
-}
-img{
-    height: 2rem;
+    font-size: larger;
+    img{
+        height: 2rem;
+    }
+    
 }
 
 @media only screen and (max-width: 1440px) {
-    img{
-        height: 1rem;
-    }
-    .LogoAndTitle{
-        flex: 1 0 auto;
-        text-align: left;
-    }
+
 }

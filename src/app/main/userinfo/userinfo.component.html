@@ -1,0 +1,11 @@
+<div>
+    <form>
+        <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input #usernameval matInput autocomplete="off" value="{{username}}">
+        </mat-form-field>
+        <button mat-raised-button (click)="updateUsername(usernameval.value)">
+            <mat-icon>playlist_add</mat-icon> Update
+        </button>
+    </form>
+</div>

@@ -16,89 +16,79 @@ export class ApiService {
         console.log("Expecting Api at " + baseUrl + "/api");
         this.headers.set('Content-Type', 'application/json');
         this.token = localStorage.getItem('jwtToken');
-    }
-
-    async register(data) {
-        return this.http.post(`${baseUrl}/api/user/`, data);
-    }
-
-    async login(data) {
         if (this.token) {
-            const header = { Authorization: this.token };
-            return this.http.get(`${baseUrl}/api/user/auth`, { headers: header });
+            this.getProfile();
         }
-        return this.http.post(`${baseUrl}/api/user/login`, data);
+        else {
+            this.createToken();
+        }
     }
 
-    logout() {
-        localStorage.removeItem('jwtToken');
-        this.user = null;
-        this.token = null;
-        if (localStorage.getItem('jwtToken') == null) {
-            return true;
-        }
-        return false;
+    async createToken() {
+        this.http.get(`${baseUrl}/api/user/new`).subscribe((res: any) => {
+            this.token = res.token;
+            localStorage.setItem('jwtToken', res.token);
+            console.log("First");
+        });
     }
 
     async getProfile() {
         if (this.token) {
             const header = { Authorization: this.token };
-            return this.http.get(`${baseUrl}/api/user/auth`, { headers: header });
+            this.http.get(`${baseUrl}/api/user/auth`, { headers: header }).subscribe((res: any) => {
+                if (res.success) {
+                    this.token = res.token;
+                    localStorage.setItem('jwtToken', res.token);
+                    this.user = res.user;
+                }
+                else {
+                    this.createToken();
+                }
+            });
         }
-        return null;
     }
+
+    async updateUser(data: any) {
+        if (this.token) {
+            let url = `${baseUrl}/api/user/update`;
+            const header = { Authorization: this.token };
+            this.http.put(url, data, { headers: header }).subscribe((res: any) => {
+                if (res.success) {
+                    console.log(res.user);
+                    this.token = res.token;
+                    localStorage.setItem('jwtToken', res.token);
+                    this.user = res.user;
+                }
+            });
+        }
+    }
+
     // Create
-    async createRoom(data, recaptchaToken) {
+    async createRoom() {
         if (this.token) {
             const header = { Authorization: this.token };
-            return this.http.post(`${baseUrl}/api/room/create`, data, { headers: header }).pipe(catchError(this.errorMgmt));
-        }
-        else {
-            const header = (true) ? { Authorization: recaptchaToken } : undefined;
-            return this.http.post(`${baseUrl}/api/room`, data, { headers: header }).pipe(catchError(this.errorMgmt));
+            return this.http.get(`${baseUrl}/api/room/create`, { headers: header });
         }
     }
 
-    async createPrivateRoom(data) {
-        let url = `${baseUrl}/api/room/create`;
-        if (this.token) {
-            const header = { Authorization: this.token };
-            return this.http.post(url, data, { headers: header }).pipe(catchError(this.errorMgmt))
-        }
-        return null;
-    }
-
-    async getPublicRooms() {
-        return this.http.get(`${baseUrl}/api/room`);
-    }
-
-    async getOwnRooms() {
-        if (this.token) {
-            const header = { Authorization: this.token };
-            return this.http.get(`${baseUrl}/api/room/private`, { headers: header });
-        }
-        return null;
-    }
-
-    // Get user
     getRoom(id): Observable<any> {
-        console.log("get room " + id);
-        let url = `${baseUrl}/api/room/${id}`;
-        return this.http.get(url, { headers: this.headers });
-    }
-
-    // Update user
-    updateRoom(id, data): Observable<any> {
-        let url = `${baseUrl}/api/room/${id}`;
-        return this.http.put(url, data, { headers: this.headers });
-    }
-
-    async deleteRoom(id) {
         if (this.token) {
+            let url = `${baseUrl}/api/room/${id}`;
             const header = { Authorization: this.token };
-            return this.http.delete(`${baseUrl}/api/room/${id}`, { headers: header });
+            return this.http.get(url, { headers: header });
+        }
+
+    }
+
+
+    updateRoom(id, data): Observable<any> {
+        if (this.token) {
+            let url = `${baseUrl}/api/room/${id}`;
+            const header = { Authorization: this.token };
+            return this.http.put(url, data, { headers: header });
         }
     }
+
 
     // Error handling 
     errorMgmt(error: HttpErrorResponse) {
@@ -111,29 +101,5 @@ export class ApiService {
             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
         }
         return throwError(errorMessage);
-    }
-
-    // Get all users
-    async adminGetRooms(pw) {
-        let url = `${baseUrl}/api/admin/`;
-        if (this.token) {
-            const header = { Authorization: this.token, pw: pw };
-            return this.http.get(url, { headers: header });
-        }
-        else {
-            return null;
-        }
-    }
-
-    async adminDeleteRoom(pw, id): Promise<Observable<any>> {
-        let url = `${baseUrl}/api/admin/rooms/${id}`;
-        if (this.token) {
-            const header = { Authorization: this.token, pw: pw };
-            return this.http.delete(url, { headers: header });
-        }
-        else {
-            return null;
-        }
-
     }
 }

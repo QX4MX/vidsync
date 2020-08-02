@@ -13,8 +13,8 @@ export class UserRoutes {
         this.routes();
     }
     routes() {
-        this.router.post("/", this.userController.registerUser);
-        this.router.post("/login", this.userController.authenticateUser);
-        this.router.get("/auth", this.authController.verifyJwtToken, this.userController.authenticateUserWithToken);
+        this.router.get("/new", this.userController.newUser);
+        this.router.put("/update", this.authController.verifyJwtToken, this.userController.updateUser);
+        this.router.get("/auth", this.authController.verifyJwtToken, this.userController.getUser);
     }
 }

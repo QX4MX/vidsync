@@ -1,0 +1,122 @@
+#main{
+    display: flex;
+    youtube-player{
+        width: 70%;
+    }
+    mat-tab-group{
+        width: 30%;
+        padding-left: 1rem;
+    }
+    
+}
+
+::ng-deep.mat-tab-body-wrapper{
+    height: 100%;
+}
+
+#chat{
+    height: 100%;
+    &-main{
+        overflow: hidden;
+        padding-right: 17px;
+        mat-list-item{
+            height: fit-content;
+            
+        }
+        &:hover{
+            overflow-y: scroll;
+            padding-right: 0;
+            position: relative;
+            bottom: 0;
+        }
+    }
+    &-bot{
+        margin-top: 10px;
+        width: 100%;
+        .mat-form-field{
+            width: 90%;
+        }
+
+    }
+    
+}
+::ng-deep.mat-card{
+    border-radius: 0 !important;
+    &.msgCard{
+        padding: 0px !important;
+        width: 100%;
+        max-width: 100%;
+        color: white;
+        .msg{
+            padding: 10px;
+            overflow-wrap: break-word;
+        }
+
+    }
+}
+
+
+
+
+#queue,#searchResults{
+    mat-list-item{
+        height: 10%;
+        width: 80%;
+        margin: 10px 10% auto;
+        img{
+            width: 100%;
+        }
+        .btn-group{
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            right: 16px;
+        }
+        p{
+            z-index: 1;
+            position: absolute;
+            bottom: 0;
+            left: 16px;
+            color: white;
+        }
+    }
+}
+
+#vidInfo{
+    span{
+        font-size: larger;
+    }
+    mat-icon{
+        margin-left: 15px;
+        margin-right: 5px;
+        vertical-align: bottom;
+    }
+}
+#addFirstVideo{
+    width: 80%; 
+    text-align: center;
+}
+
+::ng-deep.mat-tab-label{
+    padding: 0 !important;
+    min-width: 100px !important;
+}
+
+mat-spinner{
+    margin: 10% 50% auto;
+}
+
+@media only screen and (max-width: 1024px) {
+    #main{
+        display: block;
+        youtube-player{
+            width: 100%;
+        }
+        mat-tab-group{
+            width: 100%;
+        }
+    }
+    #addFirstVideo{
+        width: 100%; 
+    }
+}

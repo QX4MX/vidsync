@@ -1,15 +1,7 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
 @import './scss/_variables.scss';
-
-$darkest : rgb(25,25,25);
-$darker : rgb(35,35,35);
-$dark: rgb(50,50,50);
-$light : rgb(65,65,65);
-$lighter : rgb(75,75,75);
-$lightest : rgb(85,85,85);
-
-
-$selected: rgb(200,50,50);
-
 
 
 html, body {
@@ -98,8 +90,6 @@ button{
     background-color: $lightest !important;
 }
 
-
-
 .mat-ink-bar{
     background-color: $selected !important;
 }
@@ -116,9 +106,18 @@ button{
 .mat-option:hover:not(.mat-option-disabled) {
     background: $dark !important;
 }
+
 .mat-option{
     background-color: $darker;
     &:hover{
         background-color: $selected;
     }
+}
+
+.mat-bottom-sheet-container{
+    background-color: $dark;
+}
+
+.bg-dark{
+    background-color: $dark;
 }

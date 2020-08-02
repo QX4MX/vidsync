@@ -2,18 +2,6 @@ import { Request, Response } from 'express';
 import { Room, IRoom } from '../models/room';
 export class RoomController {
 
-    public async getPublicRooms(req: Request, res: Response): Promise<void> {
-        console.log("Api => Get Public Rooms");
-        const rooms = await Room.find({ privacy: 'Public' });
-        res.json({ success: true, data: rooms });
-    }
-
-    public async getOwnRooms(req: Request, res: Response): Promise<void> {
-        console.log("Api => Get Own Rooms of ", res.locals.username);
-        const rooms = await Room.find({ creator: res.locals.username });
-        res.json({ success: true, data: rooms });
-    }
-
     public async getRoom(req: Request, res: Response): Promise<void> {
         console.log("Api => Get Room ", req.params.id);
         const room = await Room.findById(req.params.id);
@@ -21,27 +9,8 @@ export class RoomController {
     }
 
     public async createRoom(req: Request, res: Response): Promise<void> {
-        console.log("Api => Create Room ", req.body);
-        req.body.privacy = 'Public';
-        const newRoom: IRoom = new Room(req.body);
-        await newRoom.save();
-        res.json({ success: true, data: newRoom });
-    }
-
-    public async createOneHourRoom(req: Request, res: Response) {
-        console.log("Api => Create Single HOUR Room ");
-        req.body.name = req.params.id;
-        req.body.privacy = 'Public';
-        req.body.video = req.params.id;
-        const newRoom: IRoom = new Room(req.body);
-        await newRoom.save();
-        setTimeout(async function () { await Room.findOneAndDelete({ _id: newRoom.id }) }, 3600000);
-        res.redirect('/rooms/' + newRoom.id);
-    }
-
-    public async createOwnRoom(req: Request, res: Response): Promise<void> {
-        req.body.creator = res.locals.username;
-        console.log("Api => " + req.body.creator + "create Room ", req.body);
+        console.log("Api => Create Room ");
+        req.body.creatorid = res.locals.id;
         const newRoom: IRoom = new Room(req.body);
         await newRoom.save();
         res.json({ success: true, data: newRoom });
@@ -49,48 +18,12 @@ export class RoomController {
 
     public async updateRoom(req: Request, res: Response): Promise<void> {
         console.log("Api => Update Room ", req.params.id);
-        const room = await Room.findOneAndUpdate({ _id: req.params.id }, req.body);
-        res.json({ success: true, data: room });
-    }
-
-    public async deleteRoom(req: Request, res: Response): Promise<void> {
-        await Room.findOneAndDelete({ _id: req.params.id, creator: res.locals.username }, (err, resp) => {
-            if (resp) {
-                console.log("Api => " + res.locals.username + " deleted Room " + req.params.id);
-                res.json({ success: true, response: "Room deleted successfully" });
-            }
-            else if (err) {
-                console.log("Api => Room NOT deleted" + req.params.id);
+        const room = await Room.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, room) => {
+            if (err) {
                 console.log(err);
-                res.json({ success: false, response: "Room not deleted" });
             }
             else {
-                console.log("Api => Room NOT deleted" + req.params.id);
-                res.json({ success: false, response: "Room NOT deleted" });
-            }
-        });
-    }
-
-    public async adminGetRooms(req: Request, res: Response): Promise<void> {
-        console.log("ADMIN => Get Rooms");
-        const rooms = await Room.find();
-        res.json({ success: true, data: rooms });
-    }
-
-    public async adminDeleteRoom(req: Request, res: Response): Promise<void> {
-        await Room.findOneAndDelete({ _id: req.params.id }, (err, resp) => {
-            if (resp) {
-                console.log("ADMIN => Deleted Room " + req.params.id);
-                res.json({ success: true, response: "Room deleted successfully" });
-            }
-            else if (err) {
-                console.log("ADMIN => Room NOT deleted " + req.params.id + " " + err);
-                console.log(err);
-                res.json({ success: false, response: "Room NOT deleted" });
-            }
-            else {
-                console.log("ADMIN => Room NOT deleted " + req.params.id);
-                res.json({ success: false, response: "Room NOT deleted" });
+                res.json({ success: true, data: room });
             }
         });
     }

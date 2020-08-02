@@ -26,7 +26,9 @@ export class ApiService {
 
     async createToken() {
         this.http.get(`${baseUrl}/api/user/new`).subscribe((res: any) => {
-            this.token = localStorage.setItem('jwtToken', res.token);
+            this.token = res.token;
+            localStorage.setItem('jwtToken', res.token);
+            console.log("First");
         });
     }
 
@@ -35,11 +37,27 @@ export class ApiService {
             const header = { Authorization: this.token };
             this.http.get(`${baseUrl}/api/user/auth`, { headers: header }).subscribe((res: any) => {
                 if (res.success) {
-                    console.log(res.user);
+                    this.token = res.token;
+                    localStorage.setItem('jwtToken', res.token);
                     this.user = res.user;
                 }
                 else {
                     this.createToken();
+                }
+            });
+        }
+    }
+
+    async updateUser(data: any) {
+        if (this.token) {
+            let url = `${baseUrl}/api/user/update`;
+            const header = { Authorization: this.token };
+            this.http.put(url, data, { headers: header }).subscribe((res: any) => {
+                if (res.success) {
+                    console.log(res.user);
+                    this.token = res.token;
+                    localStorage.setItem('jwtToken', res.token);
+                    this.user = res.user;
                 }
             });
         }
@@ -54,15 +72,21 @@ export class ApiService {
     }
 
     getRoom(id): Observable<any> {
-        console.log("get room " + id);
-        let url = `${baseUrl}/api/room/${id}`;
-        return this.http.get(url, { headers: this.headers });
+        if (this.token) {
+            let url = `${baseUrl}/api/room/${id}`;
+            const header = { Authorization: this.token };
+            return this.http.get(url, { headers: header });
+        }
+
     }
 
 
     updateRoom(id, data): Observable<any> {
-        let url = `${baseUrl}/api/room/${id}`;
-        return this.http.put(url, data, { headers: this.headers });
+        if (this.token) {
+            let url = `${baseUrl}/api/room/${id}`;
+            const header = { Authorization: this.token };
+            return this.http.put(url, data, { headers: header });
+        }
     }
 
 

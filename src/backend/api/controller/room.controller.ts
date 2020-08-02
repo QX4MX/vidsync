@@ -18,7 +18,13 @@ export class RoomController {
 
     public async updateRoom(req: Request, res: Response): Promise<void> {
         console.log("Api => Update Room ", req.params.id);
-        const room = await Room.findOneAndUpdate({ _id: req.params.id }, req.body);
-        res.json({ success: true, data: room });
+        const room = await Room.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, room) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                res.json({ success: true, data: room });
+            }
+        });
     }
 }

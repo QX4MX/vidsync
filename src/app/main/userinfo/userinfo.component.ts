@@ -14,6 +14,11 @@ export class UserinfoComponent implements OnInit {
         this.username = this.apiService.user.username;
     }
 
+    updateUsername(newUsername: string) {
+        this.apiService.updateUser({ username: newUsername });
+        this._bottomSheetRef.dismiss();
+    }
+
     openLink(event: MouseEvent): void {
         this._bottomSheetRef.dismiss();
         event.preventDefault();

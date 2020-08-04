@@ -54,6 +54,16 @@
 
     }
 }
+#invite{
+    margin: 1rem;
+    #inviteTextArea{
+        max-width: 80%;
+        margin-left: 1rem;
+    }
+    button{
+        width: fit-content;
+    }
+}
 
 
 
@@ -118,5 +128,16 @@ mat-spinner{
     }
     #addFirstVideo{
         width: 100%; 
+    }
+
+    #invite{
+        width: 100%;
+        #inviteTextArea{
+            max-width: 80%;
+            margin-left: 1rem;
+        }
+        button{
+            width: fit-content;
+        }
     }
 }

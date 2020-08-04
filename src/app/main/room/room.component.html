@@ -6,14 +6,6 @@
 
     <ng-template #addVideoFirst>
         <div id="addFirstVideo" class="bg-dark">
-            <h1>Invite a friend</h1>
-            <textarea matInput rows="1" [(ngModel)]="roominvite" readonly></textarea>
-            <button mat-raised-button [cdkCopyToClipboard]="roominvite"
-                (click)="this.openSnackBar('Copied to Clipboard', 'X', 1);">
-                <mat-icon>content_copy</mat-icon> Copy
-            </button>
-
-
             <h1>Add a Video to Start</h1>
             <form>
                 <mat-form-field>
@@ -121,18 +113,22 @@
                 </mat-list-item>
             </mat-list>
         </mat-tab>
-
     </mat-tab-group>
 </div>
-<span id="onlineCount">
-    <mat-icon>person</mat-icon>
-    {{onlineCount}}
-</span>
-<div id="vidInfo" *ngIf="roomData && vidInfo">
+<div id="invite">
+    <button mat-raised-button [cdkCopyToClipboard]="roominvite"
+        (click)="this.openSnackBar('Copied to Clipboard', 'X', 1);">
+        <mat-icon>content_copy</mat-icon> Copy Invite Link
+    </button>
+    <input matInput rows="1" [(ngModel)]="roominvite" readonly id="inviteTextArea">
+
+</div>
+
+<!-- <div id="vidInfo" *ngIf="roomData && vidInfo">
     <mat-icon>remove_red_eye</mat-icon><span>{{vidInfo[4]}}</span>
     <mat-icon>thumb_up</mat-icon><span>{{vidInfo[5]}}</span>
     <mat-icon>thumb_down</mat-icon><span>{{vidInfo[6]}}</span>
-</div>
+</div> -->
 
 <ng-template #noroom>
     <mat-spinner></mat-spinner>

@@ -5,7 +5,6 @@ import { IndexComponent } from './index/index.component';
 import { DiscordComponent } from './discord/discord.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { RoomComponent } from './room/room.component';
-import { JoinComponent } from './join/join.component';
 
 
 const routes: Routes = [
@@ -17,7 +16,6 @@ const routes: Routes = [
             { path: 'discord', component: DiscordComponent },
             { path: 'privacy', component: PrivacyComponent },
             { path: 'room/:id', component: RoomComponent },
-            { path: 'join', component: JoinComponent },
 
         ]
     }

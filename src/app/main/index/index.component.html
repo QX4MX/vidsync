@@ -1,4 +1,16 @@
 <div class="buttons">
-    <button mat-raised-button (click)="createRoom()"> Create Room </button>
-    <button mat-raised-button [routerLink]="'/join'">Join a Room </button>
+    <button mat-raised-button (click)="createRoom()" id="create">
+        <h1> Create a Room </h1>
+    </button>
+
+    <form>
+        <h1>Join a Room</h1>
+        <mat-form-field>
+            <mat-label>e.g. https://vidsync.de/room/5ed63003d51f16148ad3a4cd </mat-label>
+            <input #inviteVal matInput autocomplete="off">
+        </mat-form-field>
+        <button mat-raised-button (click)="join(inviteVal.value)">
+            <mat-icon>arrow_forward</mat-icon> Join Room
+        </button>
+    </form>
 </div>

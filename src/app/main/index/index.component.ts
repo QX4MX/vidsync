@@ -28,4 +28,8 @@ export class IndexComponent implements OnInit {
             });
     }
 
+    join(link) {
+        window.location = link;
+    }
+
 }

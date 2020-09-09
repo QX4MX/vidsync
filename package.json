@@ -8,8 +8,8 @@
         "watch-node": "nodemon dist/out-tsc/src/backend/server.js",
         "build-ts": "tsc",
         "watch-ts": "tsc -w",
-        "ng-serve": "ng serve",
-        "ng-build": "ng build",
+        "ng-serve": "ng serve --open",
+        "ng-build": "ng build --prod",
         "ng-test": "ng test",
         "ng-e2e": "ng e2e"
     },

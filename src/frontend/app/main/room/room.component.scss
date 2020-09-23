@@ -13,6 +13,19 @@
 
 ::ng-deep.mat-tab-body-wrapper{
     height: 100%;
+    .addMoreWrapper{
+        width: 100%;
+        text-align: center;
+        .addMoreBtn{
+            padding: 1rem;
+            margin: 1rem auto;
+            text-align: center;
+        }
+        .mat-icon{
+            transform: scale(2);
+        }
+    }
+    
     form{
         text-align: center;
     }

@@ -12,7 +12,7 @@
                     <mat-label>Start Video Url/Id</mat-label>
                     <input #firstVidVal matInput autocomplete="off">
                 </mat-form-field>
-                <button mat-raised-button (click)="addToQueue(firstVidVal.value);selectTab(1);">
+                <button mat-raised-button (click)="addToQueue(firstVidVal.value);selectTab(1); addVideoShow = false;">
                     <mat-icon>playlist_add</mat-icon>
                 </button>
             </form>
@@ -50,38 +50,45 @@
             </form>
         </mat-tab>
         <mat-tab label="Queue">
-            
-            <p class="formdescribtion">Search for a Video on Youtube</p>
-            <form>
-                <mat-form-field>
-                    <mat-label>Search Youtube </mat-label>
-                    <input #searchVal matInput autocomplete="off">
-                </mat-form-field>
-                <button mat-raised-button (click)="searchYT(searchVal.value);">
-                    <mat-icon>youtube_searched_for</mat-icon>
+            <div class="addMoreWrapper">
+                <button *ngIf ="!addVideoShow" class="addMoreBtn"  mat-raised-button (click)="searchYT(searchVal.value);">
+                    <mat-icon>add_to_queue</mat-icon> 
                 </button>
-            </form>
-            <p  class="formdescribtion">Or add a Video directly via Url</p>
-            <form>
-                <mat-form-field>
-                    <mat-label>Video Id/Url</mat-label>
-                    <input #addVal matInput autocomplete="off">
-                </mat-form-field>
-                <button mat-raised-button (click)="addToQueue(addVal.value)">
-                    <mat-icon>playlist_add</mat-icon>
-                </button>
-            </form>
-            <p  class="formdescribtion">Or add a whole Youtube Playlist</p>
-            <form>
-                <mat-form-field>
-                    <mat-label>Playlist Url/Id </mat-label>
-                    <input #searchPlayListVal matInput autocomplete="off">
-                </mat-form-field>
-                <button mat-raised-button (click)="searchYTPlaylist(searchPlayListVal.value);">
-                    <mat-icon>youtube_searched_for</mat-icon>
-                </button>
+                Add more
+            </div>
+            <div *ngIf ="addVideoShow">
+                <p class="formdescribtion">Search for a Video on Youtube</p>
+                <form>
+                    <mat-form-field>
+                        <mat-label>Search Youtube </mat-label>
+                        <input #searchVal matInput autocomplete="off">
+                    </mat-form-field>
+                    <button mat-raised-button (click)="searchYT(searchVal.value);">
+                        <mat-icon>youtube_searched_for</mat-icon>
+                    </button>
+                </form>
+                <p  class="formdescribtion">Or add a Video directly via Url</p>
+                <form>
+                    <mat-form-field>
+                        <mat-label>Video Id/Url</mat-label>
+                        <input #addVal matInput autocomplete="off">
+                    </mat-form-field>
+                    <button mat-raised-button (click)="addToQueue(addVal.value)">
+                        <mat-icon>playlist_add</mat-icon>
+                    </button>
+                </form>
+                <p  class="formdescribtion">Or add a whole Youtube Playlist</p>
+                <form>
+                    <mat-form-field>
+                        <mat-label>Playlist Url/Id </mat-label>
+                        <input #searchPlayListVal matInput autocomplete="off">
+                    </mat-form-field>
+                    <button mat-raised-button (click)="searchYTPlaylist(searchPlayListVal.value);">
+                        <mat-icon>youtube_searched_for</mat-icon>
+                    </button>
 
-            </form>
+                </form>
+            </div>
             <mat-list id="queue" *ngIf="roomData.queue">
                 <mat-list-item *ngFor="let queueElem of roomData.queue; let i = index">
                     <img id='' class='card-img' src='https://img.youtube.com/vi/{{queueElem}}/hqdefault.jpg'>
@@ -97,14 +104,14 @@
             </mat-list>
         </mat-tab>
         <mat-tab label="Results" *ngIf="results">
-            <button mat-raised-button (click)="addPlaylistToQueue(); selectTab(1)">
+            <button mat-raised-button (click)="addPlaylistToQueue(); selectTab(1); addVideoShow = false;">
                 <mat-icon>playlist_add</mat-icon><span>Add all to Queue</span>
             </button>
             <mat-list id="searchResults">
                 <mat-list-item *ngFor="let resultElem of results; let i = index">
                     <img id='' class='card-img' src='https://img.youtube.com/vi/{{resultElem[0]}}/hqdefault.jpg'>
                     <div class="btn-group">
-                        <button mat-raised-button (click)="addToQueue(resultElem[0])">
+                        <button mat-raised-button (click)="addToQueue(resultElem[0]); selectTab(1); addVideoShow = false;">
                             <mat-icon>playlist_add</mat-icon>
                         </button>
                     </div>

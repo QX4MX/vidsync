@@ -35,6 +35,7 @@ export class RoomComponent implements OnInit {
     setVideoParam;
     paramAdded = false;
     roominvite: string;
+    addVideoShow = true;
 
     constructor(
         private apiService: ApiService,

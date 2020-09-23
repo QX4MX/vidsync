@@ -16,7 +16,7 @@ const routes: Routes = [
             { path: 'discord', component: DiscordComponent },
             { path: 'privacy', component: PrivacyComponent },
             { path: 'room/:id', component: RoomComponent },
-
+            { path: '**', redirectTo: '', pathMatch: 'full' }
         ]
     }
 ];

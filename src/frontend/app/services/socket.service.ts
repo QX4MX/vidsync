@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { SocketEvent } from '../Enums';
-import { baseUrl } from './baseUrl';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class SocketService {
-    //https://angular.vidsync.de
-    //http://localhost:4000
+    baseUrl;
     public socket: SocketIOClient.Socket;
     constructor() {
-        console.log("Connecting Socket at " + baseUrl);
-        this.socket = io.connect(baseUrl);
+        if(window.origin.includes("localhost")){
+            this.baseUrl = "http://localhost:4000";
+        }
+        else{
+            this.baseUrl = window.origin;
+        }
+        console.log(this.baseUrl);
+        console.log("Connecting Socket at " + this.baseUrl);
+
+        this.socket = io.connect(this.baseUrl);
     }
 }

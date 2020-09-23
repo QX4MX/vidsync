@@ -2,18 +2,24 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { baseUrl } from './baseUrl';
 import { User } from '../model/user';
 @Injectable({
     providedIn: 'root'
 })
 
 export class ApiService {
+    baseUrl = window.origin;
     headers = new HttpHeaders();
     user;
     token;
     constructor(private http: HttpClient) {
-        console.log("Expecting Api at " + baseUrl + "/api");
+        if(window.origin.includes("localhost")){
+            this.baseUrl = "http://localhost:4000";
+        }
+        else{
+            this.baseUrl = window.origin;
+        }
+        console.log("Expecting Api at " + this.baseUrl + "/api");
         this.headers.set('Content-Type', 'application/json');
         this.token = localStorage.getItem('jwtToken');
         if (this.token) {
@@ -25,7 +31,7 @@ export class ApiService {
     }
 
     async createToken() {
-        this.http.get(`${baseUrl}/api/user/new`).subscribe((res: any) => {
+        this.http.get(`${this.baseUrl}/api/user/new`).subscribe((res: any) => {
             this.token = res.token;
             localStorage.setItem('jwtToken', res.token);
             console.log("First");
@@ -35,7 +41,7 @@ export class ApiService {
     async getProfile() {
         if (this.token) {
             const header = { Authorization: this.token };
-            this.http.get(`${baseUrl}/api/user/auth`, { headers: header }).subscribe((res: any) => {
+            this.http.get(`${this.baseUrl}/api/user/auth`, { headers: header }).subscribe((res: any) => {
                 if (res.success) {
                     this.token = res.token;
                     localStorage.setItem('jwtToken', res.token);
@@ -50,7 +56,7 @@ export class ApiService {
 
     async updateUser(data: any) {
         if (this.token) {
-            let url = `${baseUrl}/api/user/update`;
+            let url = `${this.baseUrl}/api/user/update`;
             const header = { Authorization: this.token };
             this.http.put(url, data, { headers: header }).subscribe((res: any) => {
                 if (res.success) {
@@ -67,13 +73,13 @@ export class ApiService {
     async createRoom() {
         if (this.token) {
             const header = { Authorization: this.token };
-            return this.http.get(`${baseUrl}/api/room/create`, { headers: header });
+            return this.http.get(`${this.baseUrl}/api/room/create`, { headers: header });
         }
     }
 
     getRoom(id): Observable<any> {
         if (this.token) {
-            let url = `${baseUrl}/api/room/${id}`;
+            let url = `${this.baseUrl}/api/room/${id}`;
             const header = { Authorization: this.token };
             return this.http.get(url, { headers: header });
         }
@@ -83,7 +89,7 @@ export class ApiService {
 
     updateRoom(id, data): Observable<any> {
         if (this.token) {
-            let url = `${baseUrl}/api/room/${id}`;
+            let url = `${this.baseUrl}/api/room/${id}`;
             const header = { Authorization: this.token };
             return this.http.put(url, data, { headers: header });
         }

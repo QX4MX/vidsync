@@ -2,17 +2,14 @@
 {
     "extends": "./tsconfig.base.json",
     "compilerOptions": {
-        "outDir": "./dist/spec",
-        "types": [
-            "jasmine"
-        ]
+        "outDir": "./dist/",
+        "types": []
     },
     "files": [
-        "src/frontend/test.ts",
+        "src/frontend/main.ts",
         "src/frontend/polyfills.ts"
     ],
     "include": [
-        "src/**/*.spec.ts",
-        "src/**/*.d.ts"
+        "src/frontend/**/*.d.ts"
     ]
 }

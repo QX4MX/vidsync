@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { UserinfoComponent } from 'src/app/main/userinfo/userinfo.component';
+import { UserinfoComponent } from '../../main/userinfo/userinfo.component';
 
 @Component({
     selector: 'app-header',

@@ -1,6 +1,5 @@
-import { SocketEvent } from 'src/app/Enums';
+import { SocketEvent } from '../../Enums';
 import { RoomComponent } from './room.component';
-import { SocketService } from 'src/app/services/socket.service';
 
 export class RoomComponentSocket {
     socket: SocketIOClient.Socket;

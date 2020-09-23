@@ -10,4 +10,4 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install --production
 COPY  --from=build /build/dist ./dist
-ENTRYPOINT node dist/out-tsc/src/backend/server.js
+ENTRYPOINT node dist/backend/server.js

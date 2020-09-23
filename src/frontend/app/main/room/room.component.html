@@ -51,7 +51,7 @@
         </mat-tab>
         <mat-tab label="Queue">
             <div class="addMoreWrapper">
-                <button *ngIf ="!addVideoShow" class="addMoreBtn"  mat-raised-button (click)="searchYT(searchVal.value);">
+                <button *ngIf ="!addVideoShow" class="addMoreBtn"  mat-raised-button (click)="addVideoShow = true">
                     <mat-icon>add_to_queue</mat-icon> 
                 </button>
                 Add more

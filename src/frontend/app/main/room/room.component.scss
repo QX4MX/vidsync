@@ -6,12 +6,19 @@
     mat-tab-group{
         width: 30%;
         padding-left: 1rem;
+        
     }
     
 }
 
 ::ng-deep.mat-tab-body-wrapper{
     height: 100%;
+    form{
+        text-align: center;
+    }
+    .formdescribtion{
+        text-align: center;
+    }
 }
 
 #chat{

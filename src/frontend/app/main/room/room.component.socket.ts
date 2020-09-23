@@ -63,6 +63,7 @@ export class RoomComponentSocket {
             if (result) {
                 console.log(result);
                 room.results = result;
+                room.selectTab(3);
             }
         });
 
@@ -75,6 +76,7 @@ export class RoomComponentSocket {
         this.socket.on(SocketEvent.YTGETPLAYLIST, (result: string[][]) => {
             if (result) {
                 room.results = result;
+                room.selectTab(3);
             }
         });
 

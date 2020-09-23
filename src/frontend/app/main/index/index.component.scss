@@ -1,28 +1,88 @@
-
-#create{
-    display: block;
-    margin: 1rem auto;
-    min-width: 150px;
+.wrapper{
     width: 50%;
-    min-width: fit-content;
-    height: 10rem;
+    margin: 0 auto;
+    .buttons{
+        text-align: center;
+        display: flex;
+        margin: 2rem auto;
+    }
+
+    #create{
+        display: block;
+        flex: 1;
+        min-width: fit-content;
+        margin-right: 1rem;
+        padding: 1rem;
+    }
+    form{
+        flex: 1;
+        mat-form-field{
+            width: 70%;
+        }
+        button{
+            width: fit-content;
+        }
+    }
+    
+    p{
+        margin: 2rem auto;
+        font-size: 20px;
+        text-align: center;
+        line-height: 130%;
+        a{
+            text-decoration: none;
+        }
+        img{
+            vertical-align: middle;
+    
+        }
+    }
 }
 
-.buttons{
-    text-align: center;
-}
-form{
-    margin: 5rem auto;
-    width: 50%;
-    mat-form-field{
-        width: 70%;
-    }
-    button{
-        width: fit-content;
-    }
-}
+
+
+
+
+
 
 
 
 @media only screen and (max-width: 1440px) {
+    .wrapper{
+        width: 100%;
+        margin: 1rem auto;
+        .buttons{
+            text-align: center;
+            display: block;
+            margin: 2rem auto;
+        }
+    
+        #create{
+            display: block;
+            min-width: fit-content;
+            margin: 1rem auto;
+        }
+        form{
+            mat-form-field{
+                width: 70%;
+            }
+            button{
+                width: fit-content;
+            }
+        }
+        
+        p{
+            margin: 2rem auto;
+            font-size: 20px;
+    
+            line-height: 130%;
+            a{
+                text-decoration: none;
+            }
+            img{
+                vertical-align: middle;
+        
+            }
+        }
+    }
 }

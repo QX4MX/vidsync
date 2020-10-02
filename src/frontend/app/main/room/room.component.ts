@@ -60,6 +60,8 @@ export class RoomComponent implements OnInit {
         this.readRoom("Load Room");
         this.onResize();
         this.matomoTracker.setDocumentTitle('vidsync room');
+        this.matomoTracker.setCustomUrl('/' + window.location.hash.substr(1));
+        this.matomoTracker.trackPageView();
 
     }
 

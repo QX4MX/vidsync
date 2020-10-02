@@ -17,6 +17,8 @@ export class IndexComponent implements OnInit {
 
     ngOnInit(): void {
         this.matomoTracker.setDocumentTitle('vidsync room');
+        this.matomoTracker.setCustomUrl('/' + window.location.hash.substr(1));
+        this.matomoTracker.trackPageView();
     }
 
     async createRoom() {

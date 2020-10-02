@@ -8,6 +8,7 @@ import { LayoutModule } from './layout/layout.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MainModule } from './main/main.module';
 
+import {MatomoModule} from 'ngx-matomo';
 
 const routes: Routes = [
     {
@@ -28,6 +29,7 @@ const routes: Routes = [
         RouterModule.forRoot(routes),
         LayoutModule,
         MainModule,
+        MatomoModule
     ],
     providers: [],
     bootstrap: [AppComponent]

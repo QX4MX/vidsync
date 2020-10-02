@@ -10,6 +10,7 @@ import { SocketService } from '../../services/socket.service';
 import { RoomComponentSocket } from './room.component.socket';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
+import { MatomoTracker } from 'ngx-matomo';
 @Component({
     selector: 'app-room',
     templateUrl: './room.component.html',
@@ -44,7 +45,7 @@ export class RoomComponent implements OnInit {
         private _snackBar: MatSnackBar,
         private titleService: Title,
         private socketService: SocketService,
-
+        private matomoTracker: MatomoTracker
     ) {
         this.route.params.subscribe((params: Params) => {
             this.roomId = params['id'];
@@ -58,6 +59,7 @@ export class RoomComponent implements OnInit {
         // yt api already in app component loaded (so its ready (hopefully))
         this.readRoom("Load Room");
         this.onResize();
+        this.matomoTracker.setDocumentTitle('vidsync room');
 
     }
 

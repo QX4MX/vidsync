@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-
+import { MatomoInjector } from 'ngx-matomo';
 
 @Component({
     selector: 'app-root',
@@ -9,8 +9,8 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class AppComponent {
 
 
-    constructor() {
-
+    constructor(private matomoInjector: MatomoInjector) {
+        this.matomoInjector.init('https://analytics.vidsync.de/', 1);
     }
 
     ngOnInit() : void {

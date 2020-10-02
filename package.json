@@ -34,6 +34,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.16",
     "ng-recaptcha": "^5.0.0",
+    "ngx-matomo": "^0.1.4",
     "node-fetch": "^2.6.1",
     "request": "^2.88.2",
     "rxjs": "~6.5.5",

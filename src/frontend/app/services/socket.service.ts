@@ -16,7 +16,6 @@ export class SocketService {
         else{
             this.baseUrl = window.origin;
         }
-        console.log(this.baseUrl);
         console.log("Connecting Socket at " + this.baseUrl);
 
         this.socket = io.connect(this.baseUrl);

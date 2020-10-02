@@ -1,11 +1,16 @@
 #main{
     display: flex;
-    youtube-player{
+    .playerdiv{
         width: 70%;
+        position: relative;
+        min-height: 300px;
+        background-color: black;
     }
+
     mat-tab-group{
         width: 30%;
         padding-left: 1rem;
+        min-height: 300px;
         
     }
     
@@ -74,16 +79,7 @@
 
     }
 }
-#invite{
-    margin: 1rem;
-    #inviteTextArea{
-        max-width: 80%;
-        margin-left: 1rem;
-    }
-    button{
-        width: fit-content;
-    }
-}
+
 
 
 
@@ -122,10 +118,6 @@
         vertical-align: bottom;
     }
 }
-#addFirstVideo{
-    width: 80%; 
-    text-align: center;
-}
 
 ::ng-deep.mat-tab-label{
     padding: 0 !important;
@@ -136,28 +128,70 @@ mat-spinner{
     margin: 10% 50% auto;
 }
 
+.add-modal {
+    display: none;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.7);
+    padding: 1rem;
+    overflow: auto;
+    z-index: 2; 
+    button{
+        margin-right: 1rem;
+    }
+}
+.close {
+    color: white;
+    top: 10px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+}
+.close:hover,.close:focus {
+    color: #888888;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.below{
+    display: flex;
+    width: 100%;
+    #invite{
+        flex: 1;
+        margin-left: 1rem;
+        #inviteTextArea{
+            max-width: 80%;
+            margin-left: 1rem;
+            vertical-align: middle;
+        }
+        button{
+            min-width: fit-content;
+        }
+    }
+}
+
+
 @media only screen and (max-width: 1024px) {
     #main{
         display: block;
-        youtube-player{
+        .playerdiv{
             width: 100%;
+            min-height: 0;
         }
         mat-tab-group{
             width: 100%;
         }
     }
-    #addFirstVideo{
-        width: 100%; 
-    }
 
-    #invite{
-        width: 100%;
-        #inviteTextArea{
-            max-width: 80%;
-            margin-left: 1rem;
-        }
-        button{
-            width: fit-content;
+    
+    .below{
+        display: block;
+        #invite{
+            margin-left: 0 !important;
+            margin-top: 1rem;
         }
     }
 }

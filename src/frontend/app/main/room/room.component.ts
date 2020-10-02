@@ -35,7 +35,8 @@ export class RoomComponent implements OnInit {
     setVideoParam;
     paramAdded = false;
     roominvite: string;
-    addVideoShow = true;
+
+    addVideoType = "Youtube";
 
     constructor(
         private apiService: ApiService,
@@ -50,13 +51,11 @@ export class RoomComponent implements OnInit {
         });
         this.roomSocket = new RoomComponentSocket(this.roomId, this, socketService.socket);
         this.setVideoParam = this.route.snapshot.queryParams.setVideo;
-        console.log(this.setVideoParam);
         this.roominvite = window.location.toString();
     }
 
     ngOnInit() {
         // yt api already in app component loaded (so its ready (hopefully))
-        console.log("Init");
         this.readRoom("Load Room");
         this.onResize();
 
@@ -64,8 +63,6 @@ export class RoomComponent implements OnInit {
 
     @HostListener('window:resize', ['$event'])
     onResize(event?) {
-        console.log("Resize");
-        console.log(window.innerWidth);
         this.playerHeight = window.innerHeight * 0.65;
     }
 
@@ -205,5 +202,18 @@ export class RoomComponent implements OnInit {
 
     onTabChange(event: MatTabChangeEvent) {
         this.selectedIndex = event.index;
+    }
+
+    openModal() {
+        document.getElementById('addModal').style.display = "block";
+    }
+
+    closeModal() {
+        document.getElementById('addModal').style.display = "none";
+        document.getElementById('playerdiv').scrollIntoView();
+    }
+
+    setVideoType(type:string){
+        this.addVideoType = type;
     }
 }

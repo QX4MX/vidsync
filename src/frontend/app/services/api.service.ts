@@ -34,7 +34,6 @@ export class ApiService {
         this.http.get(`${this.baseUrl}/api/user/new`).subscribe((res: any) => {
             this.token = res.token;
             localStorage.setItem('jwtToken', res.token);
-            console.log("First");
         });
     }
 

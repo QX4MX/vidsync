@@ -1,62 +1,14 @@
 <div #main class="" id="main" *ngIf="roomData; else noroom">
     <!-- Video-Player -->
-    <youtube-player *ngIf="roomData.video;else addVideoFirst" (stateChange)="onStateChange($event)"
-        [videoId]="roomData.video" width="100%" height="100%" [ngStyle]="{'height.px': playerHeight}">
-    </youtube-player>
+    <div id="playerdiv" class="playerdiv">
+        <div id="addModal" class="add-modal">
+            <button mat-raised-button (click)="setVideoType('Youtube')">Youtube</button>
+            <button mat-raised-button (click)="setVideoType('Twitch')" disabled>Twitch (Disabled)</button>
+            <span class="close cursor" (click)="closeModal()">&times;</span>
 
-    <ng-template #addVideoFirst>
-        <div id="addFirstVideo" class="bg-dark">
-            <h1>Add a Video to Start</h1>
-            <form>
-                <mat-form-field>
-                    <mat-label>Start Video Url/Id</mat-label>
-                    <input #firstVidVal matInput autocomplete="off">
-                </mat-form-field>
-                <button mat-raised-button (click)="addToQueue(firstVidVal.value);selectTab(1); addVideoShow = false;">
-                    <mat-icon>playlist_add</mat-icon>
-                </button>
-            </form>
-            <h1 style="text-align: center;">Or Search YT for a Video</h1>
-            <form style="text-align: center;">
-                <mat-form-field>
-                    <mat-label>Search Youtube </mat-label>
-                    <input #firstVidSearch matInput autocomplete="off">
-                </mat-form-field>
-                <button mat-raised-button (click)="searchYT(firstVidSearch.value); selectTab(3);">
-                    <mat-icon>youtube_searched_for</mat-icon>
-                </button>
-            </form>
-        </div>
-    </ng-template>
+            <p>{{addVideoType}}</p>
 
-    <mat-tab-group [ngStyle]="{'height.px': playerHeight}" [selectedIndex]="selectedIndex"
-        (selectedTabChange)="onTabChange($event)">
-        <mat-tab label='Chat'>
-            <mat-list id="chat-main" [ngStyle]="{'height.px': playerHeight-160}">
-                <mat-list-item *ngFor="let msg of messages; let i = index">
-                    <mat-card class="msgCard {{msg[2]}}">
-                        <mat-card-content>
-                            <p class="msg">{{msg[1]}}: {{msg[0]}}</p>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-list-item>
-            </mat-list>
-            <form id="chat-bot">
-                <mat-form-field>
-                    <mat-label>Send Message</mat-label>
-                    <input #msgVal matInput autocomplete="off">
-                </mat-form-field>
-                <button hidden mat-raised-button (click)="sendMsg(msgVal.value); msgVal.value = ''"></button>
-            </form>
-        </mat-tab>
-        <mat-tab label="Queue">
-            <div class="addMoreWrapper">
-                <button *ngIf ="!addVideoShow" class="addMoreBtn"  mat-raised-button (click)="addVideoShow = true">
-                    <mat-icon>add_to_queue</mat-icon> 
-                </button>
-                Add more
-            </div>
-            <div *ngIf ="addVideoShow">
+            <div *ngIf="addVideoType == 'Youtube'">
                 <p class="formdescribtion">Search for a Video on Youtube</p>
                 <form>
                     <mat-form-field>
@@ -86,9 +38,41 @@
                     <button mat-raised-button (click)="searchYTPlaylist(searchPlayListVal.value);">
                         <mat-icon>youtube_searched_for</mat-icon>
                     </button>
-
                 </form>
             </div>
+        </div>
+        <youtube-player *ngIf="roomData.video;else addVideoFirst" (stateChange)="onStateChange($event)"
+            [videoId]="roomData.video" width="100%" height="100%" [ngStyle]="{'height.px': playerHeight}">
+        </youtube-player>
+    </div>
+    <mat-tab-group [ngStyle]="{'height.px': playerHeight}" [selectedIndex]="selectedIndex"
+        (selectedTabChange)="onTabChange($event)">
+        <mat-tab label='Chat'>
+            <mat-list id="chat-main" [ngStyle]="{'height.px': playerHeight-160}">
+                <mat-list-item *ngFor="let msg of messages; let i = index">
+                    <mat-card class="msgCard {{msg[2]}}">
+                        <mat-card-content>
+                            <p class="msg">{{msg[1]}}: {{msg[0]}}</p>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-list-item>
+            </mat-list>
+            <form id="chat-bot">
+                <mat-form-field>
+                    <mat-label>Send Message</mat-label>
+                    <input #msgVal matInput autocomplete="off">
+                </mat-form-field>
+                <button hidden mat-raised-button (click)="sendMsg(msgVal.value); msgVal.value = ''"></button>
+            </form>
+        </mat-tab>
+        <mat-tab label="Queue">
+            <div class="addMoreWrapper">
+                <button class="addMoreBtn"  mat-raised-button (click)="openModal()">
+                    <mat-icon>add_to_queue</mat-icon> 
+                </button>
+                Add more
+            </div>
+            
             <mat-list id="queue" *ngIf="roomData.queue">
                 <mat-list-item *ngFor="let queueElem of roomData.queue; let i = index">
                     <img id='' class='card-img' src='https://img.youtube.com/vi/{{queueElem}}/hqdefault.jpg'>
@@ -104,14 +88,14 @@
             </mat-list>
         </mat-tab>
         <mat-tab label="Results" *ngIf="results">
-            <button mat-raised-button (click)="addPlaylistToQueue(); selectTab(1); addVideoShow = false;">
+            <button mat-raised-button (click)="addPlaylistToQueue(); selectTab(1);">
                 <mat-icon>playlist_add</mat-icon><span>Add all to Queue</span>
             </button>
             <mat-list id="searchResults">
                 <mat-list-item *ngFor="let resultElem of results; let i = index">
                     <img id='' class='card-img' src='https://img.youtube.com/vi/{{resultElem[0]}}/hqdefault.jpg'>
                     <div class="btn-group">
-                        <button mat-raised-button (click)="addToQueue(resultElem[0]); selectTab(1); addVideoShow = false;">
+                        <button mat-raised-button (click)="addToQueue(resultElem[0]); selectTab(1); closeModal(); ">
                             <mat-icon>playlist_add</mat-icon>
                         </button>
                     </div>
@@ -121,15 +105,22 @@
         </mat-tab>
     </mat-tab-group>
 </div>
+<div class="below">
+<div class="addMoreWrapper">
+    <button class="addMoreBtn"  mat-raised-button (click)="openModal()">
+        <mat-icon>add_to_queue</mat-icon> 
+    </button>
+    Add Video
+</div>
+
 <div id="invite">
     <button mat-raised-button [cdkCopyToClipboard]="roominvite"
         (click)="this.openSnackBar('Copied to Clipboard', 'X', 1);">
         <mat-icon>content_copy</mat-icon> Copy Invite Link
     </button>
     <input matInput rows="1" [(ngModel)]="roominvite" readonly id="inviteTextArea">
-
 </div>
-
+</div>
 <!-- <div id="vidInfo" *ngIf="roomData && vidInfo">
     <mat-icon>remove_red_eye</mat-icon><span>{{vidInfo[4]}}</span>
     <mat-icon>thumb_up</mat-icon><span>{{vidInfo[5]}}</span>

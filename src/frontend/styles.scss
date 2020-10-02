@@ -32,16 +32,6 @@ $frontend-theme: mat-light-theme($frontend-primary, $frontend-accent, $frontend-
 @import './scss/_variables.scss';
 
 
-html, body {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    height: 100%;
-    margin: 0;
-    background-color: $darkest;
-    *{
-        color: white;
-    }
-}
-
 //outer
 .mat-toolbar{
     background-color: $darkest;
@@ -149,5 +139,13 @@ button{
 .bg-dark{
     background-color: $dark;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html { height: 100%; }
+body { 
+    margin: 0;
+    margin-bottom: 3rem;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    *{ 
+        color: white;
+    }
+    background-color: $darker;
+}

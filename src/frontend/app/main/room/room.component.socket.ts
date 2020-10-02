@@ -64,6 +64,7 @@ export class RoomComponentSocket {
                 console.log(result);
                 room.results = result;
                 room.selectTab(3);
+                document.getElementById('queue').scrollIntoView();
             }
         });
 

@@ -20,6 +20,7 @@ export class IndexComponent implements OnInit {
     async createRoom() {
         (await this.apiService.createRoom()).subscribe(
             (res: any) => {
+                console.log(res);
                 if (res.success) {
                     console.log('Room successfully created!')
                     this.ngZone.run(() => this.router.navigateByUrl('/room/' + res.data._id));

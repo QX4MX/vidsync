@@ -5,7 +5,7 @@ export interface IRoom extends Document {
     queue: Array<String>;
     userCount: number;
     creatorid: string;
-    createdAt: Date;
+    createAt: Date;
 }
 
 export const roomSchema = new Schema({
@@ -23,10 +23,10 @@ export const roomSchema = new Schema({
     creatorid: {
         type: String
     },
-    createdAt: { 
-        type: Date, 
-        expires: 43200,
-        default: Date.now 
+    created_date: {
+        type: Date,
+        default: Date.now,
+        expires: 43200
     }
 });
 

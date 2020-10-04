@@ -1,5 +1,4 @@
 import { connect, connection, Connection, Schema } from 'mongoose';
-import * as bcrypt from 'bcrypt';
 import { MONGODB_URI } from '../util/secret';
 
 
@@ -7,7 +6,6 @@ export class mongooseDB {
 
     public static instance: mongooseDB;
     private _db: Connection;
-    private passwordHash: any;
 
     constructor() {
         connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });

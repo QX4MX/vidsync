@@ -10,7 +10,7 @@ import { SocketService } from '../../services/socket.service';
 import { RoomComponentSocket } from './room.component.socket';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
-import { MatomoTracker } from 'ngx-matomo';
+/* import { MatomoTracker } from 'ngx-matomo'; */
 @Component({
     selector: 'app-room',
     templateUrl: './room.component.html',

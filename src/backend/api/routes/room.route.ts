@@ -13,6 +13,7 @@ export class RoomRoutes {
 
     routes() {
         this.router.get("/create", this.authController.verifyJwtToken, this.roomController.createRoom);
+        this.router.get("/single-video/:videoID", this.roomController.createSingleVideoRoom);
         this.router.get("/:id", this.authController.verifyJwtToken, this.roomController.getRoom);
         this.router.put("/:id", this.authController.verifyJwtToken, this.roomController.updateRoom);
     }

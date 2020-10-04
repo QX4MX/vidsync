@@ -16,6 +16,15 @@ export class RoomController {
         res.json({ success: true, data: newRoom });
     }
 
+    public async createSingleVideoRoom(req: Request, res: Response): Promise<void> {
+        console.log("Api => Create Single Video Room ");
+        req.body.creatorid = "Bot";
+        req.body.video = req.params.videoID;
+        const newRoom: IRoom = new Room(req.body);
+        await newRoom.save();
+        res.status(201).redirect(301, `/room/${newRoom.id}`)
+    }
+
     public async updateRoom(req: Request, res: Response): Promise<void> {
         console.log("Api => Update Room ", req.params.id);
         const room = await Room.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, room) => {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { MatomoTracker } from 'ngx-matomo';
+/* import { MatomoTracker } from 'ngx-matomo'; */
 
 @Component({
     selector: 'app-discord',
@@ -9,14 +9,14 @@ import { MatomoTracker } from 'ngx-matomo';
 })
 export class DiscordComponent implements OnInit {
 
-    constructor(private titleService: Title, private matomoTracker:MatomoTracker) {
+    constructor(private titleService: Title, /* private matomoTracker:MatomoTracker */) {
         this.titleService.setTitle("vidsnc - Join Discord");
     }
 
     ngOnInit(): void {
-        this.matomoTracker.setDocumentTitle('vidsync-index');
+        /* this.matomoTracker.setDocumentTitle('vidsync-index');
         this.matomoTracker.setCustomUrl('/' + window.location.hash.substr(1));
-        this.matomoTracker.trackPageView();
+        this.matomoTracker.trackPageView(); */
     }
 
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
-import { MatomoTracker } from 'ngx-matomo';
+/* import { MatomoTracker } from 'ngx-matomo'; */
 
 @Component({
     selector: 'app-index',
@@ -11,14 +11,14 @@ import { MatomoTracker } from 'ngx-matomo';
 })
 export class IndexComponent implements OnInit {
     updates: string[] = ["updates", "updates", "updates", "updates", "updates"]
-    constructor(private titleService: Title, private apiService: ApiService, private ngZone: NgZone, private router: Router,private matomoTracker: MatomoTracker) {
+    constructor(private titleService: Title, private apiService: ApiService, private ngZone: NgZone, private router: Router,/* private matomoTracker: MatomoTracker */) {
         this.titleService.setTitle("vidsync - Watch Youtube Together");
     }
 
     ngOnInit(): void {
-        this.matomoTracker.setDocumentTitle('vidsync-index');
+        /* this.matomoTracker.setDocumentTitle('vidsync-index');
         this.matomoTracker.setCustomUrl('/' + window.location.hash.substr(1));
-        this.matomoTracker.trackPageView();
+        this.matomoTracker.trackPageView(); */
     }
 
     async createRoom() {

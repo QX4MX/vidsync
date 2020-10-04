@@ -45,7 +45,7 @@ export class RoomComponent implements OnInit {
         private _snackBar: MatSnackBar,
         private titleService: Title,
         private socketService: SocketService,
-        private matomoTracker: MatomoTracker
+        /* private matomoTracker: MatomoTracker */
     ) {
         this.route.params.subscribe((params: Params) => {
             this.roomId = params['id'];
@@ -59,9 +59,9 @@ export class RoomComponent implements OnInit {
         // yt api already in app component loaded (so its ready (hopefully))
         this.readRoom("Load Room");
         this.onResize();
-        this.matomoTracker.setDocumentTitle('vidsync-room');
+        /* this.matomoTracker.setDocumentTitle('vidsync-room');
         this.matomoTracker.setCustomUrl('/' + window.location.hash.substr(1));
-        this.matomoTracker.trackPageView();
+        this.matomoTracker.trackPageView(); */
 
     }
 

@@ -29,14 +29,11 @@
         .mat-icon{
             transform: scale(2);
         }
-    }
-    
-    form{
-        text-align: center;
-    }
-    .formdescribtion{
-        text-align: center;
-    }
+    }    
+}
+
+.formdescribtion{
+    font-size: x-large;
 }
 
 #chat{
@@ -141,6 +138,15 @@ mat-spinner{
     z-index: 2; 
     button{
         margin-right: 1rem;
+        margin-bottom: 1rem;
+    }
+    div{
+        form{
+            display: flex;
+            mat-form-field{
+                flex: 1;
+            }
+        }
     }
 }
 .close {
@@ -149,6 +155,7 @@ mat-spinner{
     right: 25px;
     font-size: 35px;
     font-weight: bold;
+    float: right;
 }
 .close:hover,.close:focus {
     color: #888888;
@@ -156,7 +163,8 @@ mat-spinner{
     cursor: pointer;
 }
 
-.below{
+.top{
+    margin-bottom: 1rem;
     display: flex;
     width: 100%;
     #invite{
@@ -187,11 +195,19 @@ mat-spinner{
     }
 
     
-    .below{
+    .top{
         display: block;
         #invite{
             margin-left: 0 !important;
             margin-top: 1rem;
         }
+    }
+    .add-modal {
+        position: relative;
+        z-index: 1;
+        min-height: 300px;
+        height: 100%;
+        background-color: rgba(0,0,0,1);
+
     }
 }

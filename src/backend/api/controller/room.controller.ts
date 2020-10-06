@@ -22,7 +22,7 @@ export class RoomController {
         req.body.video = req.params.videoID;
         const newRoom: IRoom = new Room(req.body);
         await newRoom.save();
-        res.status(201).redirect(301, `/room/${newRoom.id}`)
+        res.json({ success: true, data: newRoom.id });
     }
 
     public async updateRoom(req: Request, res: Response): Promise<void> {

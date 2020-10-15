@@ -5,25 +5,21 @@
         text-align: center;
         display: flex;
         margin: 2rem auto;
-    }
-
-    #create{
-        display: block;
-        flex: 1;
-        min-width: fit-content;
-        margin-right: 1rem;
-        padding: 1rem;
-    }
-    form{
-        flex: 1;
-        mat-form-field{
-            width: 70%;
-        }
-        button{
-            width: fit-content;
+        form{
+            border-radius: 5px;
+            padding: 1rem;
+            flex: 1;
+            margin: 1rem;
+            mat-form-field{
+                width: 70%;
+            }
+            button{
+                flex: 1;
+                min-width: fit-content;
+                padding: 1rem;
+            }
         }
     }
-    
     p{
         margin: 2rem auto;
         font-size: 20px;
@@ -60,9 +56,10 @@
         #create{
             display: block;
             min-width: fit-content;
-            margin: 1rem auto;
+            margin: 2rem auto;
         }
         form{
+            margin: 1rem auto;
             mat-form-field{
                 width: 70%;
             }

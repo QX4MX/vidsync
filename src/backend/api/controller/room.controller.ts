@@ -2,18 +2,18 @@ import { Request, Response } from 'express';
 import { youtubeapi } from 'src/backend/ytapi';
 import { Room, IRoom } from '../models/room';
 export class RoomController {
-    ytApi: youtubeapi;
-    constructor(ytApi: youtubeapi){
-        this.ytApi = ytApi;
+
+    constructor(private ytApi:youtubeapi){
+        this.createRoomWithPlaylist = this.createRoomWithPlaylist.bind(this);
     }
 
-    public async getRoom(req: Request, res: Response): Promise<void> {
+    public async getRoom(req: Request, res: Response){
         console.log("Api => Get Room ", req.params.id);
         const room = await Room.findById(req.params.id);
         res.json({ success: true, data: room });
     }
 
-    public async createRoom(req: Request, res: Response): Promise<void> {
+    public async createRoom(req: Request, res: Response) {
         console.log("Api => Create Room ");
         req.body.creatorid = res.locals.id;
         const newRoom: IRoom = new Room(req.body);
@@ -21,7 +21,7 @@ export class RoomController {
         res.json({ success: true, data: newRoom });
     }
 
-    public async createRoomWithVideo(req: Request, res: Response): Promise<void> {
+    public async createRoomWithVideo(req: Request, res: Response) {
         console.log("Api => Create Room and set Video");
         req.body.creatorid = "Bot";
         req.body.video = req.params.videoID;
@@ -30,30 +30,28 @@ export class RoomController {
         res.json({ success: true, data: newRoom.id });
     }
 
-    public async createRoomWithPlaylist(req: Request, res: Response): Promise<void> {
+    public async createRoomWithPlaylist(req: Request, res: Response){
         console.log("Api => Create Room and set Playlist ");
         req.body.creatorid = "Bot";
-        let videoIdList = await this.ytApi.getPlaylistVideos(req.params.listId);
         let queue = [];
         let firstVideoSet = false;
-        for(let videoId of videoIdList){
+        let results = await this.ytApi.getPlaylistVideos(req.params.listId);
+        for(let video of results){
             if(!firstVideoSet){
-                req.body.video = videoId;
+                req.body.video = video[0];
+                firstVideoSet = true;
             }
             else{
-                queue.push(videoId);
+                queue.push(video[0]);
             }
         }
         req.body.queue = queue;
         const newRoom: IRoom = new Room(req.body);
         await newRoom.save();
         res.json({ success: true, data: newRoom.id });
-
-        
-        
     }
 
-    public async updateRoom(req: Request, res: Response): Promise<void> {
+    public async updateRoom(req: Request, res: Response){
         console.log("Api => Update Room ", req.params.id);
         const room = await Room.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, room) => {
             if (err) {

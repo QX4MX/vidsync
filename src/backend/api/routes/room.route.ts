@@ -1,14 +1,15 @@
-import { Router } from 'express';
+import { Router, NextFunction,Request, Response } from 'express';
 import { RoomController } from '../controller/room.controller';
 import { AuthController } from '../controller/authentication.controller';
 import { youtubeapi } from 'src/backend/ytapi';
 export class RoomRoutes {
     public router: Router;
     public roomController: RoomController;
-    public authController: AuthController = new AuthController();
+    public authController: AuthController;
 
-    constructor(ytApi:youtubeapi) {
-        this.roomController = new RoomController(ytApi);
+    constructor(private ytApi:youtubeapi) {
+        this.roomController = new RoomController(this.ytApi);
+        this.authController = new AuthController();
         this.router = Router();
         this.routes();
     }

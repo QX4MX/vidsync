@@ -1,6 +1,4 @@
 import { Document, Schema, Model, model, Error } from "mongoose";
-import * as bcrypt from "bcrypt";
-
 export interface IUser extends Document {
     username: string;
     created_date: Date;
@@ -8,8 +6,7 @@ export interface IUser extends Document {
 
 export const userSchema: Schema = new Schema({
     username: {
-        type: String,
-        default: "AnonymousUser",
+        type: String
     },
     created_date: {
         type: Date,

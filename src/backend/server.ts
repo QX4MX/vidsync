@@ -47,7 +47,7 @@ class AppServer {
     private routes() {
         this.app.get('*.*', express.static(path.join(__dirname, '../frontend/')));
         this.app.use("/api/user", new UserRoutes().router);
-        this.app.use("/api/room", new RoomRoutes().router);
+        this.app.use("/api/room", new RoomRoutes(this.ytApi).router);
         // Default route
         this.app.all('*', function (req, res) {
             res.status(200).sendFile('/', { root: path.join(__dirname, '../frontend/') });

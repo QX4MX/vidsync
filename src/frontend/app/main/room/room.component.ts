@@ -20,7 +20,6 @@ export class RoomComponent implements OnInit {
     @ViewChild(YouTubePlayer) youtubePlayer: YouTubePlayer;
 
     roomSocket: RoomComponentSocket;
-    username;
     playerHeight: number = 720;
 
     roomId: any;
@@ -57,7 +56,16 @@ export class RoomComponent implements OnInit {
 
     ngOnInit() {
         // yt api already in app component loaded (so its ready (hopefully))
-        this.readRoom("Load Room");
+        if(this.apiService.user){
+            this.readRoom("Load Room");
+        }
+        else{
+            let self = this;
+            setTimeout(() => {
+                this.readRoom("Load Room again");
+            }, 1000);
+        }
+       
         this.onResize();
         /* this.matomoTracker.setDocumentTitle('vidsync-room');
         this.matomoTracker.setCustomUrl('/' + window.location.hash.substr(1));
@@ -80,6 +88,11 @@ export class RoomComponent implements OnInit {
                     this.addToQueue(this.setVideoParam);
                     this.paramAdded = true;
                 }
+            }
+            else{
+                setTimeout(() => {
+                    this.readRoom("Load Room");
+                }, 1000);
             }
         });
     }

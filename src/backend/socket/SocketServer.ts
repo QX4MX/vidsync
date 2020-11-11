@@ -12,10 +12,12 @@ export class SocketServer {
     private coolDownTime: number = 150;
 
     constructor(server: Server, private ytApi: youtubeapi) {
-        this.io = socketIo(server);
+        this.io = socketIo().listen(server);
         this.io.on(SocketEvent.CONNECT, (socket: SocketIO.Socket) => {
             console.log("Sockets => " + socket.id + " connected");
+            socket.emit(SocketEvent.CONNECT);
             socket.on(SocketEvent.DISCONNECT, () => {
+                socket.leaveAll();
                 this.currentRooms.forEach((room: SocketRoom, key: string) => {
                     for (let user of room.getUsers()) {
                         if (user == socket.id) {
@@ -23,7 +25,7 @@ export class SocketServer {
                             if (room.getUserCount() <= 0) {
                                 this.currentRooms.delete(key);
                             }
-                            this.io.to(key).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
+                            //this.io.to(key).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
                         }
                     }
                 });
@@ -44,11 +46,14 @@ export class SocketServer {
                         room.userJoin(socket.id);
                         this.currentRooms.set(roomId, room);
                     }
-                    this.io.to(roomId).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
+                    //this.io.to(roomId).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
+                    
+
                 });
             });
 
             socket.on(SocketEvent.LEAVE, () => {
+                socket.leaveAll();
                 this.currentRooms.forEach((room: SocketRoom, key: string) => {
                     for (let user of room.getUsers()) {
                         if (user == socket.id) {
@@ -57,7 +62,7 @@ export class SocketServer {
                             if (room.getUserCount() <= 0) {
                                 this.currentRooms.delete(key);;
                             }
-                            this.io.to(key).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
+                            //this.io.to(key).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
                         }
                     }
                 });

@@ -11,8 +11,7 @@ export class MainLayoutComponent implements OnInit {
     @Output() public sidenavToggle = new EventEmitter();
     smallScreen = true;
     navPosition = 'end';
-    constructor(private socketService: SocketService) {
-        socketService.socket.emit('leave');
+    constructor() {
     }
 
     ngOnInit(): void {

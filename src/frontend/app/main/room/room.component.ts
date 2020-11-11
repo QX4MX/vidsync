@@ -49,7 +49,7 @@ export class RoomComponent implements OnInit {
         this.route.params.subscribe((params: Params) => {
             this.roomId = params['id'];
         });
-        this.roomSocket = new RoomComponentSocket(this.roomId, this, socketService.socket);
+        this.roomSocket = new RoomComponentSocket(this, socketService);
         this.setVideoParam = this.route.snapshot.queryParams.setVideo;
         this.roominvite = window.location.toString();
     }

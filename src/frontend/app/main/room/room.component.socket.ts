@@ -1,12 +1,16 @@
 import { SocketEvent } from '../../Enums';
+import { SocketService } from '../../services/socket.service';
 import { RoomComponent } from './room.component';
 
 export class RoomComponentSocket {
     socket: SocketIOClient.Socket;
-    constructor(private roomId, private room: RoomComponent, socket: SocketIOClient.Socket) {
-        this.socket = socket;
-        this.socket.emit(SocketEvent.JOIN, this.roomId);
-
+    
+    constructor(private room: RoomComponent, socketService: SocketService) {
+        let reconnectInterval = null;
+        this.socket = socketService.socket;
+        this.socket.emit(SocketEvent.LEAVE);
+        this.socket.emit(SocketEvent.JOIN, this.room.roomId);
+        
         // VidCtrl
         this.socket.on(SocketEvent.PLAY, () => {
             if (room.lastState != YT.PlayerState.PLAYING) {
@@ -40,7 +44,6 @@ export class RoomComponentSocket {
         });
 
         this.socket.on(SocketEvent.MSG, (msg: string, author: string) => {
-
             if (author == null || author == '') {
                 author = 'Anonym';
             }
@@ -81,10 +84,17 @@ export class RoomComponentSocket {
             }
         });
 
-        // Disconnect
-        this.socket.on(SocketEvent.DISCONNECT, () => {
-            room.openSnackBar("Websocket lost Connection", "X", 5);
+        this.socket.on(SocketEvent.DISCONNECT,() =>{
+            room.openSnackBar("Socket Disconnected","X",1);
+            reconnectInterval = setInterval(()=>{
+                if(this.socket.connected){
+                    this.socket.emit(SocketEvent.LEAVE);
+                    this.socket.emit(SocketEvent.JOIN, this.room.roomId);
+                    room.openSnackBar("Reconnected Socket","X",1);
+                    clearInterval(reconnectInterval);
+                }
+            },500);
         });
-    }
 
+    }
 }

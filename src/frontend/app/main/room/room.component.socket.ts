@@ -84,16 +84,13 @@ export class RoomComponentSocket {
             }
         });
 
+        this.socket.on(SocketEvent.CONNECT,() =>{
+            room.openSnackBar("Socket Connected","X",1);
+            this.socket.emit(SocketEvent.JOIN, this.room.roomId);
+        });
+
         this.socket.on(SocketEvent.DISCONNECT,() =>{
             room.openSnackBar("Socket Disconnected","X",1);
-            reconnectInterval = setInterval(()=>{
-                if(this.socket.connected){
-                    this.socket.emit(SocketEvent.LEAVE);
-                    this.socket.emit(SocketEvent.JOIN, this.room.roomId);
-                    room.openSnackBar("Reconnected Socket","X",1);
-                    clearInterval(reconnectInterval);
-                }
-            },500);
         });
 
     }

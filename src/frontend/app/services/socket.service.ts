@@ -18,25 +18,12 @@ export class SocketService {
         }
         console.log("Connecting Socket at " + this.baseUrl);
 
-        this.socket = io.connect(this.baseUrl);
-        this.socket.on(SocketEvent.CONNECT, () => {
-            this.socket.connected = true;
-            console.log("socket connected");
+        this.socket = io.connect(this.baseUrl,{
+            reconnection: true,             // whether to reconnect automatically
+            reconnectionAttempts: Infinity, // number of reconnection attempts before giving up
+            reconnectionDelay: 1000,        // how long to initially wait before attempting a new reconnection
+            reconnectionDelayMax: 5000,     // maximum amount of time to wait between reconnection attempts. Each attempt increases the reconnection delay by 2x along with a randomization factor
+            randomizationFactor: 0.5
         });
-        this.socket.on(SocketEvent.DISCONNECT, () => {
-            console.log("socket disconnected");
-            this.socket.connected = false;
-            setTimeout(this.reconnectSocket,500);
-        });
-    }
-
-    reconnectSocket(){
-        if(!this.socket || !this.socket.connected){
-            console.log("Reconnect");
-            this.socket = io.connect(this.baseUrl);
-        }
-        else{
-            setTimeout(this.reconnectSocket,1000);
-        }
     }
 }

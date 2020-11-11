@@ -201,7 +201,7 @@ export class RoomComponent implements OnInit {
             }
         }
         catch (error) {
-            console.log(error);
+            //console.log(error);
         }
         return paramResult;
     }

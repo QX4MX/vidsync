@@ -33,6 +33,37 @@
     
         }
     }
+
+    .discord-bot-invite{
+        margin: 2rem auto;
+        border-radius: 5px;
+        padding: 1rem;
+        margin: 1rem;
+        form{
+            h1{
+                text-align: center;
+            }
+            button{
+                flex: 1;
+                min-width: fit-content;
+                width: 100%;
+                margin: 1rem auto;
+                padding: 1rem;
+            }
+        }
+        div{
+            display: inline-flex;
+            img{
+                width: 40%;
+                margin: auto;
+    
+            }
+            p{
+                width: 40%;
+                margin: auto;    
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 1440px) {
@@ -71,6 +102,24 @@
             img{
                 vertical-align: middle;
         
+            }
+        }
+        .discord-bot-invite{
+            margin: 2rem auto;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem;
+            div{
+                display: block;
+                img{
+                    width: 100%;
+                    margin: auto;
+        
+                }
+                p{
+                    width: 100%;
+                    margin: auto;    
+                }
             }
         }
     }

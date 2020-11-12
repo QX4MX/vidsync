@@ -37,4 +37,8 @@ export class IndexComponent implements OnInit {
         window.location = link;
     }
 
+    inviteDCBot(){
+        window.open("https://discord.com/api/oauth2/authorize?client_id=762308036978802718&permissions=67584&scope=bot",'_blank');
+    }
+
 }

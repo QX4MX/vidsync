@@ -137,16 +137,11 @@ export class RoomComponent implements OnInit {
     }
 
     addToQueue(videoId: string) {
-        let vidId = this.checkUrlForParam(videoId, 'v');
-        if (!vidId) {
-            vidId = videoId;
-        }
-
         if (!this.roomData.video) {
-            this.setVideoFromQueue(vidId, 0);
+            this.setVideoFromQueue(videoId, 0);
         }
         else {
-            this.roomData.queue.push(vidId);
+            this.roomData.queue.push(videoId);
             this.updateRoom("Added Element To Queue");
         }
     }
@@ -160,9 +155,23 @@ export class RoomComponent implements OnInit {
 
     searchYT(searchYTVal) {
         // 1 sec cooldown
+        let vidId = this.checkUrlForParam(searchYTVal, 'v');
+        let playlistId = this.checkUrlForParam(searchYTVal, 'list');
+        if(vidId && !playlistId){
+            this.addToQueue(vidId);
+            return;
+        }
+        
         if (this.lastSearch < Date.now() - 1000) {
             this.lastSearch = Date.now();
-            this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchYTVal);
+            if(playlistId){
+                this.roomSocket.socket.emit(SocketEvent.YTGETPLAYLIST, playlistId);
+                return;
+            }
+            else{
+                this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchYTVal);
+                return;
+            }
         }
 
     }
@@ -174,11 +183,6 @@ export class RoomComponent implements OnInit {
             }
             this.updateRoom('Added All to Queue');
         }
-    }
-
-    searchYTPlaylist(searchYTVal) {
-        let playlistId = this.checkUrlForParam(searchYTVal, 'list');
-        this.roomSocket.socket.emit(SocketEvent.YTGETPLAYLIST, playlistId);
     }
 
     sendMsg(msg: string) {

@@ -23,33 +23,13 @@
             <span class="close cursor" (click)="closeModal()">&times;</span>
 
             <div *ngIf="addVideoType == 'Youtube'">
-                <p class="formdescribtion">Search for a Video on Youtube</p>
+                <p class="formdescribtion">Search for a Video (Title or Url) or a Playlist(Url) on Youtube</p>
                 <form>
                     <mat-form-field>
                         <mat-label>Search Youtube </mat-label>
                         <input #searchVal matInput autocomplete="off">
                     </mat-form-field>
                     <button mat-raised-button (click)="searchYT(searchVal.value);">
-                        <mat-icon>youtube_searched_for</mat-icon>
-                    </button>
-                </form>
-                <p  class="formdescribtion">Or add a Video directly via Url</p>
-                <form>
-                    <mat-form-field>
-                        <mat-label>Video Id/Url</mat-label>
-                        <input #addVal matInput autocomplete="off">
-                    </mat-form-field>
-                    <button mat-raised-button (click)="addToQueue(addVal.value)">
-                        <mat-icon>playlist_add</mat-icon>
-                    </button>
-                </form>
-                <p  class="formdescribtion">Or add a whole Youtube Playlist</p>
-                <form>
-                    <mat-form-field>
-                        <mat-label>Playlist Url/Id </mat-label>
-                        <input #searchPlayListVal matInput autocomplete="off">
-                    </mat-form-field>
-                    <button mat-raised-button (click)="searchYTPlaylist(searchPlayListVal.value);">
                         <mat-icon>youtube_searched_for</mat-icon>
                     </button>
                 </form>

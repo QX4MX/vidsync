@@ -1,16 +1,24 @@
-#logo{
-    margin-left: 1rem;
-    text-align: center;
-    font-size: larger;
-    img{
-        height: 2rem;
+mat-toolbar{
+    a{
+        text-decoration: none !important;
+        color: white;
     }
-    
+    #logo{
+        margin-left: 1rem;
+        text-align: center;
+        font-size: larger;
+        img{
+            height: 2rem;
+        }
+        
+    }
+    #menu{
+        max-width: 50%;
+        overflow: hidden;
+    }
 }
-#menu{
-    max-width: 50%;
-    overflow: hidden;
-}
+
+
 @media only screen and (max-width: 1440px) {
 
 }

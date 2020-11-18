@@ -3,13 +3,13 @@
         which allows users to watch YouTube videos together by creating or joining Rooms to watch with your friends.
     </p>
     <div class="buttons">
-        <form class="dark" style="border: 1px red solid;">
+        <form class="bg-secondary" style="border: 1px red solid;">
             <h1>Create a Room</h1>
             <button mat-raised-button (click)="createRoom()" id="create">
                 <mat-icon>arrow_forward</mat-icon>New Room
             </button>
         </form>
-        <form class="dark">
+        <form class="bg-secondary">
             <h1>Join a Room</h1>
             <mat-form-field>
                 <mat-label>e.g. https://vidsync.de/room/5ed63003d51f16148ad3a4cd </mat-label>
@@ -21,7 +21,7 @@
         </form>
         
     </div>
-    <div class="discord-bot-invite dark">
+    <div class="discord-bot-invite bg-secondary">
         <form >
             <h1>Invite the Vidsync Discord Bot to your Discord Server.</h1>
             <button mat-raised-button (click)="inviteDCBot()" id="create">

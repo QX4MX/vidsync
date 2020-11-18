@@ -1,80 +1,58 @@
 
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat-core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$frontend-primary: mat-palette($mat-indigo);
-$frontend-accent: mat-palette($mat-pink, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$frontend-warn: mat-palette($mat-red);
-
-// Create the theme object (a Sass map containing all of the palettes).
-$frontend-theme: mat-light-theme($frontend-primary, $frontend-accent, $frontend-warn);
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include angular-material-theme($frontend-theme);
-
 @import '~@angular/material/theming';
 @include mat-core();
+@import './scss/_darkmode-variables.scss';
 
-@import './scss/_variables.scss';
-
-
-//outer
-.mat-toolbar{
-    background-color: $darkest;
+html {
+    height: 100%;
+}
+body { 
+    margin: 0;
+    margin-bottom: 3rem;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    
 }
 
-.mat-drawer{
-    background-color: $darkest;
-}
-//inner
-.mat-drawer-container{
-    background-color: $darker;
+.bg-primary{
+    background-color: $primary;
+    color: $text-on-primary;
 }
 
-.content{
-    background-color: $darker;
+.bg-primary-light{
+    background-color: $primary-light;
+    color: $text-on-primary;
 }
 
+.bg-primary-dark{
+    background-color: $primary-dark;
+    color: $text-on-primary;
+}
+
+.bg-secondary{
+    background-color: $secondary;
+    color: $text-on-secondary;
+}
+
+.bg-secondary-light{
+    background-color: $secondary-light;
+    color: $text-on-secondary;
+}
+.bg-secondary-dark{
+    background-color: $secondary-dark;
+    color: $text-on-secondary;
+}
 
 button{
-    background-color: $lighter;
-    min-width: fit-content;
-    
-    &:hover:enabled{
-        background-color: $selected !important;
-    } 
+    background-color: $primary;
+    color: $text-on-primary;
+    &:hover{
+        background-color: $selected;
+    }
 }
+
 
 .mat-active{
     background-color: $selected !important;
-}
-
-.mat-raised-button{
-    background-color: $lighter !important;
-}
-
-.mat-flat-button{
-    background-color: $lighter !important;
-}
-
-
-
-.mat-button-toggle{
-    background-color: $lighter !important;
 }
 
 .mat-button-toggle-checked{
@@ -82,30 +60,17 @@ button{
 }
 
 .mat-button-toggle-disabled{
-    background-color: $dark !important;
-}
-
-
-.mat-card{
-    background-color: $dark;
-}
-
-
-.dark{
-    background-color: $dark !important;
-}
-.light{
-    background-color: $light !important;
+    background-color: $primary-dark !important;
 }
 
 .mat-form-field-label {
 	/*change color of label*/
-	color: $lightest !important;
+	color: #ffffff !important;
 }
   
 .mat-form-field-underline {
 	/*change color of underline*/
-    background-color: $lightest !important;
+    background-color: $primary-dark !important;
 }
 
 .mat-ink-bar{
@@ -116,36 +81,11 @@ button{
     border-color: $selected;
 }
 
-
-.mat-option.mat-active {
-    background: $selected !important;
-}
-
-.mat-option:hover:not(.mat-option-disabled) {
-    background: $dark !important;
-}
-
-.mat-option{
-    background-color: $darker;
-    &:hover{
-        background-color: $selected;
+.mat-simple-snackbar{
+    background-color: $primary-light;
+    padding: 0.5rem;
+    border-radius: 100px;
+    button{
+        border-radius: 100px;
     }
-}
-
-.mat-bottom-sheet-container{
-    background-color: $dark;
-}
-
-.bg-dark{
-    background-color: $dark;
-}
-html { height: 100%; }
-body { 
-    margin: 0;
-    margin-bottom: 3rem;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    *{ 
-        color: white;
-    }
-    background-color: $darker;
 }

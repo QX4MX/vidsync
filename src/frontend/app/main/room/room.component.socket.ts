@@ -48,10 +48,10 @@ export class RoomComponentSocket {
                 author = 'Anonym';
             }
             if (room.messages.length % 2 == 0) {
-                room.messages.push([msg, author, "light",]);
+                room.messages.push([msg, author, "bg-secondary-light",]);
             }
             else {
-                room.messages.push([msg, author, "dark"]);
+                room.messages.push([msg, author, "bg-secondary-dark"]);
             }
             setTimeout(function () {
                 let element = document.getElementById("chat-main");

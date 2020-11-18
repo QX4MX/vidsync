@@ -11,7 +11,7 @@ export class HeaderComponent implements OnInit {
     smallScreen: boolean;
 
 
-    constructor(private settings: MatBottomSheet, private userinfo: MatBottomSheet) { }
+    constructor(private userinfo: MatBottomSheet) { }
 
     ngOnInit(): void {
         this.onResize();

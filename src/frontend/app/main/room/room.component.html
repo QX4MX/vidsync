@@ -1,9 +1,9 @@
 <div class="top">
     <div class="addMoreWrapper">
         <button class="addMoreBtn"  mat-raised-button (click)="openModal()">
-            <mat-icon>add_to_queue</mat-icon> 
+            <mat-icon>add_to_queue</mat-icon> Add Video
         </button>
-        Add Video
+        
     </div>
     
     <div id="invite">
@@ -82,9 +82,9 @@
         <mat-tab label="Queue">
             <div class="addMoreWrapper">
                 <button class="addMoreBtn"  mat-raised-button (click)="openModal()">
-                    <mat-icon>add_to_queue</mat-icon> 
+                    <mat-icon>add_to_queue</mat-icon> <span style="margin-left:1rem"> Add more </span>
                 </button>
-                Add more
+                
             </div>
             
             <mat-list id="queue" *ngIf="roomData.queue">

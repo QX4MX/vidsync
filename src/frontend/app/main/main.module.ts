@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { MainRoutingModule } from './main-routing.module';
 import { IndexComponent } from './index/index.component';
 import { RoomComponent } from './room/room.component';
-import { DiscordComponent } from './discord/discord.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { UserinfoComponent } from './userinfo/userinfo.component';
 
@@ -27,7 +26,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
-    declarations: [IndexComponent, RoomComponent, DiscordComponent, PrivacyComponent, UserinfoComponent],
+    declarations: [IndexComponent, RoomComponent, PrivacyComponent, UserinfoComponent],
     imports: [
         CommonModule,
         MainRoutingModule,

@@ -37,6 +37,7 @@ export class RoomComponent implements OnInit {
     roominvite: string;
 
     addVideoType = "Youtube";
+    inTheatreMode = false;
 
     constructor(
         private apiService: ApiService,
@@ -56,16 +57,16 @@ export class RoomComponent implements OnInit {
 
     ngOnInit() {
         // yt api already in app component loaded (so its ready (hopefully))
-        if(this.apiService.user){
+        if (this.apiService.user) {
             this.readRoom("Load Room");
         }
-        else{
+        else {
             let self = this;
             setTimeout(() => {
                 this.readRoom("Load Room again");
             }, 1000);
         }
-       
+
         this.onResize();
         /* this.matomoTracker.setDocumentTitle('vidsync-room');
         this.matomoTracker.setCustomUrl('/' + window.location.hash.substr(1));
@@ -73,9 +74,31 @@ export class RoomComponent implements OnInit {
 
     }
 
+    @HostListener('document:fullscreenchange', ['$event'])
+    onFullScreenChange(event?) {
+        if (document.fullscreenElement) {
+            this.inTheatreMode = true;
+        }
+        else {
+            this.inTheatreMode = false;
+            this.onResize();
+        }
+
+    }
+
     @HostListener('window:resize', ['$event'])
     onResize(event?) {
+        if (this.inTheatreMode) {
+            this.playerHeight = window.innerHeight;
+            return;
+        }
         this.playerHeight = window.innerHeight * 0.65;
+        return;
+    }
+
+    theatreMode() {
+        let maindiv = document.getElementById('main');
+        maindiv.requestFullscreen();
     }
 
     readRoom(cause: string) {
@@ -89,7 +112,7 @@ export class RoomComponent implements OnInit {
                     this.paramAdded = true;
                 }
             }
-            else{
+            else {
                 setTimeout(() => {
                     this.readRoom("Load Room");
                 }, 1000);
@@ -157,18 +180,18 @@ export class RoomComponent implements OnInit {
         // 1 sec cooldown
         let vidId = this.checkUrlForParam(searchYTVal, 'v');
         let playlistId = this.checkUrlForParam(searchYTVal, 'list');
-        if(vidId && !playlistId){
+        if (vidId && !playlistId) {
             this.addToQueue(vidId);
             return;
         }
-        
+
         if (this.lastSearch < Date.now() - 1000) {
             this.lastSearch = Date.now();
-            if(playlistId){
+            if (playlistId) {
                 this.roomSocket.socket.emit(SocketEvent.YTGETPLAYLIST, playlistId);
                 return;
             }
-            else{
+            else {
                 this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchYTVal);
                 return;
             }
@@ -234,7 +257,7 @@ export class RoomComponent implements OnInit {
         document.getElementById('playerdiv').scrollIntoView();
     }
 
-    setVideoType(type:string){
+    setVideoType(type: string) {
         this.addVideoType = type;
     }
 }

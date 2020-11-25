@@ -1,11 +1,11 @@
 <div class="top">
     <div class="addMoreWrapper">
-        <button class="addMoreBtn"  mat-raised-button (click)="openModal()">
+        <button class="addMoreBtn" mat-raised-button (click)="openModal()">
             <mat-icon>add_to_queue</mat-icon> Add Video
         </button>
-        
+
     </div>
-    
+
     <div id="invite">
         <button mat-raised-button [cdkCopyToClipboard]="roominvite"
             (click)="this.openSnackBar('Copied to Clipboard', 'X', 1);">
@@ -13,6 +13,10 @@
         </button>
         <input matInput rows="1" [(ngModel)]="roominvite" readonly id="inviteTextArea">
     </div>
+
+    <button mat-raised-button (click)="theatreMode()">
+        <mat-icon>add_to_queue</mat-icon> Theatre Mode
+    </button>
 </div>
 <div #main class="" id="main" *ngIf="roomData; else noroom">
     <!-- Video-Player -->
@@ -61,12 +65,12 @@
         </mat-tab>
         <mat-tab label="Queue">
             <div class="addMoreWrapper">
-                <button class="addMoreBtn"  mat-raised-button (click)="openModal()">
+                <button class="addMoreBtn" mat-raised-button (click)="openModal()">
                     <mat-icon>add_to_queue</mat-icon> <span style="margin-left:1rem"> Add more </span>
                 </button>
-                
+
             </div>
-            
+
             <mat-list id="queue" *ngIf="roomData.queue">
                 <mat-list-item *ngFor="let queueElem of roomData.queue; let i = index">
                     <img id='' class='card-img' src='https://img.youtube.com/vi/{{queueElem}}/hqdefault.jpg'>

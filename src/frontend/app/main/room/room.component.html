@@ -1,7 +1,7 @@
 <div class="top">
     <div class="addMoreWrapper">
         <button class="addMoreBtn" mat-raised-button (click)="openModal()">
-            <mat-icon>add_to_queue</mat-icon> Add Video
+            <mat-icon>add_to_queue</mat-icon> {{languageService.currentLanguage.addVideo}}
         </button>
 
     </div>
@@ -9,13 +9,13 @@
     <div id="invite">
         <button mat-raised-button [cdkCopyToClipboard]="roominvite"
             (click)="this.openSnackBar('Copied to Clipboard', 'X', 1);">
-            <mat-icon>content_copy</mat-icon> Copy Invite Link
+            <mat-icon>content_copy</mat-icon> {{languageService.currentLanguage.copyInviteLinkDescrition}}
         </button>
         <input matInput rows="1" [(ngModel)]="roominvite" readonly id="inviteTextArea">
     </div>
 
     <button mat-raised-button (click)="theatreMode()">
-        <mat-icon>add_to_queue</mat-icon> Theatre Mode
+        <mat-icon>crop_16_9</mat-icon> {{languageService.currentLanguage.theatreMode}}
     </button>
 </div>
 <div #main class="" id="main" *ngIf="roomData; else noroom">
@@ -27,10 +27,10 @@
             <span class="close cursor" (click)="closeModal()">&times;</span>
 
             <div *ngIf="addVideoType == 'Youtube'">
-                <p class="formdescribtion">Search for a Video (Title or Url) or a Playlist(Url) on Youtube</p>
+                <p class="formdescribtion">{{languageService.currentLanguage.searchYTDescrition}}</p>
                 <form>
                     <mat-form-field>
-                        <mat-label>Search Youtube </mat-label>
+                        <mat-label>{{languageService.currentLanguage.searchYT}} </mat-label>
                         <input #searchVal matInput autocomplete="off">
                     </mat-form-field>
                     <button mat-raised-button (click)="searchYT(searchVal.value);">
@@ -45,7 +45,7 @@
     </div>
     <mat-tab-group [ngStyle]="{'height.px': playerHeight}" [selectedIndex]="selectedIndex"
         (selectedTabChange)="onTabChange($event)" class="bg-primary-light">
-        <mat-tab label='Chat'>
+        <mat-tab label='{{languageService.currentLanguage.chat}}'>
             <mat-list id="chat-main" [ngStyle]="{'height.px': playerHeight-160}">
                 <mat-list-item *ngFor="let msg of messages; let i = index">
                     <mat-card class="msgCard {{msg[2]}}">
@@ -57,16 +57,17 @@
             </mat-list>
             <form id="chat-bot">
                 <mat-form-field>
-                    <mat-label>Send Message</mat-label>
+                    <mat-label>{{languageService.currentLanguage.sendMessage}}</mat-label>
                     <input #msgVal matInput autocomplete="off">
                 </mat-form-field>
                 <button hidden mat-raised-button (click)="sendMsg(msgVal.value); msgVal.value = ''"></button>
             </form>
         </mat-tab>
-        <mat-tab label="Queue">
+        <mat-tab label="{{languageService.currentLanguage.queue}}">
             <div class="addMoreWrapper">
                 <button class="addMoreBtn" mat-raised-button (click)="openModal()">
-                    <mat-icon>add_to_queue</mat-icon> <span style="margin-left:1rem"> Add more </span>
+                    <mat-icon>add_to_queue</mat-icon> <span style="margin-left:1rem">
+                        {{languageService.currentLanguage.addVideo}} </span>
                 </button>
 
             </div>
@@ -85,9 +86,9 @@
                 </mat-list-item>
             </mat-list>
         </mat-tab>
-        <mat-tab label="Results" *ngIf="results">
+        <mat-tab label="{{languageService.currentLanguage.results}}" *ngIf="results">
             <button mat-raised-button (click)="addPlaylistToQueue(); selectTab(1);">
-                <mat-icon>playlist_add</mat-icon><span>Add all to Queue</span>
+                <mat-icon>playlist_add</mat-icon><span>{{languageService.currentLanguage.addAll}}</span>
             </button>
             <mat-list id="searchResults">
                 <mat-list-item *ngFor="let resultElem of results; let i = index">

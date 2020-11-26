@@ -21,6 +21,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -43,6 +44,7 @@ import { MatMenuModule } from '@angular/material/menu';
         MatSnackBarModule,
         MatBottomSheetModule,
         MatMenuModule,
+        MatSelectModule,
         ClipboardModule,
     ]
 })

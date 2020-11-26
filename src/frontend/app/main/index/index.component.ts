@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
+import { LanguageService } from '../../services/language.service';
 /* import { MatomoTracker } from 'ngx-matomo'; */
 
 @Component({
@@ -10,8 +11,7 @@ import { Router } from '@angular/router';
     styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
-    updates: string[] = ["updates", "updates", "updates", "updates", "updates"]
-    constructor(private titleService: Title, private apiService: ApiService, private ngZone: NgZone, private router: Router,/* private matomoTracker: MatomoTracker */) {
+    constructor(private titleService: Title, private apiService: ApiService, private languageService: LanguageService, private ngZone: NgZone, private router: Router,/* private matomoTracker: MatomoTracker */) {
         this.titleService.setTitle("vidsync - Watch Youtube Together");
     }
 
@@ -37,8 +37,8 @@ export class IndexComponent implements OnInit {
         window.location = link;
     }
 
-    inviteDCBot(){
-        window.open("https://discord.com/api/oauth2/authorize?client_id=762308036978802718&permissions=67584&scope=bot",'_blank');
+    inviteDCBot() {
+        window.open("https://discord.com/api/oauth2/authorize?client_id=762308036978802718&permissions=67584&scope=bot", '_blank');
     }
 
 }

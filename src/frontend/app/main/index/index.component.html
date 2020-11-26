@@ -1,35 +1,39 @@
 <div class="wrapper">
     <div class="buttons">
         <form class="bg-secondary border">
-            <h1>Create a Room</h1>
+            <h1>{{languageService.currentLanguage.createRoomDescribiton}}</h1>
             <button mat-raised-button (click)="createRoom()" id="create">
-                <mat-icon>arrow_forward</mat-icon>New Room
+                <mat-icon>arrow_forward</mat-icon>{{languageService.currentLanguage.createRoom}}
             </button>
         </form>
         <form class="bg-secondary">
-            <h1>Join a Room</h1>
+            <h1>{{languageService.currentLanguage.joinRoomDescribiton}}</h1>
             <mat-form-field>
                 <mat-label>e.g. https://vidsync.de/room/5ed63003d51f16148ad3a4cd </mat-label>
                 <input #inviteVal matInput autocomplete="off">
             </mat-form-field>
             <button mat-raised-button (click)="join(inviteVal.value)">
-                <mat-icon>arrow_forward</mat-icon> Join Room
+                <mat-icon>arrow_forward</mat-icon> {{languageService.currentLanguage.joinRoom}}
             </button>
         </form>
     </div>
-    <p>Vidsync is an open-source project ( <a href="https://gitlab.com/QX4MX/vidsync">Gitlab <img src="https://gitlab.com/QX4MX/vidsync/badges/master/pipeline.svg"></a> ),
-        which allows users to watch YouTube videos together by creating or joining Rooms to watch with your friends.
+    <p>
+        {{languageService.currentLanguage.vidsyncDescribtion}}
+        ( <a href="https://gitlab.com/QX4MX/vidsync">Gitlab
+            <img src="https://gitlab.com/QX4MX/vidsync/badges/master/pipeline.svg">
+        </a> )
     </p>
     <div class="discord-bot-invite bg-secondary">
-        <form >
-            <h1>Invite the Vidsync Discord Bot to your Discord Server.</h1>
+        <form>
+            <h1>{{languageService.currentLanguage.inviteBotDescribtion}}</h1>
             <button mat-raised-button (click)="inviteDCBot()" id="create">
-                <mat-icon>arrow_forward</mat-icon>Invite Discord Bot
+                <mat-icon>arrow_forward</mat-icon>{{languageService.currentLanguage.inviteBot}}
             </button>
         </form>
         <div>
             <img src="/assets/DiscordBotPreview.png" alt="">
-            <p>The Vidsync Discord Bot will answer to every Youtube link, by creating a room for the linked video or even a whole playlist. The bot is open-source aswell ( <a href="https://gitlab.com/QX4MX/vidsync-discord-bot">Gitlab</a> ) </p>
+            <p>{{languageService.currentLanguage.botDescrition}} ( <a
+                    href="https://gitlab.com/QX4MX/vidsync-discord-bot">Gitlab</a> ) </p>
         </div>
     </div>
 </div>

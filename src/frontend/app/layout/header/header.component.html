@@ -5,8 +5,9 @@
         </a>
         <span style="flex: 1;"></span>
         <div id="menu">
+
             <a mat-button (click)="openUserInfo()">
-                <mat-icon>account_circle</mat-icon> Change Username
+                <mat-icon>settings</mat-icon> {{languageService.currentLanguage.settings}}
             </a>
             <a mat-button href="https://gitlab.com/QX4MX/vidsync" target="_blank">
                 Gitlab

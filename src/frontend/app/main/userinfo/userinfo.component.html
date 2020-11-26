@@ -1,11 +1,22 @@
 <div class="bg-secondary">
     <form>
         <mat-form-field>
-            <mat-label>Username</mat-label>
+            <mat-label>{{languageService.currentLanguage.username}}</mat-label>
             <input #usernameval matInput autocomplete="off" value="{{username}}">
         </mat-form-field>
         <button mat-raised-button (click)="updateUsername(usernameval.value)">
-            <mat-icon>edit</mat-icon> Update
+            <mat-icon>edit</mat-icon> {{languageService.currentLanguage.update}}
         </button>
+    </form>
+
+    <form>
+        <mat-form-field>
+            <mat-label>{{languageService.currentLanguage.language}}</mat-label>
+            <mat-select (selectionChange)="updateLanguage($event.value)">
+                <mat-option *ngFor="let language of languagesArr" value="{{language.languageName}}">
+                    {{language.languageName}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </form>
 </div>

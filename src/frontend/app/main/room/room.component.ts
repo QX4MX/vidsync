@@ -9,6 +9,7 @@ import { Title, Meta } from '@angular/platform-browser';
 import { SocketService } from '../../services/socket.service';
 import { RoomComponentSocket } from './room.component.socket';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { LanguageService } from '../../services/language.service';
 
 /* import { MatomoTracker } from 'ngx-matomo'; */
 @Component({
@@ -45,6 +46,7 @@ export class RoomComponent implements OnInit {
         private _snackBar: MatSnackBar,
         private titleService: Title,
         private socketService: SocketService,
+        private languageService: LanguageService,
         /* private matomoTracker: MatomoTracker */
     ) {
         this.route.params.subscribe((params: Params) => {

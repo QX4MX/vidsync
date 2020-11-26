@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
     smallScreen: boolean;
 
 
-    constructor(private userinfo: MatBottomSheet, private languageService: LanguageService) { }
+    constructor(private userinfo: MatBottomSheet, public languageService: LanguageService) { }
 
     ngOnInit(): void {
         this.onResize();

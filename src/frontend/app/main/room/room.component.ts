@@ -46,7 +46,7 @@ export class RoomComponent implements OnInit {
         private _snackBar: MatSnackBar,
         private titleService: Title,
         private socketService: SocketService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
         /* private matomoTracker: MatomoTracker */
     ) {
         this.route.params.subscribe((params: Params) => {

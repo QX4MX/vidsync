@@ -11,7 +11,7 @@ import { LanguageService } from '../../services/language.service';
     styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
-    constructor(private titleService: Title, private apiService: ApiService, private languageService: LanguageService, private ngZone: NgZone, private router: Router,/* private matomoTracker: MatomoTracker */) {
+    constructor(private titleService: Title, private apiService: ApiService, public languageService: LanguageService, private ngZone: NgZone, private router: Router,/* private matomoTracker: MatomoTracker */) {
         this.titleService.setTitle("vidsync - Watch Youtube Together");
     }
 

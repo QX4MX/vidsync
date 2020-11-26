@@ -12,7 +12,7 @@ import { Language, LanguageService } from '../../services/language.service';
 export class UserinfoComponent implements OnInit {
     username;
     languagesArr;
-    constructor(private apiService: ApiService, private languageService: LanguageService, private _bottomSheetRef: MatBottomSheetRef<UserinfoComponent>) { }
+    constructor(private apiService: ApiService, public languageService: LanguageService, private _bottomSheetRef: MatBottomSheetRef<UserinfoComponent>) { }
     ngOnInit(): void {
         this.username = this.apiService.user.username;
         this.languagesArr = this.languageService.languagesArr;

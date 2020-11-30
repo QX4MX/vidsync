@@ -20,7 +20,7 @@
 </div>
 <div #main class="" id="main" *ngIf="roomData; else noroom">
     <!-- Video-Player -->
-    <div id="playerdiv" class="playerdiv">
+    <div id="playerdiv" class="playerdiv" [ngStyle]="{'width': playerDivWIdth}">
         <div id="addModal" class="add-modal">
             <button mat-raised-button (click)="setVideoType('Youtube')">Youtube</button>
             <button mat-raised-button (click)="setVideoType('Twitch')" disabled>Twitch (Disabled)</button>

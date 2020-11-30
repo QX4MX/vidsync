@@ -39,6 +39,7 @@ export class RoomComponent implements OnInit {
 
     addVideoType = "Youtube";
     inTheatreMode = false;
+    playerDivWIdth = '70%';
 
     constructor(
         private apiService: ApiService,
@@ -80,9 +81,11 @@ export class RoomComponent implements OnInit {
     onFullScreenChange(event?) {
         if (document.fullscreenElement) {
             this.inTheatreMode = true;
+            this.playerDivWIdth = '85%'
         }
         else {
             this.inTheatreMode = false;
+            this.playerDivWIdth = '70%'
             this.onResize();
         }
 

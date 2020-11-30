@@ -1,14 +1,13 @@
 #main{
     display: flex;
     .playerdiv{
-        width: 70%;
         position: relative;
         min-height: 300px;
         background-color: black;
     }
 
     mat-tab-group{
-        width: 30%;
+        flex: 1;
         padding-left: 1rem;
         min-height: 300px;
     }

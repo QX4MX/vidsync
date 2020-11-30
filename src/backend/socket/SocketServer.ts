@@ -17,18 +17,19 @@ export class SocketServer {
             console.log("Sockets => " + socket.id + " connected");
             socket.emit(SocketEvent.CONNECT);
             socket.on(SocketEvent.DISCONNECT, () => {
-                socket.leaveAll();
+
                 this.currentRooms.forEach((room: SocketRoom, key: string) => {
                     for (let user of room.getUsers()) {
                         if (user == socket.id) {
                             room.userLeave(socket.id);
+                            this.io.to(room.roomID).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
                             if (room.getUserCount() <= 0) {
                                 this.currentRooms.delete(key);
                             }
-                            //this.io.to(key).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
                         }
                     }
                 });
+                socket.leaveAll();
                 console.log("Sockets => " + socket.id + " disconnected");
 
             });
@@ -46,26 +47,26 @@ export class SocketServer {
                         room.userJoin(socket.id);
                         this.currentRooms.set(roomId, room);
                     }
-                    //this.io.to(roomId).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
-                    
+                    this.io.to(roomId).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
+
 
                 });
             });
 
             socket.on(SocketEvent.LEAVE, () => {
-                socket.leaveAll();
                 this.currentRooms.forEach((room: SocketRoom, key: string) => {
                     for (let user of room.getUsers()) {
                         if (user == socket.id) {
                             console.log("Sockets => " + socket.id + " leave room: " + key);
                             room.userLeave(socket.id);
+                            this.io.to(room.roomID).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
                             if (room.getUserCount() <= 0) {
-                                this.currentRooms.delete(key);;
+                                this.currentRooms.delete(key);
                             }
-                            //this.io.to(key).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
                         }
                     }
                 });
+                socket.leaveAll();
             });
 
 

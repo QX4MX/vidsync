@@ -20,7 +20,9 @@ export class SocketRoom {
     }
 
     userJoin(socketID: string) {
-        this.users.push(socketID);
+        if (!this.users.includes(socketID)) {
+            this.users.push(socketID);
+        }
     }
 
     userLeave(socketID: string) {

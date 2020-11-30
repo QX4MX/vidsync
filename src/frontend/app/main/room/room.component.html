@@ -45,7 +45,7 @@
     </div>
     <mat-tab-group [ngStyle]="{'height.px': playerHeight}" [selectedIndex]="selectedIndex"
         (selectedTabChange)="onTabChange($event)" class="bg-primary-light">
-        <mat-tab label='{{languageService.currentLanguage.chat}} ({{onlineCount}} Users)'>
+        <mat-tab label='{{languageService.currentLanguage.chat}}  ({{onlineCount}} Users)'>
             <mat-list id="chat-main" [ngStyle]="{'height.px': playerHeight-160}">
                 <mat-list-item *ngFor="let msg of messages; let i = index">
                     <mat-card class="msgCard {{msg[2]}}">
@@ -63,7 +63,7 @@
                 <button hidden mat-raised-button (click)="sendMsg(msgVal.value); msgVal.value = ''"></button>
             </form>
         </mat-tab>
-        <mat-tab label="{{languageService.currentLanguage.queue}}">
+        <mat-tab label="{{languageService.currentLanguage.queue}}  ({{roomData.queue.length}} Videos)">
             <div class="addMoreWrapper">
                 <button class="addMoreBtn" mat-raised-button (click)="openModal()">
                     <mat-icon>add_to_queue</mat-icon> <span style="margin-left:1rem">

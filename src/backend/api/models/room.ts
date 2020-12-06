@@ -26,7 +26,6 @@ export const roomSchema = new Schema({
     created_date: {
         type: Date,
         default: Date.now,
-        expires: 43200
     }
 });
 

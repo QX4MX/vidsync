@@ -98,6 +98,9 @@ export class RoomComponent implements OnInit {
             return;
         }
         this.playerHeight = window.innerHeight * 0.65;
+        if (window.innerWidth < 1024) {
+            this.playerDivWIdth = '100%';
+        }
         return;
     }
 

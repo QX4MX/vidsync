@@ -54,7 +54,8 @@
         margin-top: 10px;
         width: 100%;
         .mat-form-field{
-            width: 90%;
+            width: calc(100% - 32px);
+            padding: 0 16px;
         }
 
     }
@@ -189,6 +190,7 @@ mat-spinner{
         }
         mat-tab-group{
             width: 100%;
+            padding-left: 0;
         }
     }
 

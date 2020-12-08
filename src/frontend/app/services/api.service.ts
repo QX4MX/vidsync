@@ -13,13 +13,12 @@ export class ApiService {
     user;
     token;
     constructor(private http: HttpClient) {
-        if(window.origin.includes("localhost")){
+        if (window.origin.includes("localhost")) {
             this.baseUrl = "http://localhost:4000";
         }
-        else{
+        else {
             this.baseUrl = window.origin;
         }
-        console.log("Expecting Api at " + this.baseUrl + "/api");
         this.headers.set('Content-Type', 'application/json');
         this.token = localStorage.getItem('jwtToken');
         if (this.token) {
@@ -59,7 +58,6 @@ export class ApiService {
             const header = { Authorization: this.token };
             this.http.put(url, data, { headers: header }).subscribe((res: any) => {
                 if (res.success) {
-                    console.log(res.user);
                     this.token = res.token;
                     localStorage.setItem('jwtToken', res.token);
                     this.user = res.user;

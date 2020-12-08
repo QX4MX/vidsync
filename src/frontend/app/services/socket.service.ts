@@ -10,15 +10,13 @@ export class SocketService {
     baseUrl;
     public socket: SocketIOClient.Socket;
     constructor() {
-        if(window.origin.includes("localhost")){
+        if (window.origin.includes("localhost")) {
             this.baseUrl = "http://localhost:4000";
         }
-        else{
+        else {
             this.baseUrl = window.origin;
         }
-        console.log("Connecting Socket at " + this.baseUrl);
-
-        this.socket = io.connect(this.baseUrl,{
+        this.socket = io.connect(this.baseUrl, {
             reconnection: true,             // whether to reconnect automatically
             reconnectionAttempts: Infinity, // number of reconnection attempts before giving up
             reconnectionDelay: 1000,        // how long to initially wait before attempting a new reconnection

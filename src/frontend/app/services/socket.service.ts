@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
-import { SocketEvent } from '../Enums';
 
 @Injectable({
     providedIn: 'root'

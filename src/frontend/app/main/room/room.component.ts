@@ -134,7 +134,7 @@ export class RoomComponent implements OnInit {
             (res) => {
                 this.roomSocket.socket.emit(SocketEvent.UPDATEROOM, this.roomId, cause);
             }, (error) => {
-                console.log(error);
+                //console.log(error);
             });
     }
 

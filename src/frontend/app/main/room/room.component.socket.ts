@@ -4,13 +4,13 @@ import { RoomComponent } from './room.component';
 
 export class RoomComponentSocket {
     socket: SocketIOClient.Socket;
-    
+
     constructor(private room: RoomComponent, socketService: SocketService) {
         let reconnectInterval = null;
         this.socket = socketService.socket;
         this.socket.emit(SocketEvent.LEAVE);
         this.socket.emit(SocketEvent.JOIN, this.room.roomId);
-        
+
         // VidCtrl
         this.socket.on(SocketEvent.PLAY, () => {
             if (room.lastState != YT.PlayerState.PLAYING) {
@@ -64,7 +64,6 @@ export class RoomComponentSocket {
 
         this.socket.on(SocketEvent.YTSEARCH, (result: string[][]) => {
             if (result) {
-                console.log(result);
                 room.results = result;
                 room.selectTab(3);
                 document.getElementById('queue').scrollIntoView();
@@ -84,13 +83,13 @@ export class RoomComponentSocket {
             }
         });
 
-        this.socket.on(SocketEvent.CONNECT,() =>{
-            room.openSnackBar("Socket Connected","X",1);
+        this.socket.on(SocketEvent.CONNECT, () => {
+            room.openSnackBar("Socket Connected", "X", 1);
             this.socket.emit(SocketEvent.JOIN, this.room.roomId);
         });
 
-        this.socket.on(SocketEvent.DISCONNECT,() =>{
-            room.openSnackBar("Socket Disconnected","X",1);
+        this.socket.on(SocketEvent.DISCONNECT, () => {
+            room.openSnackBar("Socket Disconnected", "X", 1);
         });
 
     }

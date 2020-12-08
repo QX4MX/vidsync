@@ -129,6 +129,10 @@ export class RoomComponent implements OnInit {
             });
     }
 
+    onReady(event) {
+
+    }
+
     onStateChange(event: YT.OnStateChangeEvent) {
         if (event.data == YT.PlayerState.PLAYING) {
             this.roomSocket.socket.emit(SocketEvent.PLAY, this.roomId, this.youtubePlayer.getCurrentTime());

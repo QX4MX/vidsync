@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, json } from "express";
 import * as request from 'request';
 import * as https from 'https';
-import { ADMINPW, recaptchaSecret, jwtSecret } from '../../util/secret';
+import { ADMINPW, jwtSecret } from '../../util/secret';
 import * as jwt from 'jsonwebtoken';
 
 

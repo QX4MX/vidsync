@@ -13,8 +13,6 @@ if (!MONGODB_URI) {
 
 export const ytApi = process.env.ytApi;
 
-export const recaptchaSecret = process.env.recaptchaSecret;
-
 export const ADMINPW = process.env.ADMINPW;
 
 export const jwtSecret = process.env.jwtSecret;

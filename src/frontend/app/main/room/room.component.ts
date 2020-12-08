@@ -5,13 +5,10 @@ import { YouTubePlayer } from '@angular/youtube-player';
 import { Room } from '../../model/room';
 import { SocketEvent } from '../../Enums';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Title, Meta } from '@angular/platform-browser';
 import { SocketService } from '../../services/socket.service';
 import { RoomComponentSocket } from './room.component.socket';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { LanguageService } from '../../services/language.service';
-
-/* import { MatomoTracker } from 'ngx-matomo'; */
 @Component({
     selector: 'app-room',
     templateUrl: './room.component.html',
@@ -45,10 +42,8 @@ export class RoomComponent implements OnInit {
         private apiService: ApiService,
         private route: ActivatedRoute,
         private _snackBar: MatSnackBar,
-        private titleService: Title,
         private socketService: SocketService,
         public languageService: LanguageService,
-        /* private matomoTracker: MatomoTracker */
     ) {
         this.route.params.subscribe((params: Params) => {
             this.roomId = params['id'];
@@ -59,7 +54,6 @@ export class RoomComponent implements OnInit {
     }
 
     ngOnInit() {
-        // yt api already in app component loaded (so its ready (hopefully))
         if (this.apiService.user) {
             this.readRoom("Load Room");
         }
@@ -71,9 +65,6 @@ export class RoomComponent implements OnInit {
         }
 
         this.onResize();
-        /* this.matomoTracker.setDocumentTitle('vidsync-room');
-        this.matomoTracker.setCustomUrl('/' + window.location.hash.substr(1));
-        this.matomoTracker.trackPageView(); */
 
     }
 

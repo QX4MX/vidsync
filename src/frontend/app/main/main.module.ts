@@ -23,9 +23,6 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 
-
-
-
 @NgModule({
     declarations: [IndexComponent, RoomComponent, PrivacyComponent, UserinfoComponent],
     imports: [

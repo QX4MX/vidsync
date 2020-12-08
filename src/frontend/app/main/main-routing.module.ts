@@ -5,7 +5,6 @@ import { IndexComponent } from './index/index.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { RoomComponent } from './room/room.component';
 
-
 const routes: Routes = [
     {
         path: '',

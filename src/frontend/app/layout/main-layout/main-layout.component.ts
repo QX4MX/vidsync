@@ -1,6 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
-import { SocketService } from '../../services/socket.service';
-
 @Component({
     selector: 'app-main-layout',
     templateUrl: './main-layout.component.html',

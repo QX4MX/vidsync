@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { ApiService } from '../../services/api.service';
-import { Language, LanguageService } from '../../services/language.service';
+import { LanguageService } from '../../services/language.service';
 
 
 @Component({
@@ -12,7 +12,12 @@ import { Language, LanguageService } from '../../services/language.service';
 export class UserinfoComponent implements OnInit {
     username;
     languagesArr;
-    constructor(private apiService: ApiService, public languageService: LanguageService, private _bottomSheetRef: MatBottomSheetRef<UserinfoComponent>) { }
+    constructor(
+        private apiService: ApiService,
+        public languageService: LanguageService,
+        private _bottomSheetRef: MatBottomSheetRef<UserinfoComponent>
+    ) { }
+
     ngOnInit(): void {
         if (this.apiService && this.apiService.user) {
             this.username = this.apiService.user.username;

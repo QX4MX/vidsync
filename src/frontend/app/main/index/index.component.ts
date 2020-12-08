@@ -3,22 +3,23 @@ import { Title } from '@angular/platform-browser';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { LanguageService } from '../../services/language.service';
-/* import { MatomoTracker } from 'ngx-matomo'; */
-
 @Component({
     selector: 'app-index',
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
-    constructor(private titleService: Title, private apiService: ApiService, public languageService: LanguageService, private ngZone: NgZone, private router: Router,/* private matomoTracker: MatomoTracker */) {
+    constructor(
+        private titleService: Title,
+        private apiService: ApiService,
+        public languageService: LanguageService,
+        private ngZone: NgZone,
+        private router: Router
+    ) {
         this.titleService.setTitle("vidsync - Watch Youtube Together");
     }
 
     ngOnInit(): void {
-        /* this.matomoTracker.setDocumentTitle('vidsync-index');
-        this.matomoTracker.setCustomUrl('/' + window.location.hash.substr(1));
-        this.matomoTracker.trackPageView(); */
     }
 
     async createRoom() {

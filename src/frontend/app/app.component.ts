@@ -1,5 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-/* import { MatomoInjector } from 'ngx-matomo'; */
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-root',
@@ -10,10 +9,9 @@ export class AppComponent {
 
 
     constructor() {
-        /* this.matomoInjector.init('https://analytics.vidsync.de/', 1); */
     }
 
-    ngOnInit() : void {
+    ngOnInit(): void {
         let cc = window as any;
         cc.cookieconsent.initialise({
             palette: {
@@ -41,14 +39,14 @@ export class AppComponent {
             },
             hasTransition: true,
             onStatusChange: function (status) {
-                if(this.hasConsented()){
+                if (this.hasConsented()) {
                     let domain = "vidsync.de"
-                    document.cookie = "domain="+domain+";";
+                    document.cookie = "domain=" + domain + ";";
                     document.cookie = "SameSite='Lax';"
                     /* document.cookie = "Secure"; if samesite is none*/
                 }
             }
-        });        
+        });
     }
 
 

@@ -14,7 +14,9 @@ export class UserinfoComponent implements OnInit {
     languagesArr;
     constructor(private apiService: ApiService, public languageService: LanguageService, private _bottomSheetRef: MatBottomSheetRef<UserinfoComponent>) { }
     ngOnInit(): void {
-        this.username = this.apiService.user.username;
+        if (this.apiService && this.apiService.user) {
+            this.username = this.apiService.user.username;
+        }
         this.languagesArr = this.languageService.languagesArr;
     }
 

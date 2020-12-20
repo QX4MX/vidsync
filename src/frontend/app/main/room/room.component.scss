@@ -179,18 +179,32 @@ mat-spinner{
         }
     }
 }
+.exitTheatreMode{
+    position: relative;
+    top: 0;
+    float: right;
+    height: 50px;
+    margin-bottom: -50px;
+    &:hover{
+        cursor: pointer;
+    }
+}
 
 
 @media only screen and (max-width: 1024px) {
     #main{
         display: block;
+        .top{
+            min-height: 20vh;
+        }
         .playerdiv{
-            width: 100%;
-            min-height: 0;
+            width: 100% !important;
+            min-height: 20vh;
         }
         mat-tab-group{
             width: 100%;
             padding-left: 0;
+            max-height: 70vh;
         }
     }
 

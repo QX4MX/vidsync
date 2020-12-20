@@ -70,14 +70,19 @@ export class RoomComponent implements OnInit {
 
     @HostListener('document:fullscreenchange', ['$event'])
     onFullScreenChange(event?) {
-        if (document.fullscreenElement) {
-            this.inTheatreMode = true;
-            this.playerDivWIdth = '85%'
+        if (window.innerWidth > 1024) {
+            if (document.fullscreenElement) {
+                this.inTheatreMode = true;
+                this.playerDivWIdth = '85%'
+            }
+            else {
+                this.inTheatreMode = false;
+                this.playerDivWIdth = '70%'
+                this.onResize();
+            }
         }
         else {
-            this.inTheatreMode = false;
-            this.playerDivWIdth = '70%'
-            this.onResize();
+            this.playerDivWIdth = '100%'
         }
 
     }
@@ -96,8 +101,21 @@ export class RoomComponent implements OnInit {
     }
 
     theatreMode() {
-        let maindiv = document.getElementById('main');
-        maindiv.requestFullscreen();
+        if (!document.fullscreenElement) {
+            let maindiv = document.getElementById('main');
+            maindiv.requestFullscreen();
+        }
+        else {
+            document.exitFullscreen();
+            this.inTheatreMode = false;
+        }
+    }
+
+    exitFullscreen() {
+        if (document && document.fullscreenElement) {
+            document.exitFullscreen();
+            this.inTheatreMode = false;
+        }
     }
 
     readRoom(cause: string) {

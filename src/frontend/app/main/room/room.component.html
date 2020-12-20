@@ -21,11 +21,12 @@
 <div #main class="" id="main" *ngIf="roomData; else noroom">
     <!-- Video-Player -->
     <div id="playerdiv" class="playerdiv" [ngStyle]="{'width': playerDivWIdth}">
+        <button mat-raised-button *ngIf="inTheatreMode" (click)="exitFullscreen();" class="exitTheatreMode">&times;
+        </button>
         <div id="addModal" class="add-modal">
             <button mat-raised-button (click)="setVideoType('Youtube')">Youtube</button>
             <button mat-raised-button (click)="setVideoType('Twitch')" disabled>Twitch (Disabled)</button>
             <span class="close cursor" (click)="closeModal()">&times;</span>
-
             <div *ngIf="addVideoType == 'Youtube'">
                 <p class="formdescribtion">{{languageService.currentLanguage.searchYTDescrition}}</p>
                 <form>
@@ -114,6 +115,6 @@
     <mat-icon>thumb_down</mat-icon><span>{{vidInfo[6]}}</span>
 </div> -->
 
-<ng-template #noroom>
-    <mat-spinner></mat-spinner>
+<ng-template #noroom style="position: absolute; z-index: 5; width: 50%; background-color: white;">
+    <mat-progress-bar mode="query" color="warn"></mat-progress-bar>
 </ng-template>

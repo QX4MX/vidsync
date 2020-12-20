@@ -115,6 +115,8 @@
     <mat-icon>thumb_down</mat-icon><span>{{vidInfo[6]}}</span>
 </div> -->
 
-<ng-template #noroom style="position: absolute; z-index: 5; width: 50%; background-color: white;">
-    <mat-progress-bar mode="query" color="warn"></mat-progress-bar>
+<ng-template #noroom>
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+    <h1 style="text-align: center;">Room is loading or does not exist</h1>
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
 </ng-template>

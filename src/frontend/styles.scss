@@ -90,6 +90,11 @@ button{
     }
 }
 
+  /* remove animation and the dots*/ 
+.mat-progress-bar-background {
+    fill: white;
+}
+
 .border{
     border: 1px $selected solid;
 }

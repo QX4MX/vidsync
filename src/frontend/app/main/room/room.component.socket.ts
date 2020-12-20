@@ -6,9 +6,7 @@ export class RoomComponentSocket {
     socket: SocketIOClient.Socket;
 
     constructor(private room: RoomComponent, socketService: SocketService) {
-        let reconnectInterval = null;
         this.socket = socketService.socket;
-        this.socket.emit(SocketEvent.LEAVE);
         this.socket.emit(SocketEvent.JOIN, this.room.roomId);
 
         // VidCtrl
@@ -38,7 +36,7 @@ export class RoomComponentSocket {
         //Room Ctrl
         this.socket.on(SocketEvent.GETUSERCOUNT, (userAmmount: number) => {
             room.onlineCount = userAmmount;
-        })
+        });
         this.socket.on(SocketEvent.UPDATEROOM, (cause: string) => {
             room.readRoom(cause);
         });

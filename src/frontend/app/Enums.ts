@@ -2,7 +2,6 @@ export enum SocketEvent {
     CONNECT = "connection",
     DISCONNECT = "disconnect",
     JOIN = 'join',
-    LEAVE = 'leave',
     PLAY = 'play',
     PAUSE = 'pause',
     NEXT = 'next',
@@ -14,5 +13,4 @@ export enum SocketEvent {
     YTSEARCH = 'searchYoutube',
     YTGETPLAYLIST = 'playlistVids',
     GETUSERCOUNT = 'getUsers',
-    GETACTIVEROOMS = 'getActiveRooms'
 }

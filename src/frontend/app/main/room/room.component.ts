@@ -54,18 +54,13 @@ export class RoomComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.apiService.user) {
-            this.readRoom("Load Room");
-        }
-        else {
-            let self = this;
-            setTimeout(() => {
-                this.readRoom("Load Room again");
-            }, 1000);
-        }
-
+        let apiinterval = setInterval(() => {
+            if (this.apiService.user) {
+                this.readRoom("Load Room");
+                clearInterval(apiinterval);
+            }
+        }, 250);
         this.onResize();
-
     }
 
     @HostListener('document:fullscreenchange', ['$event'])
@@ -141,7 +136,7 @@ export class RoomComponent implements OnInit {
     updateRoom(cause: string) {
         this.apiService.updateRoom(this.roomId, this.roomData).subscribe(
             (res) => {
-                this.roomSocket.socket.emit(SocketEvent.UPDATEROOM, this.roomId, cause);
+                this.roomSocket.socket.emit(SocketEvent.UPDATEROOM, cause);
             }, (error) => {
                 //console.log(error);
             });
@@ -153,10 +148,10 @@ export class RoomComponent implements OnInit {
 
     onStateChange(event: YT.OnStateChangeEvent) {
         if (event.data == YT.PlayerState.PLAYING) {
-            this.roomSocket.socket.emit(SocketEvent.PLAY, this.roomId, this.youtubePlayer.getCurrentTime());
+            this.roomSocket.socket.emit(SocketEvent.PLAY, this.youtubePlayer.getCurrentTime());
         }
         else if (event.data == YT.PlayerState.PAUSED) {
-            this.roomSocket.socket.emit(SocketEvent.PAUSE, this.roomId, this.youtubePlayer.getCurrentTime());
+            this.roomSocket.socket.emit(SocketEvent.PAUSE, this.youtubePlayer.getCurrentTime());
         }
         else if (event.data == YT.PlayerState.ENDED) {
             if (this.roomData.queue.length != 0) {
@@ -174,7 +169,7 @@ export class RoomComponent implements OnInit {
 
     setVideoFromQueue(videoId: string, i: number) {
         this.roomData.video = videoId;
-        //this.socket.emit(SocketEvent.LOAD_VID, this.roomId, videoId);
+        //this.socket.emit(SocketEvent.LOAD_VID,videoId);
         this.roomData.queue.splice(i, 1);
         this.roomData.video = videoId;
         this.updateRoom("Set Video From Queue");
@@ -231,10 +226,10 @@ export class RoomComponent implements OnInit {
 
     sendMsg(msg: string) {
         if (this.apiService.user) {
-            this.roomSocket.socket.emit(SocketEvent.MSG, this.roomId, msg, this.apiService.user.username);
+            this.roomSocket.socket.emit(SocketEvent.MSG, msg, this.apiService.user.username);
         }
         else {
-            this.roomSocket.socket.emit(SocketEvent.MSG, this.roomId, msg, '');
+            this.roomSocket.socket.emit(SocketEvent.MSG, msg, '');
         }
     }
 

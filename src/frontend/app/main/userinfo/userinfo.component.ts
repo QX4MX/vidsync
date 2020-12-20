@@ -39,4 +39,8 @@ export class UserinfoComponent implements OnInit {
         event.preventDefault();
     }
 
+    dismiss() {
+        this._bottomSheetRef.dismiss();
+    }
+
 }

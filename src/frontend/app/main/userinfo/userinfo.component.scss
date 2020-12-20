@@ -1,8 +1,21 @@
 div{
-    padding-bottom: 15rem;
+    margin-bottom: 50vh;
     font-size: larger;
-    text-align: center;
+    padding: 2rem;
     input{
         font-size: larger;
+    }
+}
+.mat-option{
+    background-color: black;
+}
+
+.close{
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 2rem;
+    &:hover{
+        cursor: pointer;
     }
 }

@@ -16,10 +16,10 @@ export class AppComponent {
         cc.cookieconsent.initialise({
             palette: {
                 popup: {
-                    background: "rgb(40, 22, 47)"
+                    background: "#484848"
                 },
                 button: {
-                    background: "rgb(166, 30, 83)",
+                    background: "rgb(238, 83, 80)",
                     text: "rgb(255, 255, 255)"
                 }
             },

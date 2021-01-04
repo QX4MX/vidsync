@@ -45,12 +45,22 @@ export class RoomComponent implements OnInit {
         private socketService: SocketService,
         public languageService: LanguageService,
     ) {
+        this.loadYTApiScript();
         this.route.params.subscribe((params: Params) => {
             this.roomId = params['id'];
         });
         this.roomSocket = new RoomComponentSocket(this, socketService);
         this.setVideoParam = this.route.snapshot.queryParams.setVideo;
         this.roominvite = window.location.toString();
+
+    }
+
+    loadYTApiScript() {
+        let script = document.createElement('script');
+        script.src = "https://www.youtube.com/iframe_api";
+        script.async = true;
+        script.defer = true;
+        document.body.append(script);
     }
 
     ngOnInit() {
@@ -192,27 +202,26 @@ export class RoomComponent implements OnInit {
 
 
 
-    searchYT(searchYTVal) {
+    searchYT(searchYTVal: string) {
         // 1 sec cooldown
         let vidId = this.checkUrlForParam(searchYTVal, 'v');
         let playlistId = this.checkUrlForParam(searchYTVal, 'list');
-        if (vidId && !playlistId) {
-            this.addToQueue(vidId);
+        if (!vidId && searchYTVal.includes("https://youtu.be")) {
+            vidId = this.checkShortYTLink(searchYTVal);
+        }
+        if (playlistId) {
+            this.roomSocket.socket.emit(SocketEvent.YTGETPLAYLIST, playlistId);
             return;
         }
-
-        if (this.lastSearch < Date.now() - 1000) {
-            this.lastSearch = Date.now();
-            if (playlistId) {
-                this.roomSocket.socket.emit(SocketEvent.YTGETPLAYLIST, playlistId);
-                return;
-            }
-            else {
-                this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchYTVal);
-                return;
-            }
+        else if (vidId) {
+            this.addToQueue(vidId);
         }
 
+        else if (this.lastSearch < Date.now() - 1000) {
+            this.lastSearch = Date.now();
+            this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchYTVal);
+            return;
+        }
     }
 
     addPlaylistToQueue() {
@@ -239,6 +248,17 @@ export class RoomComponent implements OnInit {
         try {
             let url = new URL(urlString);
             paramResult = url.searchParams.get(param);
+        }
+        catch (error) {
+            //console.log(error);
+        }
+        return paramResult;
+    }
+
+    checkShortYTLink(urlString: string) {
+        let paramResult;
+        try {
+            let url = new URL(urlString);
             if (!paramResult && url.origin == "https://youtu.be") {
                 paramResult = url.pathname.split('/')[1];
             }

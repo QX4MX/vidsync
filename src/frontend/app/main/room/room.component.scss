@@ -179,9 +179,8 @@ mat-spinner{
         }
     }
 }
+
 .exitTheatreMode{
-    position: relative;
-    top: 0;
     float: right;
     height: 50px;
     margin-bottom: -50px;
@@ -207,7 +206,6 @@ mat-spinner{
             max-height: 70vh;
         }
     }
-
     
     .top{
         display: block;
@@ -216,6 +214,7 @@ mat-spinner{
             margin-top: 1rem;
         }
     }
+
     .add-modal {
         position: relative;
         z-index: 1;

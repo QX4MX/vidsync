@@ -77,17 +77,27 @@ export class RoomComponent implements OnInit {
     onFullScreenChange(event?) {
         if (window.innerWidth > 1024) {
             if (document.fullscreenElement) {
+                this.playerDivWIdth = '85%';
                 this.inTheatreMode = true;
-                this.playerDivWIdth = '85%'
+            }
+            else {
+                this.playerDivWIdth = '70%';
+                this.inTheatreMode = false;
+            }
+            this.onResize();
+        }
+        else {
+            let maindiv = document.getElementById('main');
+            this.playerDivWIdth = '100%';
+            if (document.fullscreenElement) {
+                this.inTheatreMode = true;
+                maindiv.style.setProperty('padding-top', '3rem');
             }
             else {
                 this.inTheatreMode = false;
-                this.playerDivWIdth = '70%'
-                this.onResize();
+                maindiv.style.setProperty('padding-top', '0');
             }
-        }
-        else {
-            this.playerDivWIdth = '100%'
+
         }
 
     }
@@ -112,14 +122,12 @@ export class RoomComponent implements OnInit {
         }
         else {
             document.exitFullscreen();
-            this.inTheatreMode = false;
         }
     }
 
     exitFullscreen() {
-        if (document && document.fullscreenElement) {
+        if (document.fullscreenElement) {
             document.exitFullscreen();
-            this.inTheatreMode = false;
         }
     }
 

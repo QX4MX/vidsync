@@ -10,6 +10,7 @@
         flex: 1;
         padding-left: 1rem;
         min-height: 300px;
+        max-width: calc(30vw - 30px);
     }
     
 }
@@ -41,7 +42,7 @@
         padding-right: 17px;
         mat-list-item{
             height: fit-content;
-            
+            bottom: 0px;
         }
         &:hover{
             overflow-y: scroll;
@@ -194,16 +195,16 @@ mat-spinner{
     #main{
         display: block;
         .top{
-            min-height: 20vh;
+            min-height: 0;
         }
         .playerdiv{
+            min-height: 0;
             width: 100% !important;
-            min-height: 20vh;
         }
         mat-tab-group{
             width: 100%;
             padding-left: 0;
-            max-height: 70vh;
+            max-width: calc(100vw - 30px);
         }
     }
     
@@ -218,7 +219,6 @@ mat-spinner{
     .add-modal {
         position: relative;
         z-index: 1;
-        min-height: 300px;
         height: 100%;
         background-color: rgba(0,0,0,1);
 

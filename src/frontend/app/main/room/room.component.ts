@@ -36,7 +36,8 @@ export class RoomComponent implements OnInit {
 
     addVideoType = "Youtube";
     inTheatreMode = false;
-    playerDivWIdth = '70%';
+    playerDivWidth = '70%';
+    sideTabGroupWidth = '30';
 
     constructor(
         private apiService: ApiService,
@@ -77,25 +78,25 @@ export class RoomComponent implements OnInit {
     onFullScreenChange(event?) {
         if (window.innerWidth > 1024) {
             if (document.fullscreenElement) {
-                this.playerDivWIdth = '85%';
+                this.playerDivWidth = '85%';
+                this.sideTabGroupWidth = '15%';
                 this.inTheatreMode = true;
             }
             else {
-                this.playerDivWIdth = '70%';
+                this.playerDivWidth = '70%';
+                this.sideTabGroupWidth = '30%';
                 this.inTheatreMode = false;
             }
             this.onResize();
         }
         else {
-            let maindiv = document.getElementById('main');
-            this.playerDivWIdth = '100%';
+            this.playerDivWidth = '100%';
+            this.sideTabGroupWidth = '100%';
             if (document.fullscreenElement) {
                 this.inTheatreMode = true;
-                maindiv.style.setProperty('padding-top', '3rem');
             }
             else {
                 this.inTheatreMode = false;
-                maindiv.style.setProperty('padding-top', '0');
             }
 
         }
@@ -104,15 +105,28 @@ export class RoomComponent implements OnInit {
 
     @HostListener('window:resize', ['$event'])
     onResize(event?) {
-        if (this.inTheatreMode) {
-            this.playerHeight = window.innerHeight;
-            return;
+        if (window.innerWidth > 1024) {
+            if (this.inTheatreMode) {
+                this.playerHeight = window.innerHeight;
+            }
+            else {
+                this.playerHeight = window.innerHeight * 0.65;
+            }
         }
-        this.playerHeight = window.innerHeight * 0.65;
-        if (window.innerWidth < 1024) {
-            this.playerDivWIdth = '100%';
+        else {
+            let maindiv = document.getElementById('main');
+            this.playerDivWidth = '100%';
+            this.sideTabGroupWidth = '100%';
+            if (this.inTheatreMode) {
+                this.playerHeight = window.innerHeight * 0.5;
+                maindiv.style.setProperty('padding-top', '10vh');
+            }
+            else {
+                this.playerHeight = window.innerHeight * 0.2;
+                maindiv.style.setProperty('padding-top', '0rem');
+
+            }
         }
-        return;
     }
 
     theatreMode() {

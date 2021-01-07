@@ -20,7 +20,7 @@
 </div>
 <div #main class="" id="main" *ngIf="roomData; else noroom">
     <!-- Video-Player -->
-    <div id="playerdiv" class="playerdiv" [ngStyle]="{'width': playerDivWIdth}">
+    <div id="playerdiv" class="playerdiv" [ngStyle]="{'width': playerDivWidth}">
         <button mat-raised-button *ngIf="inTheatreMode" (click)="exitFullscreen();" class="exitTheatreMode">&times;
         </button>
         <div id="addModal" class="add-modal">
@@ -46,8 +46,8 @@
             height="100%" [ngStyle]="{'height.px': playerHeight}">
         </youtube-player>
     </div>
-    <mat-tab-group [ngStyle]="{'height.px': playerHeight}" [selectedIndex]="selectedIndex"
-        (selectedTabChange)="onTabChange($event)" class="bg-primary-light">
+    <mat-tab-group [ngStyle]="{'height.px': playerHeight, 'width': sideTabGroupWidth}" [selectedIndex]="selectedIndex"
+        (selectedTabChange)="onTabChange($event)" id="sideTabGroup" class="bg-primary-light">
         <mat-tab label='{{languageService.currentLanguage.chat}}  ({{onlineCount}} Users)'>
             <mat-list id="chat-main" [ngStyle]="{'height.px': playerHeight-160}">
                 <mat-list-item *ngFor="let msg of messages; let i = index">

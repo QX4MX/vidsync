@@ -19,6 +19,7 @@ export class RoomComponent implements OnInit {
 
     roomSocket: RoomComponentSocket;
     playerHeight: number = 720;
+    chatHeight: number = 720 - 160;
 
     roomId: any;
     roomData: Room;
@@ -37,7 +38,7 @@ export class RoomComponent implements OnInit {
     addVideoType = "Youtube";
     inTheatreMode = false;
     playerDivWidth = '70%';
-    sideTabGroupWidth = '30';
+    sideTabGroupWidth = '30%';
 
     constructor(
         private apiService: ApiService,
@@ -110,22 +111,24 @@ export class RoomComponent implements OnInit {
                 this.playerHeight = window.innerHeight;
             }
             else {
-                this.playerHeight = window.innerHeight * 0.65;
+                this.playerHeight = Math.round(window.innerHeight * 0.65);
             }
+            this.chatHeight = this.playerHeight - 160;
         }
         else {
             let maindiv = document.getElementById('main');
             this.playerDivWidth = '100%';
             this.sideTabGroupWidth = '100%';
             if (this.inTheatreMode) {
-                this.playerHeight = window.innerHeight * 0.5;
+                this.playerHeight = Math.round(window.innerHeight * 0.5);
                 maindiv.style.setProperty('padding-top', '10vh');
             }
             else {
-                this.playerHeight = window.innerHeight * 0.2;
+                this.playerHeight = Math.round(window.innerHeight * 0.2);
                 maindiv.style.setProperty('padding-top', '0rem');
 
             }
+            this.chatHeight = this.playerHeight;
         }
     }
 

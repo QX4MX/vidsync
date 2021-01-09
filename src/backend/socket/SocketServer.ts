@@ -14,18 +14,14 @@ export class SocketServer {
     constructor(server: Server, private ytApi: youtubeapi) {
         this.io = socketIo().listen(server);
         this.io.on(SocketEvent.CONNECT, (socket: SocketIO.Socket) => {
-            console.log("Sockets => " + socket.id + " connected");
             socket.emit(SocketEvent.CONNECT);
-
             socket.on(SocketEvent.DISCONNECT, () => {
                 this.userLeaveAllRooms(socket);
-                console.log("Sockets => " + socket.id + " disconnected");
             });
 
             socket.on(SocketEvent.JOIN, (roomId: string) => {
                 this.userLeaveAllRooms(socket);
                 socket.join(roomId, () => {
-                    console.log("Sockets => " + socket.id + " join room: " + roomId);
                     let room = this.currentRooms.get(roomId);
                     if (!room) {
                         room = new SocketRoom(roomId);
@@ -72,7 +68,6 @@ export class SocketServer {
                 let room = this.userGetRoom(socket);
                 if (room && (room.getLastUsed() + this.coolDownTime < Date.now())) {
                     this.io.to(room.roomID).emit(SocketEvent.UPDATEROOM, cause);
-                    console.log(cause + " in " + room.roomID);
                 }
             });
 

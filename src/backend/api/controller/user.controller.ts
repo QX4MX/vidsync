@@ -8,12 +8,10 @@ import { jwtSecret } from '../../util/secret';
 export class UserController {
 
     public async newUser(req: Request, res: Response): Promise<void> {
-        console.log("Api => Register");
+        console.log("Api => create User!");
         const newUser: IUser = new User();
         let user = await newUser.save();
-        console.log(user.id);
         let token = jwt.sign({ user }, jwtSecret, { expiresIn: '30d' });
-        console.log("Success : user created");
         let returnUser = {
             username: user.username,
             created_date: user.created_date,
@@ -22,10 +20,9 @@ export class UserController {
     }
 
     public async getUser(req: Request, res: Response) {
-        console.log("Api => Login");
+        console.log("Api => " + res.locals.username + " Get User!");
         let user = await User.findById(res.locals.id);
         if (!user) {
-            console.log("Failed : doesnt exist");
             res.status(201).send({ success: false, message: "Not Valid" });
         }
         else {
@@ -39,13 +36,11 @@ export class UserController {
     }
 
     public async updateUser(req: Request, res: Response) {
-        console.log("Api => UpdateUser");
+        console.log("Api => " + res.locals.username + " Update User!");
         let user = await User.findOneAndUpdate({ _id: res.locals.id }, req.body, { new: true }, (err, user) => {
             if (err) {
-                console.log("Something wrong when updating data!");
             }
             else if (!user) {
-                console.log("Failed : doesnt exist");
                 res.status(201).send({ success: false, message: "Not Valid" });
             }
             else {

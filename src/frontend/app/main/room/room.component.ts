@@ -236,7 +236,6 @@ export class RoomComponent implements OnInit {
         }
         if (playlistId) {
             this.roomSocket.socket.emit(SocketEvent.YTGETPLAYLIST, playlistId);
-            return;
         }
         else if (vidId) {
             this.addToQueue(vidId);
@@ -245,7 +244,6 @@ export class RoomComponent implements OnInit {
         else if (this.lastSearch < Date.now() - 1000) {
             this.lastSearch = Date.now();
             this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchYTVal);
-            return;
         }
     }
 

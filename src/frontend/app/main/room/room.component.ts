@@ -290,7 +290,7 @@ export class RoomComponent implements OnInit {
         let paramResult;
         try {
             let url = new URL(urlString);
-            if (!paramResult && url.origin == "https://youtu.be") {
+            if (url.origin == "https://youtu.be") {
                 paramResult = url.pathname.split('/')[1];
             }
         }

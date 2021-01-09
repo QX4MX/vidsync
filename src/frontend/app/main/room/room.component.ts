@@ -259,12 +259,18 @@ export class RoomComponent implements OnInit {
     }
 
     sendMsg(msg: string) {
-        if (this.apiService.user) {
-            this.roomSocket.socket.emit(SocketEvent.MSG, msg, this.apiService.user.username);
+        if (msg.replace(/\s/g, '').length != 0) {
+            if (this.apiService.user) {
+                this.roomSocket.socket.emit(SocketEvent.MSG, msg, this.apiService.user.username);
+            }
+            else {
+                this.roomSocket.socket.emit(SocketEvent.MSG, msg, '');
+            }
         }
         else {
-            this.roomSocket.socket.emit(SocketEvent.MSG, msg, '');
+            this.messages.push(['Cant send empty Message', 'System']);
         }
+
     }
 
 

@@ -55,6 +55,7 @@ export class RoomController {
         const room = await Room.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, room) => {
             if (err) {
                 console.log(err);
+                res.json({ success: false });
             }
             else {
                 res.json({ success: true, data: room });

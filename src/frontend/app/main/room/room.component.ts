@@ -152,12 +152,14 @@ export class RoomComponent implements OnInit {
         this.apiService.getRoom(this.roomId).subscribe((res) => {
             if (res.success) {
                 this.roomData = res.data;
-                this.youtubePlayer.videoId = this.roomData.video;
                 this.openSnackBar(cause, "X", 1);
                 //this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
                 if (this.setVideoParam && !this.paramAdded) {
                     this.addToQueue(this.setVideoParam);
                     this.paramAdded = true;
+                }
+                if (this.youtubePlayer && this.youtubePlayer.videoId != res.data.video) {
+                    this.youtubePlayer.videoId = res.data.video;
                 }
             }
             else {
@@ -172,7 +174,9 @@ export class RoomComponent implements OnInit {
     updateRoom(cause: string) {
         this.apiService.updateRoom(this.roomId, this.roomData).subscribe(
             (res) => {
-                this.roomSocket.socket.emit(SocketEvent.UPDATEROOM, cause);
+                if (res.success) {
+                    this.roomSocket.socket.emit(SocketEvent.UPDATEROOM, cause);
+                }
             }, (error) => {
                 //console.log(error);
             });

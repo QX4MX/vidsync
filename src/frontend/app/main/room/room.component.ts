@@ -152,6 +152,7 @@ export class RoomComponent implements OnInit {
         this.apiService.getRoom(this.roomId).subscribe((res) => {
             if (res.success) {
                 this.roomData = res.data;
+                this.youtubePlayer.videoId = this.roomData.video;
                 this.openSnackBar(cause, "X", 1);
                 //this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
                 if (this.setVideoParam && !this.paramAdded) {

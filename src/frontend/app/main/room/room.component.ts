@@ -69,6 +69,10 @@ export class RoomComponent implements OnInit {
         let apiinterval = setInterval(() => {
             if (this.apiService.user) {
                 this.readRoom("Load Room");
+                if (this.setVideoParam && !this.paramAdded) {
+                    this.addToQueue(this.setVideoParam);
+                    this.paramAdded = true;
+                }
                 clearInterval(apiinterval);
             }
         }, 250);
@@ -149,25 +153,19 @@ export class RoomComponent implements OnInit {
     }
 
     readRoom(cause: string) {
-        this.apiService.getRoom(this.roomId).subscribe((res) => {
-            if (res.success) {
-                this.roomData = res.data;
-                this.openSnackBar(cause, "X", 1);
-                //this.titleService.setTitle('vidsync - ' + this.roomData.name + ' (Room)');
-                if (this.setVideoParam && !this.paramAdded) {
-                    this.addToQueue(this.setVideoParam);
-                    this.paramAdded = true;
+        setTimeout(() => {
+            this.apiService.getRoom(this.roomId).subscribe((res) => {
+                if (res.success) {
+                    this.roomData = res.data;
+                    this.openSnackBar(cause, "X", 1);
                 }
-                if (this.youtubePlayer && this.youtubePlayer.videoId != res.data.video) {
-                    this.youtubePlayer.videoId = res.data.video;
+                else {
+                    setTimeout(() => {
+                        this.readRoom("Load Room");
+                    }, 1000);
                 }
-            }
-            else {
-                setTimeout(() => {
-                    this.readRoom("Load Room");
-                }, 1000);
-            }
-        });
+            });
+        }, 100);
     }
 
 

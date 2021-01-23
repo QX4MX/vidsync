@@ -23,7 +23,7 @@ export class RoomComponent implements OnInit {
 
     roomId: any;
     roomData: Room;
-    onlineCount: number = 0;
+    currentUsers: string[] = [];
     vidInfo: string[];
     results: string[][];
     messages: string[][] = [];
@@ -52,7 +52,7 @@ export class RoomComponent implements OnInit {
         this.route.params.subscribe((params: Params) => {
             this.roomId = params['id'];
         });
-        this.roomSocket = new RoomComponentSocket(this, socketService);
+        this.roomSocket = new RoomComponentSocket(this, socketService, apiService);
         this.setVideoParam = this.route.snapshot.queryParams.setVideo;
         this.roominvite = window.location.toString();
 

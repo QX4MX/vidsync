@@ -48,7 +48,7 @@
     </div>
     <mat-tab-group [ngStyle]="{'height.px': playerHeight, 'width': sideTabGroupWidth}" [selectedIndex]="selectedIndex"
         (selectedTabChange)="onTabChange($event)" id="sideTabGroup" class="bg-primary-light">
-        <mat-tab label='{{languageService.currentLanguage.chat}}  ({{onlineCount}} Users)'>
+        <mat-tab label='{{languageService.currentLanguage.chat}}  ({{currentUsers.length}} Users)'>
             <mat-list id="chat-main" [ngStyle]="{'height.px': chatHeight}">
                 <mat-list-item *ngFor="let msg of messages; let i = index">
                     <mat-card class="msgCard {{msg[2]}}">

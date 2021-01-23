@@ -12,5 +12,5 @@ export enum SocketEvent {
     MSG = 'msg',
     YTSEARCH = 'searchYoutube',
     YTGETPLAYLIST = 'playlistVids',
-    GETUSERCOUNT = 'getUsers',
+    GETUSERS = 'getUsers',
 }

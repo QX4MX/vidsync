@@ -19,22 +19,17 @@ export class SocketServer {
                 this.userLeaveAllRooms(socket);
             });
 
-            socket.on(SocketEvent.JOIN, (roomId: string) => {
+            socket.on(SocketEvent.JOIN, (roomId: string, username: string) => {
                 this.userLeaveAllRooms(socket);
                 socket.join(roomId, () => {
                     let room = this.currentRooms.get(roomId);
                     if (!room) {
                         room = new SocketRoom(roomId);
-                        room.userJoin(socket.id);
-                        this.currentRooms.set(roomId, room);
                     }
-                    else {
-                        room.userJoin(socket.id);
-                        this.currentRooms.set(roomId, room);
-                    }
-                    this.io.to(roomId).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
-
-
+                    room.userJoin(socket.id, username);
+                    this.currentRooms.set(roomId, room);
+                    this.io.to(roomId).emit(SocketEvent.GETUSERS, room.getUsernames());
+                    this.io.to(room.roomID).emit(SocketEvent.MSG, username + ' joined!', 'System');
                 });
             });
 
@@ -99,9 +94,9 @@ export class SocketServer {
     userLeaveAllRooms(socket: socketIo.Socket) {
         this.currentRooms.forEach((room: SocketRoom, key: string) => {
             for (let user of room.getUsers()) {
-                if (user == socket.id) {
+                if (user[0] == socket.id) {
                     room.userLeave(socket.id);
-                    this.io.to(room.roomID).emit(SocketEvent.GETUSERCOUNT, room.getUserCount());
+                    this.io.to(room.roomID).emit(SocketEvent.GETUSERS, room.getUsers());
                     if (room.getUserCount() <= 0) {
                         this.currentRooms.delete(key);
                     }
@@ -113,8 +108,10 @@ export class SocketServer {
 
     userGetRoom(socket: socketIo.Socket) {
         for (let roomid of this.currentRooms.keys()) {
-            if (this.currentRooms.get(roomid).users.includes(socket.id)) {
-                return this.currentRooms.get(roomid);
+            for (let user of this.currentRooms.get(roomid).users) {
+                if (user[0] == socket.id) {
+                    return this.currentRooms.get(roomid);
+                }
             }
         }
         return null;

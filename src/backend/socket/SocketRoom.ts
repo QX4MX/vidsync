@@ -1,6 +1,6 @@
 export class SocketRoom {
     roomID: string;
-    users: string[] = [];
+    users: string[][] = [];
     lastUsed: number;
     constructor(roomID: string) {
         this.roomID = roomID;
@@ -9,6 +9,13 @@ export class SocketRoom {
 
     getUsers() {
         return this.users;
+    }
+    getUsernames() {
+        let usernames: string[] = [];
+        for (let user of this.users) {
+            usernames.push(user[1]);
+        }
+        return usernames;
     }
 
     getUserCount() {
@@ -19,18 +26,19 @@ export class SocketRoom {
         return this.lastUsed;
     }
 
-    userJoin(socketID: string) {
-        if (!this.users.includes(socketID)) {
-            this.users.push(socketID);
+    userJoin(socketID: string, username: string) {
+        if (!this.users.includes([socketID, username])) {
+            this.users.push([socketID, username]);
         }
     }
 
     userLeave(socketID: string) {
-        if (this.users.includes(socketID)) {
-            let index = this.users.indexOf(socketID);
-            this.users.splice(index, 1);
+        let index = 0;
+        for (let user of this.users) {
+            if (user[0] == socketID) {
+                this.users.splice(index, 1);
+            }
+            index++;
         }
     }
-
-
 }

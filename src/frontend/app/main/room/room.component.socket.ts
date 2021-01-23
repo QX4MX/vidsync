@@ -1,14 +1,13 @@
 import { SocketEvent } from '../../Enums';
+import { ApiService } from '../../services/api.service';
 import { SocketService } from '../../services/socket.service';
 import { RoomComponent } from './room.component';
 
 export class RoomComponentSocket {
     socket: SocketIOClient.Socket;
 
-    constructor(private room: RoomComponent, socketService: SocketService) {
+    constructor(private room: RoomComponent, socketService: SocketService, apiService: ApiService) {
         this.socket = socketService.socket;
-        this.socket.emit(SocketEvent.JOIN, this.room.roomId);
-
         // VidCtrl
         this.socket.on(SocketEvent.PLAY, () => {
             if (room.lastState != YT.PlayerState.PLAYING) {
@@ -34,8 +33,8 @@ export class RoomComponentSocket {
         });
 
         //Room Ctrl
-        this.socket.on(SocketEvent.GETUSERCOUNT, (userAmmount: number) => {
-            room.onlineCount = userAmmount;
+        this.socket.on(SocketEvent.GETUSERS, (users: string[]) => {
+            room.currentUsers = users;
         });
         this.socket.on(SocketEvent.UPDATEROOM, (cause: string) => {
             room.readRoom(cause);
@@ -83,7 +82,7 @@ export class RoomComponentSocket {
 
         this.socket.on(SocketEvent.CONNECT, () => {
             room.openSnackBar("Socket Connected", "X", 1);
-            this.socket.emit(SocketEvent.JOIN, this.room.roomId);
+            this.socket.emit(SocketEvent.JOIN, this.room.roomId, apiService.user.username);
         });
 
         this.socket.on(SocketEvent.DISCONNECT, () => {

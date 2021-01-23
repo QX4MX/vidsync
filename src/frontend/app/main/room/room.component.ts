@@ -24,7 +24,7 @@ export class RoomComponent implements OnInit {
     roomId: any;
     roomData: Room;
     onlineCount: number = 0;
-    vidInfo: string[]
+    vidInfo: string[];
     results: string[][];
     messages: string[][] = [];
     lastState: YT.PlayerState = YT.PlayerState.UNSTARTED;
@@ -209,6 +209,8 @@ export class RoomComponent implements OnInit {
         this.roomData.queue.splice(i, 1);
         this.roomData.video = videoId;
         this.updateRoom("Set Video From Queue");
+        this.roomSocket.socket.emit(SocketEvent.LOAD_VID, videoId);
+
     }
 
     addToQueue(videoId: string) {

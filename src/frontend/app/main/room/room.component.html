@@ -109,14 +109,15 @@
 </div>
 
 
-<!-- <div id="vidInfo" *ngIf="roomData && vidInfo">
+<div id="vidInfo" *ngIf="roomData && vidInfo">
     <mat-icon>remove_red_eye</mat-icon><span>{{vidInfo[4]}}</span>
     <mat-icon>thumb_up</mat-icon><span>{{vidInfo[5]}}</span>
     <mat-icon>thumb_down</mat-icon><span>{{vidInfo[6]}}</span>
-</div> -->
+</div>
 
 <ng-template #noroom>
     <mat-progress-bar mode="buffer"></mat-progress-bar>
-    <h1 style="text-align: center;">Room is loading or does not exist</h1>
+    <h1 style="text-align: center;">Room is loading or does not exist. You might have to accept cookies
+        (Need to reload (after)</h1>
     <mat-progress-bar mode="buffer"></mat-progress-bar>
 </ng-template>

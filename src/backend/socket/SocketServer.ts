@@ -55,14 +55,6 @@ export class SocketServer {
                     room.lastUsed = Date.now();
                 }
             });
-            socket.on(SocketEvent.NEXT, (nextVidId: string) => {
-                let room = this.userGetRoom(socket);
-                if (room && (room.getLastUsed() + this.coolDownTime < Date.now())) {
-                    this.io.to(room.roomID).emit(SocketEvent.SET_VID, nextVidId);
-                    this.io.to(room.roomID).emit(SocketEvent.UPDATEROOM, "Next!");
-                    room.lastUsed = Date.now();
-                }
-            });
 
             socket.on(SocketEvent.UPDATEROOM, (cause: string) => {
                 let room = this.userGetRoom(socket);
@@ -83,8 +75,9 @@ export class SocketServer {
 
             socket.on(SocketEvent.LOAD_VID, async (videoID: string) => {
                 let room = this.userGetRoom(socket);
-                if (this.ytApi.ready && room) {
+                if (this.ytApi.ready && room && (room.getLastUsed() + this.coolDownTime < Date.now())) {
                     this.io.to(room.roomID).emit(SocketEvent.LOAD_VID, await this.ytApi.getVidInfo(videoID));
+                    room.lastUsed = Date.now();
                 }
             });
 

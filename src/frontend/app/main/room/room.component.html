@@ -14,7 +14,7 @@
         <input matInput rows="1" [(ngModel)]="roominvite" readonly id="inviteTextArea">
     </div>
 
-    <button mat-raised-button (click)="theatreMode()">
+    <button mat-raised-button (click)="theatreMode()" *ngIf="playerDivWidth != '100%'">
         <mat-icon>crop_16_9</mat-icon> {{languageService.currentLanguage.theatreMode}}
     </button>
 </div>

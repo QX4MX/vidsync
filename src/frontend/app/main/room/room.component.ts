@@ -35,6 +35,7 @@ export class RoomComponent implements OnInit {
     paramAdded = false;
     roominvite: string;
 
+    changeViewWidthThreshHold = 1024;
     addVideoType = "Youtube";
     inTheatreMode = false;
     playerDivWidth = '70%';
@@ -81,7 +82,7 @@ export class RoomComponent implements OnInit {
 
     @HostListener('document:fullscreenchange', ['$event'])
     onFullScreenChange(event?) {
-        if (window.innerWidth > 1024) {
+        if (window.innerWidth > this.changeViewWidthThreshHold) {
             if (document.fullscreenElement) {
                 this.playerDivWidth = '85%';
                 this.sideTabGroupWidth = '15%';
@@ -110,7 +111,7 @@ export class RoomComponent implements OnInit {
 
     @HostListener('window:resize', ['$event'])
     onResize(event?) {
-        if (window.innerWidth > 1024) {
+        if (window.innerWidth > this.changeViewWidthThreshHold) {
             if (this.inTheatreMode) {
                 this.playerHeight = window.innerHeight;
             }

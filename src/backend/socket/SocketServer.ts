@@ -9,7 +9,7 @@ import { IRoom } from '../api/models/room';
 export class SocketServer {
     private io: SocketIO.Server;
     private currentRooms: Map<string, SocketRoom> = new Map();
-    private coolDownTime: number = 150;
+    private coolDownTime: number = 150; // milliseconds
 
     constructor(server: Server, private ytApi: youtubeapi) {
         this.io = socketIo().listen(server);
@@ -66,7 +66,7 @@ export class SocketServer {
 
             socket.on(SocketEvent.UPDATEROOM, (cause: string) => {
                 let room = this.userGetRoom(socket);
-                if (room && (room.getLastUsed() + this.coolDownTime < Date.now())) {
+                if (room) {
                     this.io.to(room.roomID).emit(SocketEvent.UPDATEROOM, cause);
                 }
             });

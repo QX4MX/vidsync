@@ -153,19 +153,17 @@ export class RoomComponent implements OnInit {
     }
 
     readRoom(cause: string) {
-        setTimeout(() => {
-            this.apiService.getRoom(this.roomId).subscribe((res) => {
-                if (res.success) {
-                    this.roomData = res.data;
-                    this.openSnackBar(cause, "X", 1);
-                }
-                else {
-                    setTimeout(() => {
-                        this.readRoom("Load Room");
-                    }, 1000);
-                }
-            });
-        }, 100);
+        this.apiService.getRoom(this.roomId).subscribe((res) => {
+            if (res.success) {
+                this.roomData = res.data;
+                this.openSnackBar(cause, "X", 1);
+            }
+            else {
+                setTimeout(() => {
+                    this.readRoom("Load Room");
+                }, 1000);
+            }
+        });
     }
 
 

@@ -52,7 +52,6 @@ export class RoomComponent implements OnInit {
         this.route.params.subscribe((params: Params) => {
             this.roomId = params['id'];
         });
-        this.roomSocket = new RoomComponentSocket(this, socketService, apiService);
         this.setVideoParam = this.route.snapshot.queryParams.setVideo;
         this.roominvite = window.location.toString();
 
@@ -69,6 +68,7 @@ export class RoomComponent implements OnInit {
     ngOnInit() {
         let apiinterval = setInterval(() => {
             if (this.apiService.user) {
+                this.roomSocket = new RoomComponentSocket(this, this.socketService, this.apiService);
                 this.readRoom("Load Room");
                 if (this.setVideoParam && !this.paramAdded) {
                     this.addToQueue(this.setVideoParam);

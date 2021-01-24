@@ -43,7 +43,8 @@ export class AppComponent {
                     let domain = "vidsync.de"
                     document.cookie = "domain=" + domain + ";";
                     document.cookie = "SameSite='Lax';"
-                    /* document.cookie = "Secure"; if samesite is none*/
+                    document.cookie = "Secure";
+                    window.location = window.location;
                 }
             }
         });

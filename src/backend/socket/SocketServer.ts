@@ -60,12 +60,15 @@ export class SocketServer {
 
             socket.on(SocketEvent.MSG, (msg: string, author: string) => {
                 let room = this.userGetRoom(socket);
-                if (!msg.replace(/\s/g, '').length && room) {
-                    socket.emit(SocketEvent.MSG, "Unable to Send (whitespace/empty msg)");
+                if (room) {
+                    if (!msg.replace(/\s/g, '').length) {
+                        socket.emit(SocketEvent.MSG, "Unable to Send (whitespace/empty msg)");
+                    }
+                    else {
+                        this.io.to(room.roomID).emit(SocketEvent.MSG, msg, author);
+                    }
                 }
-                else {
-                    this.io.to(room.roomID).emit(SocketEvent.MSG, msg, author);
-                }
+
             });
 
             socket.on(SocketEvent.LOAD_VID, async (videoID: string) => {

@@ -9,6 +9,7 @@ export class RoomComponentSocket {
     constructor(private room: RoomComponent, socketService: SocketService, apiService: ApiService) {
         this.socket = socketService.socket;
         // VidCtrl
+
         this.socket.on(SocketEvent.PLAY, () => {
             if (room.lastState != YT.PlayerState.PLAYING) {
                 room.youtubePlayer.playVideo();
@@ -88,6 +89,9 @@ export class RoomComponentSocket {
         this.socket.on(SocketEvent.DISCONNECT, () => {
             room.openSnackBar("Socket Disconnected", "X", 1);
         });
+
+        this.socket.emit(SocketEvent.JOIN, this.room.roomId, apiService.user.username);
+
 
     }
 }

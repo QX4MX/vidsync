@@ -12,6 +12,10 @@ body {
     
 }
 
+a{
+    text-decoration: none !important;
+}
+
 .bg-primary{
     background-color: $primary;
     color: $text-on-primary;

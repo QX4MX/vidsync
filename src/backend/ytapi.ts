@@ -5,6 +5,8 @@ export class youtubeapi {
     public ready: boolean = false;
     private apiUrl: string = 'https://www.googleapis.com/youtube/v3/';
     private fetch = require('node-fetch');
+
+    private lastVidInfo;
     constructor() {
         if (this.apikey) {
             this.ready = true;
@@ -59,18 +61,25 @@ export class youtubeapi {
     }
 
     async getVidInfo(videoId: string) {
-        console.log("YTApi => vidinfo " + videoId);
-        let url = this.apiUrl + 'videos?id=' + videoId + '&part=snippet,contentDetails,statistics&key=' + this.apikey;
-        let response = await this.fetch(url);
-        let json = await response.json();
-        let id = json.items[0].id;
-        let title = json.items[0].snippet.title;
-        let channel = json.items[0].snippet.channelTitle;
-        let postedTime = json.items[0].snippet.publishedAt;
-        let views = json.items[0].statistics.viewCount;
-        let likes = json.items[0].statistics.likeCount;
-        let dislikes = json.items[0].statistics.dislikeCount;
-        let returnVal: string[] = [id, title, channel, postedTime, views, likes, dislikes];
-        return returnVal;
+        if (this.lastVidInfo && this.lastVidInfo[0].id == videoId) {
+            return this.lastVidInfo;
+        }
+        else {
+            console.log("YTApi => vidinfo " + videoId);
+            let url = this.apiUrl + 'videos?id=' + videoId + '&part=snippet,contentDetails,statistics&key=' + this.apikey;
+            let response = await this.fetch(url);
+            let json = await response.json();
+            let id = json.items[0].id;
+            let title = json.items[0].snippet.title;
+            let channel = json.items[0].snippet.channelTitle;
+            let postedTime = json.items[0].snippet.publishedAt;
+            let views = json.items[0].statistics.viewCount;
+            let likes = json.items[0].statistics.likeCount;
+            let dislikes = json.items[0].statistics.dislikeCount;
+            let returnVal: string[] = [id, title, channel, postedTime, views, likes, dislikes];
+            this.lastVidInfo = returnVal;
+            return returnVal;
+        }
+
     }
 }

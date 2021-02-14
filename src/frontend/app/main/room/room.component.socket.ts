@@ -70,7 +70,10 @@ export class RoomComponentSocket {
 
         this.socket.on(SocketEvent.LOAD_VID, (result: string[]) => {
             if (result) {
+
+                result[2] = result[2].substr(0, 3) + "." + result[2].substr(3);
                 room.vidInfo = result;
+
             }
         });
 

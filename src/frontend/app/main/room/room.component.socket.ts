@@ -70,8 +70,12 @@ export class RoomComponentSocket {
 
         this.socket.on(SocketEvent.LOAD_VID, (result: string[]) => {
             if (result) {
-
-                result[2] = result[2].substr(0, 3) + "." + result[2].substr(3);
+                for (let i = 4; i < 7; i++) {
+                    for (let j = -3; j > - result[i].length; j = j - 4) {
+                        result[i] = result[i].substr(0, result[i].length + j) + "," + result[i].substr(result[i].length + j);
+                    }
+                }
+                result[3] = new Date(result[3]).toDateString().split(' ').slice(1).join(' '); // remove weekday from DateString
                 room.vidInfo = result;
 
             }

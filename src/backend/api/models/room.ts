@@ -1,8 +1,8 @@
 import { Document, Schema, Model, model, Error } from 'mongoose';
 
 export interface IRoom extends Document {
-    video: String;
-    queue: Array<String>;
+    video: Array<String>;
+    queue: Array<String[]>;
     userCount: number;
     creatorid: string;
     createAt: Date;
@@ -10,7 +10,7 @@ export interface IRoom extends Document {
 
 export const roomSchema = new Schema({
     video: {
-        type: String,
+        type: Array,
     },
     queue: {
         type: Array,

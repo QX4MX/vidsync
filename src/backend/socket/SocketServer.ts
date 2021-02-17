@@ -29,7 +29,7 @@ export class SocketServer {
                     room.userJoin(socket.id, username);
                     this.currentRooms.set(roomId, room);
                     this.io.to(roomId).emit(SocketEvent.GETUSERS, room.getUsernames());
-                    this.io.to(room.roomID).emit(SocketEvent.MSG, username + ' joined!', 'System');
+                    /* this.io.to(room.roomID).emit(SocketEvent.MSG, username + ' joined!', 'System'); gets called twice*/
                 });
             });
 

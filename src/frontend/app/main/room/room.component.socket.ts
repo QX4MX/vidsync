@@ -11,25 +11,16 @@ export class RoomComponentSocket {
         // VidCtrl
 
         this.socket.on(SocketEvent.PLAY, () => {
-            if (room.lastState != YT.PlayerState.PLAYING) {
-                room.youtubePlayer.playVideo();
-            }
+            room.player.playVideo();
+        });
 
-        });
         this.socket.on(SocketEvent.PAUSE, () => {
-            if (room.lastState != YT.PlayerState.PAUSED) {
-                room.youtubePlayer.pauseVideo();
-            }
+            room.player.pauseVideo();
         });
-        this.socket.on(SocketEvent.SET_VID, (videoId: string) => {
-            room.youtubePlayer.videoId = videoId;
-            if (room.youtubePlayer.getCurrentTime() != 0) {
-                room.youtubePlayer.seekTo(0, true);
-            }
-        });
+
         this.socket.on(SocketEvent.SYNCTIME, (time: number) => {
-            if (Math.abs(room.youtubePlayer.getCurrentTime() - time) > 1) {
-                room.youtubePlayer.seekTo(time, true);
+            if (Math.abs(room.player.getCurrentTime() - time) > 1) {
+                room.player.seekTo(time, true);
             }
         });
 

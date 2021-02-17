@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, HostListener, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { YouTubePlayer } from '@angular/youtube-player';
+
 import { Room } from '../../model/room';
 import { SocketEvent } from '../../Enums';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -9,13 +9,15 @@ import { SocketService } from '../../services/socket.service';
 import { RoomComponentSocket } from './room.component.socket';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { LanguageService } from '../../services/language.service';
+import { PlayerComponent } from './player/player.component';
 @Component({
     selector: 'app-room',
     templateUrl: './room.component.html',
     styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit {
-    @ViewChild(YouTubePlayer) youtubePlayer: YouTubePlayer;
+    self = this;
+    @ViewChild(PlayerComponent) player: PlayerComponent;
 
     roomSocket: RoomComponentSocket;
     playerHeight: number = 720;
@@ -36,7 +38,7 @@ export class RoomComponent implements OnInit {
     roominvite: string;
 
     changeViewWidthThreshHold = 1024;
-    addVideoType = "Youtube";
+    addVideoType = "youtube";
     inTheatreMode = false;
     playerDivWidth = '70%';
     sideTabGroupWidth = '30%';
@@ -48,7 +50,7 @@ export class RoomComponent implements OnInit {
         private socketService: SocketService,
         public languageService: LanguageService,
     ) {
-        this.loadYTApiScript();
+
         this.route.params.subscribe((params: Params) => {
             this.roomId = params['id'];
         });
@@ -57,13 +59,7 @@ export class RoomComponent implements OnInit {
 
     }
 
-    loadYTApiScript() {
-        let script = document.createElement('script');
-        script.src = "https://www.youtube.com/iframe_api";
-        script.async = true;
-        script.defer = true;
-        document.body.append(script);
-    }
+
 
     ngOnInit() {
         let apiinterval = setInterval(() => {
@@ -71,7 +67,7 @@ export class RoomComponent implements OnInit {
                 this.roomSocket = new RoomComponentSocket(this, this.socketService, this.apiService);
                 this.readRoom("Load Room");
                 if (this.setVideoParam && !this.paramAdded) {
-                    this.addToQueue(this.setVideoParam);
+                    this.addToQueue('youtube', this.setVideoParam);
                     this.paramAdded = true;
                 }
                 clearInterval(apiinterval);
@@ -158,6 +154,9 @@ export class RoomComponent implements OnInit {
             if (res.success) {
                 this.roomData = res.data;
                 this.openSnackBar(cause, "X", 1);
+                if (cause == "Set Video From Queue" && this.roomData.video[0] == 'twitch') {
+                    this.player.setVideo(this.roomData.video[1]);
+                }
             }
             else {
                 setTimeout(() => {
@@ -179,47 +178,23 @@ export class RoomComponent implements OnInit {
             });
     }
 
-    onReady(event) {
-
-    }
-
-    onStateChange(event: YT.OnStateChangeEvent) {
-        if (event.data == YT.PlayerState.PLAYING) {
-            this.roomSocket.socket.emit(SocketEvent.PLAY, this.youtubePlayer.getCurrentTime());
-        }
-        else if (event.data == YT.PlayerState.PAUSED) {
-            this.roomSocket.socket.emit(SocketEvent.PAUSE, this.youtubePlayer.getCurrentTime());
-        }
-        else if (event.data == YT.PlayerState.ENDED) {
-            if (this.roomData.queue.length != 0) {
-                this.setVideoFromQueue(this.roomData.queue[0], 0);
-            }
-        }
-        else if (event.data == YT.PlayerState.UNSTARTED) {
-            this.youtubePlayer.playVideo();
-        }
-        this.lastState = event.data;
-    }
-    // Video
-
-
-
-    setVideoFromQueue(videoId: string, i: number) {
-        this.roomData.video = videoId;
+    setVideoFromQueue(videoType: string, videoId: string, i: number) {
         //this.socket.emit(SocketEvent.LOAD_VID,videoId);
         this.roomData.queue.splice(i, 1);
-        this.roomData.video = videoId;
+        this.roomData.video = [videoType, videoId];
+        if (videoType == 'youtube') {
+            // load YT Vidinfo
+            this.roomSocket.socket.emit(SocketEvent.LOAD_VID, videoId);
+        }
         this.updateRoom("Set Video From Queue");
-        this.roomSocket.socket.emit(SocketEvent.LOAD_VID, videoId);
-
     }
 
-    addToQueue(videoId: string) {
+    addToQueue(videoType: string, videoId: string) {
         if (!this.roomData.video) {
-            this.setVideoFromQueue(videoId, 0);
+            this.setVideoFromQueue(videoType, videoId, 0);
         }
         else {
-            this.roomData.queue.push(videoId);
+            this.roomData.queue.push([videoType, videoId]);
             this.updateRoom("Added Element To Queue");
         }
     }
@@ -229,32 +204,44 @@ export class RoomComponent implements OnInit {
         this.updateRoom("Removed Element From Queue");
     }
 
+    searchTwitch(type: string, link: string) {
+        console.log(link);
+        let url = new URL(link);
+        let id;
+        if (type == 'channel') {
+            id = url.pathname.split('/')[1];
+            this.addToQueue('twitch', 'channel/' + id);
+        }
+        else if (type == 'video') {
+            id = url.pathname.split('/')[2];
+            this.addToQueue('twitch', 'video/' + id);
+        }
+    }
 
-
-    searchYT(searchYTVal: string) {
+    searchYT(searchVal: string) {
         // 1 sec cooldown
-        let vidId = this.checkUrlForParam(searchYTVal, 'v');
-        let playlistId = this.checkUrlForParam(searchYTVal, 'list');
-        if (!vidId && searchYTVal.includes("https://youtu.be")) {
-            vidId = this.checkShortYTLink(searchYTVal);
+        let vidId = this.checkUrlForParam(searchVal, 'v');
+        let playlistId = this.checkUrlForParam(searchVal, 'list');
+        if (!vidId && searchVal.includes("https://youtu.be")) {
+            vidId = this.checkShortYTLink(searchVal);
         }
         if (playlistId) {
             this.roomSocket.socket.emit(SocketEvent.YTGETPLAYLIST, playlistId);
         }
         else if (vidId) {
-            this.addToQueue(vidId);
+            this.addToQueue('youtube', vidId);
         }
 
         else if (this.lastSearch < Date.now() - 1000) {
             this.lastSearch = Date.now();
-            this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchYTVal);
+            this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchVal);
         }
     }
 
     addPlaylistToQueue() {
         if (this.results) {
             for (let elem of this.results) {
-                this.roomData.queue.push(elem[0]);
+                this.roomData.queue.push(['youtube', elem[0]]);
             }
             this.updateRoom('Added All to Queue');
         }

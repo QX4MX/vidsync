@@ -24,27 +24,46 @@
         <button mat-raised-button *ngIf="inTheatreMode" (click)="exitFullscreen();" class="exitTheatreMode">&times;
         </button>
         <div id="addModal" class="add-modal">
-            <button mat-raised-button (click)="setVideoType('Youtube')">Youtube</button>
-            <button mat-raised-button (click)="setVideoType('Twitch')" disabled>Twitch (Disabled)</button>
+            <button mat-raised-button (click)="setVideoType('youtube')">Youtube</button>
+            <button mat-raised-button (click)="setVideoType('twitch')">Twitch</button>
             <span class="close cursor" (click)="closeModal()">&times;</span>
-            <div *ngIf="addVideoType == 'Youtube'">
+            <div *ngIf="addVideoType == 'youtube'">
                 <p class="formdescribtion">{{languageService.currentLanguage.searchYTDescrition}}</p>
                 <form>
                     <mat-form-field>
                         <mat-label>{{languageService.currentLanguage.searchYT}} </mat-label>
-                        <input #searchVal matInput autocomplete="off">
+                        <input #searchVal0 matInput autocomplete="off">
                     </mat-form-field>
-                    <button mat-raised-button (click)="searchYT(searchVal.value);">
+                    <button mat-raised-button (click)="searchYT(searchVal0.value);">
                         <mat-icon>youtube_searched_for</mat-icon>
                     </button>
                 </form>
             </div>
+            <div *ngIf="addVideoType == 'twitch'">
+                <p class="formdescribtion">{{languageService.currentLanguage.searchYTDescrition}}</p>
+                <form>
+                    <mat-form-field>
+                        <mat-label>Twitch Vod (url)</mat-label>
+                        <input #searchVal1 matInput autocomplete="off">
+                    </mat-form-field>
+                    <button mat-raised-button (click)="searchTwitch('video',searchVal1.value);">
+                        <mat-icon>add_to_queue</mat-icon>
+                    </button>
+                </form>
+
+                <form>
+                    <mat-form-field>
+                        <mat-label>Twitch channel (url)</mat-label>
+                        <input #searchVal2 matInput autocomplete="off">
+                    </mat-form-field>
+                    <button mat-raised-button (click)="searchTwitch('channel',searchVal2.value);">
+                        <mat-icon>add_to_queue</mat-icon>
+                    </button>
+                </form>
+
+            </div>
         </div>
-        <youtube-player *ngIf="roomData.video;else addVideoFirst" (stateChange)="onStateChange($event)"
-            (ready)="onReady($event)" [videoId]="roomData.video"
-            [playerVars]="{ enablejsapi:1 , modestbranding:1 , rel: 0 , autoplay:1 , origin: 'vidsync.de'}" width="100%"
-            height="100%" [ngStyle]="{'height.px': playerHeight}">
-        </youtube-player>
+        <app-player [room]="self" [playerHeight]="playerHeight"></app-player>
     </div>
     <mat-tab-group [ngStyle]="{'height.px': playerHeight, 'width': sideTabGroupWidth}" [selectedIndex]="selectedIndex"
         (selectedTabChange)="onTabChange($event)" id="sideTabGroup" class="bg-primary-light">
@@ -77,9 +96,17 @@
 
             <mat-list id="queue" *ngIf="roomData.queue">
                 <mat-list-item *ngFor="let queueElem of roomData.queue; let i = index">
-                    <img id='' class='card-img' src='https://img.youtube.com/vi/{{queueElem}}/hqdefault.jpg'>
+                    <!-- YT Thumbnail -->
+                    <img id='' class='card-img' *ngIf="queueElem[0] =='youtube'"
+                        src='https://img.youtube.com/vi/{{queueElem[1]}}/hqdefault.jpg'>
+                    <!-- Twitch Vod (Twitch logo for now) -->
+                    <img id='' class='card-img' *ngIf="queueElem[0] =='twitch' && queueElem[1].includes('video')"
+                        src='https://blog.twitch.tv/assets/uploads/03-glitch.jpg'>
+                    <!-- Twitch Channel Preview -->
+                    <img id='' class='card-img' *ngIf="queueElem[0] =='twitch' && !(queueElem[1].includes('video'))"
+                        src="https://static-cdn.jtvnw.net/previews-ttv/live_user_{{queueElem[1].split('/')[1]}}-440x248.jpg">
                     <div class="btn-group">
-                        <button mat-raised-button (click)="setVideoFromQueue(queueElem,i)">
+                        <button mat-raised-button (click)="setVideoFromQueue(queueElem[0],queueElem[1],i)">
                             <mat-icon>play_arrow</mat-icon>
                         </button>
                         <button mat-raised-button (click)="removeFromQueue(i)">
@@ -97,7 +124,8 @@
                 <mat-list-item *ngFor="let resultElem of results; let i = index">
                     <img id='' class='card-img' src='https://img.youtube.com/vi/{{resultElem[0]}}/hqdefault.jpg'>
                     <div class="btn-group">
-                        <button mat-raised-button (click)="addToQueue(resultElem[0]); selectTab(1); closeModal(); ">
+                        <button mat-raised-button
+                            (click)="addToQueue('youtube',resultElem[0]); selectTab(1); closeModal(); ">
                             <mat-icon>playlist_add</mat-icon>
                         </button>
                     </div>

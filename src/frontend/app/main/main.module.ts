@@ -22,9 +22,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
+import { PlayerComponent } from './room/player/player.component';
 
 @NgModule({
-    declarations: [IndexComponent, RoomComponent, PrivacyComponent, UserinfoComponent],
+    declarations: [IndexComponent, RoomComponent, PrivacyComponent, UserinfoComponent, PlayerComponent],
     imports: [
         CommonModule,
         MainRoutingModule,

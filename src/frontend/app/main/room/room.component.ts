@@ -224,17 +224,20 @@ export class RoomComponent implements OnInit {
         }
     }
 
-    searchTwitch(type: string, link: string) {
+    searchTwitch(link: string) {
         try {
             let url = new URL(link);
             let id;
-            if (type == 'channel') {
-                id = url.pathname.split('/')[1];
-                this.addToQueue('twitch', 'channel/' + id);
-            }
-            else if (type == 'video') {
+            if (url.pathname.split('/')[1] == 'videos') {
+
                 id = url.pathname.split('/')[2];
+                console.log(id);
                 this.addToQueue('twitch', 'video/' + id);
+            }
+            else {
+                id = url.pathname.split('/')[1];
+                console.log(id);
+                this.addToQueue('twitch', 'channel/' + id);
             }
         }
         catch (error) {

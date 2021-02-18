@@ -41,27 +41,16 @@
                 </form>
             </div>
             <div *ngIf="addVideoType == 'twitch'">
-                <p class="formdescribtion">{{languageService.currentLanguage.searchYTDescrition}}</p>
+                <p class="formdescribtion">{{languageService.currentLanguage.searchTwitchDescrition}}</p>
                 <form>
                     <mat-form-field>
-                        <mat-label>Twitch Vod (url)</mat-label>
+                        <mat-label>{{languageService.currentLanguage.searchTwitch}}</mat-label>
                         <input #searchVal1 matInput autocomplete="off">
                     </mat-form-field>
-                    <button mat-raised-button (click)="searchTwitch('video',searchVal1.value);">
+                    <button mat-raised-button (click)="searchTwitch(searchVal1.value);">
                         <mat-icon>add_to_queue</mat-icon>
                     </button>
                 </form>
-
-                <form>
-                    <mat-form-field>
-                        <mat-label>Twitch channel (url)</mat-label>
-                        <input #searchVal2 matInput autocomplete="off">
-                    </mat-form-field>
-                    <button mat-raised-button (click)="searchTwitch('channel',searchVal2.value);">
-                        <mat-icon>add_to_queue</mat-icon>
-                    </button>
-                </form>
-
             </div>
         </div>
         <app-player [room]="self" [playerHeight]="playerHeight"></app-player>

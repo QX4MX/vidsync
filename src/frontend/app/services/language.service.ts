@@ -56,6 +56,8 @@ export interface Language {
     theatreMode: string;
     searchYTDescrition: string;
     searchYT: string;
+    searchTwitchDescrition: string;
+    searchTwitch: string;
     //settings
     username: string;
     update: string;

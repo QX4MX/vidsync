@@ -23,6 +23,8 @@ export class EnglishLanguage implements Language {
     theatreMode: string = "Theatre Mode";
     searchYTDescrition: string = "Search for a Video (Title or Url) or a Playlist(Url) on Youtube";
     searchYT: string = "Search YT";
+    searchTwitchDescrition: string = "Search for a Twitch Url (Channel or Vod)";
+    searchTwitch: string = "Twitch Url (Channel or Vod)";
     //settings
     username: string = "Username";
     update: string = "Update";

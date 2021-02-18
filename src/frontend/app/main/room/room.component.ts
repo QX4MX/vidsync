@@ -225,7 +225,7 @@ export class RoomComponent implements OnInit {
         if (!vidId && searchVal.includes("https://youtu.be")) {
             vidId = this.checkShortYTLink(searchVal);
         }
-        if (playlistId) {
+        if (playlistId && playlistId != 'LL') {
             this.roomSocket.socket.emit(SocketEvent.YTGETPLAYLIST, playlistId);
         }
         else if (vidId) {

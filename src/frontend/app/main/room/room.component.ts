@@ -204,20 +204,6 @@ export class RoomComponent implements OnInit {
         this.updateRoom("Removed Element From Queue");
     }
 
-    searchTwitch(type: string, link: string) {
-        console.log(link);
-        let url = new URL(link);
-        let id;
-        if (type == 'channel') {
-            id = url.pathname.split('/')[1];
-            this.addToQueue('twitch', 'channel/' + id);
-        }
-        else if (type == 'video') {
-            id = url.pathname.split('/')[2];
-            this.addToQueue('twitch', 'video/' + id);
-        }
-    }
-
     searchYT(searchVal: string) {
         // 1 sec cooldown
         let vidId = this.checkUrlForParam(searchVal, 'v');
@@ -236,6 +222,24 @@ export class RoomComponent implements OnInit {
             this.lastSearch = Date.now();
             this.roomSocket.socket.emit(SocketEvent.YTSEARCH, searchVal);
         }
+    }
+
+    searchTwitch(type: string, link: string) {
+        try {
+            let url = new URL(link);
+            let id;
+            if (type == 'channel') {
+                id = url.pathname.split('/')[1];
+                this.addToQueue('twitch', 'channel/' + id);
+            }
+            else if (type == 'video') {
+                id = url.pathname.split('/')[2];
+                this.addToQueue('twitch', 'video/' + id);
+            }
+        }
+        catch (error) {
+        }
+
     }
 
     addPlaylistToQueue() {

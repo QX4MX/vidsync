@@ -44,7 +44,7 @@ export class PlayerComponent implements OnInit {
         document.body.append(script);
 
         let interval = setInterval(() => {
-            if (document.getElementById('twitch-player').innerHTML == '' && this.room && this.room.roomData && this.room.roomData.video[0] == 'twitch') {
+            if (document.getElementById('twitch-player')?.innerHTML == '' && this.room && this.room.roomData && this.room.roomData.video[0] == 'twitch') {
                 this.createTwitchPlayer(this.room.roomData.video[1]);
                 clearInterval(interval);
             }
@@ -52,7 +52,6 @@ export class PlayerComponent implements OnInit {
 
 
     }
-
 
     createTwitchPlayer(str: string) {
         let type = str.split('/')[0];
@@ -78,13 +77,11 @@ export class PlayerComponent implements OnInit {
         this.twitchPlayer.addEventListener(Twitch.Player.ENDED, () => { console.log("Ended"); this.room.setVideoFromQueue(this.room.roomData.queue[0][0], this.room.roomData.queue[0][1], 0) });
     }
 
-
-
-    onReady(event) {
+    onYTPlayerReady(event) {
 
     }
 
-    onStateChange(event: YT.OnStateChangeEvent) {
+    onYTPlayerStateChange(event: YT.OnStateChangeEvent) {
         if (event.data == YT.PlayerState.PLAYING) {
             this.room.roomSocket.socket.emit(SocketEvent.PLAY, this.youtubePlayer.getCurrentTime());
         }

@@ -24,6 +24,7 @@ export class RoomController {
 
     public async createRoomWithVideo(req: Request, res: Response) {
         req.body.creatorid = "Bot";
+        //TODO twitch vods via bot
         req.body.video = ['youtube', req.params.videoID];
         const newRoom: IRoom = new Room(req.body);
         await newRoom.save();
@@ -35,6 +36,7 @@ export class RoomController {
         let queue = [];
         let firstVideoSet = false;
         let results = await this.ytApi.getPlaylistVideos(req.params.listId);
+        //TODO twitch vods via bot
         for (let video of results) {
             if (!firstVideoSet) {
                 req.body.video = ['youtube', video[0]];

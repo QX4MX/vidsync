@@ -25,6 +25,7 @@ export class GermanLanguage implements Language {
     searchYT: string = "Suche auf Youtube";
     searchTwitchDescrition: string = "Suche einen Stream oder Vod auf Twitch (Url)";
     searchTwitch: string = "Twitc Url (Kanal oder Vod)";
+    roomloading: string = "Room läd oder existiert nicht.";
     //settings
     username: string = "Benutzername";
     update: string = "Update";

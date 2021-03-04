@@ -58,6 +58,7 @@ export interface Language {
     searchYT: string;
     searchTwitchDescrition: string;
     searchTwitch: string;
+    roomloading: string;
     //settings
     username: string;
     update: string;

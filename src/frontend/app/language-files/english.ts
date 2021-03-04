@@ -25,6 +25,7 @@ export class EnglishLanguage implements Language {
     searchYT: string = "Search YT";
     searchTwitchDescrition: string = "Search for a Twitch Url (Channel or Vod)";
     searchTwitch: string = "Twitch Url (Channel or Vod)";
+    roomloading: string = "Room is loading or does not exist.";
     //settings
     username: string = "Username";
     update: string = "Update";

@@ -66,10 +66,13 @@ export class RoomComponent implements OnInit {
             if (this.apiService.user) {
                 this.roomSocket = new RoomComponentSocket(this, this.socketService, this.apiService);
                 this.readRoom("Load Room");
+
+                // can only add to queue if user exists
                 if (this.setVideoParam && !this.paramAdded) {
                     this.addToQueue('youtube', this.setVideoParam);
                     this.paramAdded = true;
                 }
+
                 clearInterval(apiinterval);
             }
         }, 250);

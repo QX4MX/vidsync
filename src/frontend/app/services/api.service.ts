@@ -29,8 +29,12 @@ export class ApiService {
 
     async createToken() {
         this.http.get(`${this.baseUrl}/api/user/new`).subscribe((res: any) => {
-            this.token = res.token;
-            localStorage.setItem('jwtToken', res.token);
+            if (res.success) {
+                this.token = res.token;
+                this.user = res.user;
+                localStorage.setItem('jwtToken', res.token);
+            }
+
         });
     }
 

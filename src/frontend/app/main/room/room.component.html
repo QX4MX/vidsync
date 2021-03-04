@@ -1,6 +1,6 @@
 <div class="top">
     <div class="addMoreWrapper">
-        <button class="addMoreBtn" mat-raised-button (click)="openModal()">
+        <button class="addMoreBtn" mat-raised-button (click)="openModal()" *ngIf="roomData">
             <mat-icon>add_to_queue</mat-icon> {{languageService.currentLanguage.addVideo}}
         </button>
 
@@ -14,7 +14,8 @@
         <input matInput rows="1" [(ngModel)]="roominvite" readonly id="inviteTextArea">
     </div>
 
-    <button mat-raised-button (click)="theatreMode()" *ngIf="playerDivWidth != '100%'">
+    <button mat-raised-button (click)="theatreMode()"
+        *ngIf="playerDivWidth != '100%' && roomData && roomData.video.length != 0">
         <mat-icon>crop_16_9</mat-icon> {{languageService.currentLanguage.theatreMode}}
     </button>
 </div>

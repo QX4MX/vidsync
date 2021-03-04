@@ -27,7 +27,7 @@ export class ApiService {
         }
     }
 
-    async createToken() {
+    createToken() {
         this.http.get(`${this.baseUrl}/api/user/new`).subscribe((res: any) => {
             if (res.success) {
                 this.token = res.token;
@@ -38,7 +38,7 @@ export class ApiService {
         });
     }
 
-    async getProfile() {
+    getProfile() {
         if (this.token) {
             const header = { Authorization: this.token };
             this.http.get(`${this.baseUrl}/api/user/auth`, { headers: header }).subscribe((res: any) => {
@@ -54,7 +54,7 @@ export class ApiService {
         }
     }
 
-    async updateUser(data: any) {
+    updateUser(data: any) {
         if (this.token) {
             let url = `${this.baseUrl}/api/user/update`;
             const header = { Authorization: this.token };
@@ -69,7 +69,7 @@ export class ApiService {
     }
 
     // Create
-    async createRoom() {
+    createRoom() {
         if (this.token) {
             const header = { Authorization: this.token };
             return this.http.get(`${this.baseUrl}/api/room/create`, { headers: header });

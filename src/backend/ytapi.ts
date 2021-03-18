@@ -18,15 +18,17 @@ export class youtubeapi {
         if (this.ready) {
             let url = this.apiUrl + 'search?part=snippet&maxResults=10&q=' + searchTerm + '&type=video&key=' + this.apikey;
             let response = await this.fetch(url);
-            let json = await response.json();
-            let info: string[][] = [];
-            for (let item in json.items) {
-                let infoStr: string[] = [];
-                infoStr.push(json.items[item].id.videoId);
-                infoStr.push(json.items[item].snippet.title);
-                info.push(infoStr);
+            if (response) {
+                let json = await response.json();
+                let info: string[][] = [];
+                for (let item in json.items) {
+                    let infoStr: string[] = [];
+                    infoStr.push(json.items[item].id.videoId);
+                    infoStr.push(json.items[item].snippet.title);
+                    info.push(infoStr);
+                }
+                return info;
             }
-            return info;
         }
     }
 
@@ -34,13 +36,15 @@ export class youtubeapi {
         console.log("Api Request - related Videos " + vidId);
         let url = this.apiUrl + 'search/?part=snippet&type=video&relatedToVideoId=' + vidId + '&maxResults=10&key=' + this.apikey;
         let response = await this.fetch(url);
-        let json = await response.json();
-        let info: Array<Array<string>> = new Array<Array<string>>();
-        for (let item in json.items) {
-            let infoStr: Array<string> = new Array<string>();
-            infoStr.push(json.items[item].id.videoId);
-            infoStr.push(json.items[item].snippet.title);
-            info.push(infoStr);
+        if (response) {
+            let json = await response.json();
+            let info: Array<Array<string>> = new Array<Array<string>>();
+            for (let item in json.items) {
+                let infoStr: Array<string> = new Array<string>();
+                infoStr.push(json.items[item].id.videoId);
+                infoStr.push(json.items[item].snippet.title);
+                info.push(infoStr);
+            }
         }
         return info;
     } */
@@ -49,15 +53,17 @@ export class youtubeapi {
         console.log("YTApi => playlist Videos " + playlistId);
         let url = this.apiUrl + 'playlistItems?part=snippet&playlistId=' + playlistId + '&maxResults=50&key=' + this.apikey;
         let response = await this.fetch(url);
-        let json = await response.json();
-        let info: Array<Array<string>> = new Array<Array<string>>();
-        for (let item in json.items) {
-            let infoStr: Array<string> = new Array<string>();
-            infoStr.push(json.items[item].snippet.resourceId.videoId);
-            infoStr.push(json.items[item].snippet.title);
-            info.push(infoStr);
+        if (response) {
+            let json = await response.json();
+            let info: Array<Array<string>> = new Array<Array<string>>();
+            for (let item in json.items) {
+                let infoStr: Array<string> = new Array<string>();
+                infoStr.push(json.items[item].snippet.resourceId.videoId);
+                infoStr.push(json.items[item].snippet.title);
+                info.push(infoStr);
+            }
+            return info;
         }
-        return info;
     }
 
     async getVidInfo(videoId: string) {
@@ -68,17 +74,19 @@ export class youtubeapi {
             console.log("YTApi => vidinfo " + videoId);
             let url = this.apiUrl + 'videos?id=' + videoId + '&part=snippet,contentDetails,statistics&key=' + this.apikey;
             let response = await this.fetch(url);
-            let json = await response.json();
-            let id = json.items[0].id;
-            let title = json.items[0].snippet.title;
-            let channel = json.items[0].snippet.channelTitle;
-            let postedTime = json.items[0].snippet.publishedAt;
-            let views = json.items[0].statistics.viewCount;
-            let likes = json.items[0].statistics.likeCount;
-            let dislikes = json.items[0].statistics.dislikeCount;
-            let returnVal: string[] = [id, title, channel, postedTime, views, likes, dislikes];
-            this.lastVidInfo = returnVal;
-            return returnVal;
+            if (response) {
+                let json = await response.json();
+                let id = json.items[0].id;
+                let title = json.items[0].snippet.title;
+                let channel = json.items[0].snippet.channelTitle;
+                let postedTime = json.items[0].snippet.publishedAt;
+                let views = json.items[0].statistics.viewCount;
+                let likes = json.items[0].statistics.likeCount;
+                let dislikes = json.items[0].statistics.dislikeCount;
+                let returnVal: string[] = [id, title, channel, postedTime, views, likes, dislikes];
+                this.lastVidInfo = returnVal;
+                return returnVal;
+            }
         }
 
     }

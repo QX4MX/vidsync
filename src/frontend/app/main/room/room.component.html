@@ -58,25 +58,7 @@
     </div>
     <mat-tab-group [ngStyle]="{'height.px': playerHeight, 'width': sideTabGroupWidth}" [selectedIndex]="selectedIndex"
         (selectedTabChange)="onTabChange($event)" id="sideTabGroup" class="bg-primary-light">
-        <mat-tab label='{{languageService.currentLanguage.chat}}'>
 
-            <mat-list id="chat-main" [ngStyle]="{'height.px': chatHeight}">
-                <mat-list-item *ngFor="let msg of messages; let i = index">
-                    <mat-card class="msgCard {{msg[2]}}">
-                        <mat-card-content>
-                            <p class="msg">{{msg[1]}}: {{msg[0]}}</p>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-list-item>
-            </mat-list>
-            <form id="chat-bot">
-                <mat-form-field>
-                    <mat-label>{{languageService.currentLanguage.sendMessage}}</mat-label>
-                    <input #msgVal matInput autocomplete="off">
-                </mat-form-field>
-                <button hidden mat-raised-button (click)="sendMsg(msgVal.value); msgVal.value = ''"></button>
-            </form>
-        </mat-tab>
         <mat-tab label="{{languageService.currentLanguage.queue}}  ({{roomData.queue.length}} Videos)">
             <div class="addMoreWrapper">
                 <button class="addMoreBtn" mat-raised-button (click)="openModal()">
@@ -110,8 +92,29 @@
                 </mat-list-item>
             </mat-list>
         </mat-tab>
+
+        <mat-tab label='{{languageService.currentLanguage.chat}}'>
+
+            <mat-list id="chat-main" [ngStyle]="{'height.px': chatHeight}">
+                <mat-list-item *ngFor="let msg of messages; let i = index">
+                    <mat-card class="msgCard {{msg[2]}}">
+                        <mat-card-content>
+                            <p class="msg">{{msg[1]}}: {{msg[0]}}</p>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-list-item>
+            </mat-list>
+            <form id="chat-bot">
+                <mat-form-field>
+                    <mat-label>{{languageService.currentLanguage.sendMessage}}</mat-label>
+                    <input #msgVal matInput autocomplete="off">
+                </mat-form-field>
+                <button hidden mat-raised-button (click)="sendMsg(msgVal.value); msgVal.value = ''"></button>
+            </form>
+        </mat-tab>
+
         <mat-tab label="{{languageService.currentLanguage.results}}" *ngIf="results">
-            <button mat-raised-button (click)="addPlaylistToQueue(); selectTab(1);">
+            <button mat-raised-button (click)="addPlaylistToQueue(); selectTab(0);">
                 <mat-icon>playlist_add</mat-icon><span>{{languageService.currentLanguage.addAll}}</span>
             </button>
             <mat-list id="searchResults">
@@ -119,7 +122,7 @@
                     <img id='' class='card-img' src='https://img.youtube.com/vi/{{resultElem[0]}}/hqdefault.jpg'>
                     <div class="btn-group">
                         <button mat-raised-button
-                            (click)="addToQueue('youtube',resultElem[0]); selectTab(1); closeModal(); ">
+                            (click)="addToQueue('youtube',resultElem[0]); selectTab(0); closeModal(); ">
                             <mat-icon>playlist_add</mat-icon>
                         </button>
                     </div>
@@ -127,7 +130,7 @@
                 </mat-list-item>
             </mat-list>
         </mat-tab>
-        <mat-tab label='{{currentUsers.length}} Users'>
+        <mat-tab label='{{currentUsers.length}} {{languageService.currentLanguage.users}}'>
             <mat-list id="chat-users" [ngStyle]="{'height.px': chatHeight}"
                 *ngIf="currentUsers && currentUsers.length != 0">
                 <mat-list-item *ngFor="let user of currentUsers; let i = index">

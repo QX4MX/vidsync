@@ -59,6 +59,8 @@ export interface Language {
     searchTwitchDescrition: string;
     searchTwitch: string;
     roomloading: string;
+    users: string;
+
     //settings
     username: string;
     update: string;

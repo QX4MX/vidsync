@@ -316,10 +316,13 @@ export class RoomComponent implements OnInit {
 
     openModal() {
         document.getElementById('addModal').style.display = "block";
+        document.getElementById('addVideoForm').classList.add("alerts-border");
+
     }
 
     closeModal() {
         document.getElementById('addModal').style.display = "none";
+        document.getElementById('addVideoForm').classList.remove("alerts-border");
         document.getElementById('playerdiv').scrollIntoView();
     }
 

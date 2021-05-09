@@ -51,6 +51,11 @@
             bottom: 0;
         }
     }
+    &-users{
+        mat-list-item{
+            text-align: center;
+        }
+    }
     &-bot{
         margin-top: 10px;
         width: 100%;

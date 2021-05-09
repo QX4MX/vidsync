@@ -27,6 +27,7 @@ export class RoomComponentSocket {
         //Room Ctrl
         this.socket.on(SocketEvent.GETUSERS, (users: string[]) => {
             room.currentUsers = users;
+            console.log(users);
         });
         this.socket.on(SocketEvent.UPDATEROOM, (cause: string) => {
             room.readRoom(cause);

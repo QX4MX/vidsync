@@ -99,7 +99,7 @@ export class SocketServer {
             for (let user of room.getUsers()) {
                 if (user[0] == socket.id) {
                     room.userLeave(socket.id);
-                    this.io.to(room.roomID).emit(SocketEvent.GETUSERS, room.getUsers());
+                    this.io.to(room.roomID).emit(SocketEvent.GETUSERS, room.getUsernames());
                     if (room.getUserCount() <= 0) {
                         this.currentRooms.delete(key);
                     }

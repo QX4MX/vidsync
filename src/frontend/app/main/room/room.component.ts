@@ -316,6 +316,7 @@ export class RoomComponent implements OnInit {
 
     openModal() {
         document.getElementById('addModal').style.display = "block";
+        document.getElementById('searchYTInput').focus();
         document.getElementById('addVideoForm').classList.add("alerts-border");
 
     }

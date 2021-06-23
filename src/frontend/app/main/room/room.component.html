@@ -34,7 +34,7 @@
                 <form>
                     <mat-form-field>
                         <mat-label>{{languageService.currentLanguage.searchYT}} </mat-label>
-                        <input #searchVal0 matInput autocomplete="off">
+                        <input #searchVal0 matInput autocomplete="off" id="searchYTInput">
                     </mat-form-field>
                     <button mat-raised-button (click)="searchYT(searchVal0.value);">
                         <mat-icon>youtube_searched_for</mat-icon>

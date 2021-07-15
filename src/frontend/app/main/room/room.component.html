@@ -46,7 +46,7 @@
                 <form>
                     <mat-form-field>
                         <mat-label>{{languageService.currentLanguage.searchTwitch}}</mat-label>
-                        <input #searchVal1 matInput autocomplete="off">
+                        <input #searchVal1 matInput autocomplete="off" id="searchTTVInput">
                     </mat-form-field>
                     <button mat-raised-button (click)="searchTwitch(searchVal1.value);">
                         <mat-icon>add_to_queue</mat-icon>
@@ -81,7 +81,7 @@
                         src="https://static-cdn.jtvnw.net/previews-ttv/live_user_{{queueElem[1].split('/')[1]}}-440x248.jpg">
                     <img id='' class='card-img' *ngIf="queueElem[0] =='spotify'"
                         src='https://developer.spotify.com/assets/branding-guidelines/logo.png'>
-                    <div class="btn-group">
+                    <div class="queue-btn-group">
                         <button mat-raised-button (click)="setVideoFromQueue(queueElem[0],queueElem[1],i)">
                             <mat-icon>play_arrow</mat-icon>
                         </button>
@@ -120,7 +120,7 @@
             <mat-list id="searchResults">
                 <mat-list-item *ngFor="let resultElem of results; let i = index">
                     <img id='' class='card-img' src='https://img.youtube.com/vi/{{resultElem[0]}}/hqdefault.jpg'>
-                    <div class="btn-group">
+                    <div class="searchResults-btn-group">
                         <button mat-raised-button
                             (click)="addToQueue('youtube',resultElem[0]); selectTab(0); closeModal(); ">
                             <mat-icon>playlist_add</mat-icon>

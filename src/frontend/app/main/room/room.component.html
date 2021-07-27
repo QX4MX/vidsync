@@ -27,7 +27,6 @@
         <div id="addModal" class="add-modal">
             <button mat-raised-button (click)="setVideoType('youtube')">Youtube</button>
             <button mat-raised-button (click)="setVideoType('twitch')">Twitch</button>
-            <button mat-raised-button (click)="setVideoType('spotify')" disabled>Spotify (disabled)</button>
             <span class="close cursor" (click)="closeModal()">&times;</span>
             <div *ngIf="addVideoType == 'youtube'" id="addVideoForm">
                 <p class="formdescribtion">{{languageService.currentLanguage.searchYTDescrition}}</p>
@@ -79,8 +78,6 @@
                     <!-- Twitch Channel Preview -->
                     <img id='' class='card-img' *ngIf="queueElem[0] =='twitch' && !(queueElem[1].includes('video'))"
                         src="https://static-cdn.jtvnw.net/previews-ttv/live_user_{{queueElem[1].split('/')[1]}}-440x248.jpg">
-                    <img id='' class='card-img' *ngIf="queueElem[0] =='spotify'"
-                        src='https://developer.spotify.com/assets/branding-guidelines/logo.png'>
                     <div class="queue-btn-group">
                         <button mat-raised-button (click)="setVideoFromQueue(queueElem[0],queueElem[1],i)">
                             <mat-icon>play_arrow</mat-icon>

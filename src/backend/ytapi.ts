@@ -14,7 +14,6 @@ export class youtubeapi {
     }
 
     async searchKeyWord(searchTerm: any) {
-        console.log("YTApi => search " + searchTerm);
         if (this.ready) {
             let url = this.apiUrl + 'search?part=snippet&maxResults=10&q=' + searchTerm + '&type=video&key=' + this.apikey;
             let response = await this.fetch(url);
@@ -50,7 +49,6 @@ export class youtubeapi {
     } */
 
     async getPlaylistVideos(playlistId: string) {
-        console.log("YTApi => playlist Videos " + playlistId);
         let url = this.apiUrl + 'playlistItems?part=snippet&playlistId=' + playlistId + '&maxResults=50&key=' + this.apikey;
         let response = await this.fetch(url);
         if (response) {
@@ -71,7 +69,6 @@ export class youtubeapi {
             return this.lastVidInfo;
         }
         else {
-            console.log("YTApi => vidinfo " + videoId);
             let url = this.apiUrl + 'videos?id=' + videoId + '&part=snippet,contentDetails,statistics&key=' + this.apikey;
             let response = await this.fetch(url);
             if (response) {

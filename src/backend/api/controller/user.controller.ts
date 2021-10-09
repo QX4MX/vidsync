@@ -20,7 +20,6 @@ export class UserController {
     }
 
     public async getUser(req: Request, res: Response) {
-        console.log("Api => " + res.locals.username + " Get User!");
         let user = await User.findById(res.locals.id);
         if (!user) {
             res.status(201).send({ success: false, message: "Not Valid" });
@@ -36,7 +35,6 @@ export class UserController {
     }
 
     public async updateUser(req: Request, res: Response) {
-        console.log("Api => " + res.locals.username + " Update User!");
         let user = await User.findOneAndUpdate({ _id: res.locals.id }, req.body, { new: true }, (err, user) => {
             if (err) {
             }

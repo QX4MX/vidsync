@@ -8,18 +8,16 @@ export class RoomController {
     }
 
     public async getRoom(req: Request, res: Response) {
-        console.log("Api => " + res.locals.username + " get Room " + req.params.id);
-
         const room = await Room.findById(req.params.id);
         res.json({ success: true, data: room });
     }
 
     public async createRoom(req: Request, res: Response) {
-        console.log("Api => " + res.locals.username + " create Room!");
         req.body.creatorid = res.locals.id;
         const newRoom: IRoom = new Room(req.body);
         await newRoom.save();
         res.json({ success: true, data: newRoom });
+        console.log("Api => " + res.locals.username + " create Room! " + newRoom.id);
     }
 
     public async createRoomWithVideo(req: Request, res: Response) {
@@ -53,7 +51,6 @@ export class RoomController {
     }
 
     public async updateRoom(req: Request, res: Response) {
-        console.log("Api =>  " + res.locals.username + " Update Room " + req.params.id);
         const room = await Room.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, room) => {
             if (err) {
                 console.log(err);

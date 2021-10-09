@@ -17,6 +17,7 @@ export class GermanLanguage implements Language {
     addAll: string = "Alle hinzufügen"
     chat: string = "Chat"
     queue: string = "Warteliste";
+    history: string = "Verlauf";
     results: string = "Ergebnisse";
     copyInviteLinkDescrition: string = "Link kopieren";
     sendMessage: string = "Nachricht schreiben";

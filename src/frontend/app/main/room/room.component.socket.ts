@@ -55,7 +55,7 @@ export class RoomComponentSocket {
         this.socket.on(SocketEvent.YTSEARCH, (result: string[][]) => {
             if (result) {
                 room.results = result;
-                room.selectTab(2);
+                room.selectTab(3);
                 document.getElementById('queue').scrollIntoView();
             }
         });
@@ -76,7 +76,7 @@ export class RoomComponentSocket {
         this.socket.on(SocketEvent.YTGETPLAYLIST, (result: string[][]) => {
             if (result) {
                 room.results = result;
-                room.selectTab(2);
+                room.selectTab(3);
             }
         });
 

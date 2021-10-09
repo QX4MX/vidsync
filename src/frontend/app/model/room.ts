@@ -4,6 +4,7 @@ export class Room {
     video: string[]
     userCount: number
     queue: Array<string[]>
+    history: Array<string[]>
     creator: string
     created_date: Date
 }

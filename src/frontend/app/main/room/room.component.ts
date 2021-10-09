@@ -69,7 +69,7 @@ export class RoomComponent implements OnInit {
 
                 // can only add to queue if user exists
                 if (this.setVideoParam && !this.paramAdded) {
-                    this.addToQueue('youtube', this.setVideoParam);
+                    this.addToQueue('youtube', this.setVideoParam, "");
                     this.paramAdded = true;
                 }
 
@@ -181,10 +181,14 @@ export class RoomComponent implements OnInit {
             });
     }
 
-    setVideoFromQueue(videoType: string, videoId: string, i: number) {
+    setVideoFromQueue(videoType: string, videoId: string, title: string, i: number) {
         //this.socket.emit(SocketEvent.LOAD_VID,videoId);
+        if (this.roomData.video[0] != null) {
+            this.roomData.history.unshift(this.roomData.video);
+        }
+
         this.roomData.queue.splice(i, 1);
-        this.roomData.video = [videoType, videoId];
+        this.roomData.video = [videoType, videoId, title];
         if (videoType == 'youtube') {
             // load YT Vidinfo
             this.roomSocket.socket.emit(SocketEvent.LOAD_VID, videoId);
@@ -192,12 +196,22 @@ export class RoomComponent implements OnInit {
         this.updateRoom("Set Video From Queue");
     }
 
-    addToQueue(videoType: string, videoId: string) {
+    setVideoFromHistory(videoType: string, videoId: string, i: number) {
+        //this.socket.emit(SocketEvent.LOAD_VID,videoId);
+        this.roomData.video = [videoType, videoId];
+        if (videoType == 'youtube') {
+            // load YT Vidinfo
+            this.roomSocket.socket.emit(SocketEvent.LOAD_VID, videoId);
+        }
+        this.updateRoom("Set Video From History");
+    }
+
+    addToQueue(videoType: string, videoId: string, title: string) {
         if (this.roomData.video.length == 0) {
-            this.setVideoFromQueue(videoType, videoId, 0);
+            this.setVideoFromQueue(videoType, videoId, title, 0);
         }
         else {
-            this.roomData.queue.push([videoType, videoId]);
+            this.roomData.queue.push([videoType, videoId, title]);
             this.updateRoom("Added Element To Queue");
         }
     }
@@ -205,6 +219,11 @@ export class RoomComponent implements OnInit {
     removeFromQueue(i: number) {
         this.roomData.queue.splice(i, 1);
         this.updateRoom("Removed Element From Queue");
+    }
+
+    removeFromHistory(i: number) {
+        this.roomData.history.splice(i, 1);
+        this.updateRoom("Removed Element From History");
     }
 
     searchYT(searchVal: string) {
@@ -218,7 +237,7 @@ export class RoomComponent implements OnInit {
             this.roomSocket.socket.emit(SocketEvent.YTGETPLAYLIST, playlistId);
         }
         else if (vidId) {
-            this.addToQueue('youtube', vidId);
+            this.addToQueue('youtube', vidId, "");
         }
 
         else if (this.lastSearch < Date.now() - 1000) {
@@ -235,12 +254,12 @@ export class RoomComponent implements OnInit {
 
                 id = url.pathname.split('/')[2];
                 console.log(id);
-                this.addToQueue('twitch', 'video/' + id);
+                this.addToQueue('twitch', 'video/' + id, "");
             }
             else {
                 id = url.pathname.split('/')[1];
                 console.log(id);
-                this.addToQueue('twitch', 'channel/' + id);
+                this.addToQueue('twitch', 'channel/' + id, "");
             }
         }
         catch (error) {
@@ -251,7 +270,7 @@ export class RoomComponent implements OnInit {
     addPlaylistToQueue() {
         if (this.results) {
             for (let elem of this.results) {
-                this.roomData.queue.push(['youtube', elem[0]]);
+                this.roomData.queue.push(['youtube', elem[0], elem[1]]);
             }
             this.updateRoom('Added All to Queue');
         }

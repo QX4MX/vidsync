@@ -50,6 +50,7 @@ export interface Language {
     addAll: string;
     chat: string;
     queue: string;
+    history: string;
     results: string;
     copyInviteLinkDescrition: string;
     sendMessage: string;

@@ -74,7 +74,7 @@ export class PlayerComponent implements OnInit {
         this.twitchPlayer = new Twitch.Player("twitch-player", options);
         this.twitchPlayer.addEventListener(Twitch.Player.PLAY, () => { console.log("Play"); this.room.roomSocket.socket.emit(SocketEvent.PLAY, this.twitchPlayer.getCurrentTime()) });
         this.twitchPlayer.addEventListener(Twitch.Player.PAUSE, () => { console.log("Pause"); this.room.roomSocket.socket.emit(SocketEvent.PAUSE, this.twitchPlayer.getCurrentTime()) });
-        this.twitchPlayer.addEventListener(Twitch.Player.ENDED, () => { console.log("Ended"); this.room.setVideoFromQueue(this.room.roomData.queue[0][0], this.room.roomData.queue[0][1], 0) });
+        this.twitchPlayer.addEventListener(Twitch.Player.ENDED, () => { console.log("Ended"); this.room.setVideoFromQueue(this.room.roomData.queue[0][0], this.room.roomData.queue[0][1], this.room.roomData.queue[0][2], 0) });
     }
 
     onYTPlayerReady(event) {
@@ -90,7 +90,7 @@ export class PlayerComponent implements OnInit {
         }
         else if (event.data == YT.PlayerState.ENDED) {
             if (this.room.roomData.queue.length != 0) {
-                this.room.setVideoFromQueue(this.room.roomData.queue[0][0], this.room.roomData.queue[0][1], 0);
+                this.room.setVideoFromQueue(this.room.roomData.queue[0][0], this.room.roomData.queue[0][1], this.room.roomData.queue[0][2], 0);
             }
         }
         else if (event.data == YT.PlayerState.UNSTARTED) {

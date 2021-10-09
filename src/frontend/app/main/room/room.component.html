@@ -78,11 +78,39 @@
                     <!-- Twitch Channel Preview -->
                     <img id='' class='card-img' *ngIf="queueElem[0] =='twitch' && !(queueElem[1].includes('video'))"
                         src="https://static-cdn.jtvnw.net/previews-ttv/live_user_{{queueElem[1].split('/')[1]}}-440x248.jpg">
+                    <span id="videotitle" *ngIf="queueElem[2]">{{queueElem[2]}}</span>
+
                     <div class="queue-btn-group">
-                        <button mat-raised-button (click)="setVideoFromQueue(queueElem[0],queueElem[1],i)">
+                        <button mat-raised-button (click)="setVideoFromQueue(queueElem[0],queueElem[1],queueElem[2],i)">
                             <mat-icon>play_arrow</mat-icon>
                         </button>
                         <button mat-raised-button (click)="removeFromQueue(i)">
+                            <mat-icon>remove</mat-icon>
+                        </button>
+                    </div>
+                </mat-list-item>
+            </mat-list>
+        </mat-tab>
+
+        <mat-tab label="{{languageService.currentLanguage.history}}">
+            <mat-list id="history" *ngIf="roomData.history">
+                <mat-list-item *ngFor="let historyElem of roomData.history; let j = index">
+                    <!-- YT Thumbnail -->
+                    <img id='' class='card-img' *ngIf="historyElem[0] =='youtube'"
+                        src='https://img.youtube.com/vi/{{historyElem[1]}}/hqdefault.jpg'>
+                    <!-- Twitch Vod (Twitch logo for now) -->
+                    <img id='' class='card-img' *ngIf="historyElem[0] =='twitch' && historyElem[1].includes('video')"
+                        src='https://blog.twitch.tv/assets/uploads/03-glitch.jpg'>
+                    <!-- Twitch Channel Preview -->
+                    <img id='' class='card-img' *ngIf="historyElem[0] =='twitch' && !(historyElem[1].includes('video'))"
+                        src="https://static-cdn.jtvnw.net/previews-ttv/live_user_{{historyElem[1].split('/')[1]}}-440x248.jpg">
+                    <span id="videotitle" *ngIf="historyElem[2]">{{historyElem[2]}}</span>
+                    <div class="queue-btn-group">
+                        <button mat-raised-button
+                            (click)="addToQueue(historyElem[0],historyElem[1],historyElem[2]); selectTab(0); closeModal(); ">
+                            <mat-icon>playlist_add</mat-icon>
+                        </button>
+                        <button mat-raised-button (click)="removeFromHistory(i)">
                             <mat-icon>remove</mat-icon>
                         </button>
                     </div>
@@ -119,7 +147,7 @@
                     <img id='' class='card-img' src='https://img.youtube.com/vi/{{resultElem[0]}}/hqdefault.jpg'>
                     <div class="searchResults-btn-group">
                         <button mat-raised-button
-                            (click)="addToQueue('youtube',resultElem[0]); selectTab(0); closeModal(); ">
+                            (click)="addToQueue('youtube',resultElem[0],resultElem[1]); selectTab(0); closeModal(); ">
                             <mat-icon>playlist_add</mat-icon>
                         </button>
                     </div>

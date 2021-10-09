@@ -17,6 +17,7 @@ export class EnglishLanguage implements Language {
     addAll: string = "Add All"
     chat: string = "Chat"
     queue: string = "Queue";
+    history: string = "History";
     results: string = "Results";
     copyInviteLinkDescrition: string = "Copy Invite Link";
     sendMessage: string = "Send Message";

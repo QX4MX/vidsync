@@ -16,6 +16,10 @@ export const roomSchema = new Schema({
         type: Array,
         default: new Array()
     },
+    history: {
+        type: Array,
+        default: new Array()
+    },
     userCount: {
         type: Number,
         default: 0

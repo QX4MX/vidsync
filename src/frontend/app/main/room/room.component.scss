@@ -88,7 +88,7 @@
 
 
 
-#queue,#searchResults{
+#queue,#history,#searchResults{
     mat-list-item{
         height: 10%;
         width: 80%;
@@ -96,14 +96,20 @@
         img{
             width: 100%;
         }
-        .queue-btn-group{
+        #videotitle{
             z-index: 1;
+            position: absolute;
+            top: 0;
+            left: 16px;
+        }
+        .queue-btn-group{
+            z-index: 2;
             position: absolute;
             top: 0;
             right: 16px;
         }
         .searchResults-btn-group{
-            z-index: 1;
+            z-index: 2;
             display: block;
             width: calc(100% - 2rem);
             height: calc(100% - 2rem);

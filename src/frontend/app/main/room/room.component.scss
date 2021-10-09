@@ -153,9 +153,7 @@
     }
 }
 
-::ng-deep.mat-tab-label{
-    min-width: 100px !important;
-}
+
 
 mat-spinner{
     margin: 10% 50% auto;
@@ -254,6 +252,10 @@ mat-spinner{
 
     .formdescribtion{
         font-size: large;
+    }
+
+    .formdescribtion{
+        font-size: smaller;
     }
     
 }

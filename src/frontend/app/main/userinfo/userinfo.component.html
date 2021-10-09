@@ -1,15 +1,15 @@
 <div class="bg-secondary">
-    <form>
+    <form id="usernameForm">
         <mat-form-field>
             <mat-label>{{languageService.currentLanguage.username}}</mat-label>
             <input #usernameval matInput autocomplete="off" value="{{username}}">
         </mat-form-field>
         <button mat-raised-button (click)="updateUsername(usernameval.value)">
-            <mat-icon>edit</mat-icon> {{languageService.currentLanguage.update}}
+            <mat-icon>done</mat-icon>
         </button>
     </form>
 
-    <form>
+    <form id="languageForm">
         <mat-form-field>
             <mat-label>{{languageService.currentLanguage.language}}</mat-label>
             <mat-select (selectionChange)="updateLanguage($event.value)">

@@ -6,6 +6,23 @@ div{
         font-size: larger;
     }
 }
+#usernameForm{
+    margin-top: 10px;
+    width: 100%;
+    .mat-form-field{
+        width: calc(100% - 100px);
+    }
+    button{
+        margin-top: 18px;
+        float: right;
+    }
+}
+
+#languageForm{
+    .mat-form-field{
+        width: 100%;
+    }
+}
 .mat-option{
     background-color: black;
 }

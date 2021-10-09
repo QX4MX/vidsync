@@ -11,7 +11,8 @@ export class UserController {
         console.log("Api => create User!");
         const newUser: IUser = new User();
         let user = await newUser.save();
-        let token = jwt.sign({ user }, jwtSecret, { expiresIn: '365d' });
+        user.username = "Guest-" + Date.now();
+        let token = jwt.sign({ user }, jwtSecret, { expiresIn: '30d' });
         let returnUser = {
             username: user.username,
             created_date: user.created_date,
@@ -42,7 +43,7 @@ export class UserController {
                 res.status(201).send({ success: false, message: "Not Valid" });
             }
             else {
-                let token = jwt.sign({ user }, jwtSecret, { expiresIn: '365' });
+                let token = jwt.sign({ user }, jwtSecret, { expiresIn: '365d' });
                 let returnUser = {
                     username: user.username,
                     created_date: user.created_date,

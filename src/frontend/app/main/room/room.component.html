@@ -11,7 +11,6 @@
             (click)="this.openSnackBar('Copied to Clipboard', 'X', 1);">
             <mat-icon>content_copy</mat-icon> {{languageService.currentLanguage.copyInviteLinkDescrition}}
         </button>
-        <input matInput rows="1" [(ngModel)]="roominvite" readonly id="inviteTextArea">
     </div>
 
     <button mat-raised-button (click)="theatreMode()"
@@ -30,7 +29,7 @@
             <span class="close cursor" (click)="closeModal()">&times;</span>
             <div *ngIf="addVideoType == 'youtube'" id="addVideoForm">
                 <p class="formdescribtion">{{languageService.currentLanguage.searchYTDescrition}}</p>
-                <form>
+                <form label>
                     <mat-form-field>
                         <mat-label>{{languageService.currentLanguage.searchYT}} </mat-label>
                         <input #searchVal0 matInput autocomplete="off" id="searchYTInput">

@@ -243,10 +243,8 @@ mat-spinner{
         }
     }
     .top{
-        display: block;
-        #invite{
-            margin-left: 0 !important;
-            margin-top: 1rem;
+        div{
+            max-width: calc(50% - 3rem) ;
         }
     }
 

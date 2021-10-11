@@ -20,19 +20,15 @@
             }
         }
     }
-    p{
-        margin: 2rem auto;
+    .openSourceNotice{
+        margin: auto;
+        padding: 1rem;
         font-size: 20px;
         text-align: center;
         line-height: 130%;
         a{
-            text-decoration: none;
-            text-decoration: underline;
-
-        }
-        img{
-            vertical-align: middle;
-    
+            color: white;
+            text-decoration: underline !important;
         }
     }
 

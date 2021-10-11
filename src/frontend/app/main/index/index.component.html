@@ -17,23 +17,26 @@
             </button>
         </form>
     </div>
-    <p>
+    <span class="openSourceNotice">
         {{languageService.currentLanguage.vidsyncDescribtion}}
-        ( <a href="https://gitlab.com/QX4MX/vidsync">Gitlab
-            <img src="https://gitlab.com/QX4MX/vidsync/badges/master/pipeline.svg">
-        </a> )
-    </p>
+        (<a href="https://gitlab.com/QX4MX/vidsync">Gitlab Vidsync<mat-icon>link</mat-icon></a>)
+    </span>
     <div class="discord-bot-invite bg-secondary">
         <form>
             <h1>{{languageService.currentLanguage.inviteBotDescribtion}}</h1>
-            <button mat-raised-button (click)="inviteDCBot()" id="create">
+            <button mat-raised-button (click)="inviteDCBot()" id="inviteBot">
                 <mat-icon>arrow_forward</mat-icon>{{languageService.currentLanguage.inviteBot}}
             </button>
         </form>
         <div>
             <img src="/assets/DiscordBotPreview.png" alt="">
-            <p>{{languageService.currentLanguage.botDescrition}} ( <a
-                    href="https://gitlab.com/QX4MX/discord-bots/-/tree/master/vidsync-dc-bot">Gitlab</a> ) </p>
+            <span class="openSourceNotice">
+                {{languageService.currentLanguage.botDescrition}}
+                ( <a href="https://gitlab.com/QX4MX/discord-bots/-/tree/master/vidsync-dc-bot">Gitlab
+                    Vidsync-Discord-Bot
+                    <mat-icon>link</mat-icon>
+                </a> )
+            </span>
         </div>
     </div>
     <div style="width: 100%; text-align: center;">

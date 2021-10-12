@@ -266,4 +266,11 @@ mat-spinner{
     animation-iteration-count: 1;
 }
 
+#goback{
+        text-align: center;
+        display: flex;
+        margin: 2rem auto;
+        padding: 1rem;
+}
+
 @keyframes blink { 50% { border: 1px #ff0000 solid; }  }

@@ -184,5 +184,8 @@
 <ng-template #noroom>
     <mat-progress-bar mode="buffer"></mat-progress-bar>
     <h1 style="text-align: center;">{{languageService.currentLanguage.roomloading}} </h1>
+    <button mat-raised-button id="goback" [routerLink]="'/'">
+        <mat-icon>arrow_forward</mat-icon> {{languageService.currentLanguage.goback}}
+    </button>
     <mat-progress-bar mode="buffer"></mat-progress-bar>
 </ng-template>

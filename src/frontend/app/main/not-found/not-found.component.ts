@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { LanguageService } from '../../services/language.service';
 
 @Component({
@@ -8,9 +9,10 @@ import { LanguageService } from '../../services/language.service';
 })
 export class NotFoundComponent implements OnInit {
 
-    constructor(public languageService: LanguageService) { }
+    constructor(public languageService: LanguageService, private titleService: Title) { }
 
     ngOnInit(): void {
+        this.titleService.setTitle("Vidsync - 404")
     }
 
 }

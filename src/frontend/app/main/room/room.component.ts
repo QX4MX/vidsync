@@ -10,6 +10,7 @@ import { RoomComponentSocket } from './room.component.socket';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { LanguageService } from '../../services/language.service';
 import { PlayerComponent } from './player/player.component';
+import { Title } from '@angular/platform-browser';
 @Component({
     selector: 'app-room',
     templateUrl: './room.component.html',
@@ -49,6 +50,7 @@ export class RoomComponent implements OnInit {
         private _snackBar: MatSnackBar,
         private socketService: SocketService,
         public languageService: LanguageService,
+        private titleService: Title
     ) {
 
         this.route.params.subscribe((params: Params) => {
@@ -56,6 +58,8 @@ export class RoomComponent implements OnInit {
         });
         this.setVideoParam = this.route.snapshot.queryParams.setVideo;
         this.roominvite = window.location.toString();
+
+        titleService.setTitle("Vidsync - Room");
 
     }
 

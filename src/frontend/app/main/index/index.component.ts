@@ -16,7 +16,7 @@ export class IndexComponent implements OnInit {
         private ngZone: NgZone,
         private router: Router
     ) {
-        this.titleService.setTitle("vidsync - Watch Youtube Together");
+        this.titleService.setTitle("Vidsync - Watch Youtube Together");
     }
 
     ngOnInit(): void {

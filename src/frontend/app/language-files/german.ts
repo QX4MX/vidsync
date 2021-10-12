@@ -33,4 +33,8 @@ export class GermanLanguage implements Language {
     username: string = "Benutzername";
     update: string = "Update";
     language: string = "Sprache";
+
+    // notfound
+    notfounddescribtion: string = "Diese Seite scheint nicht zu existieren.";
+    goback: string = "Zurück zur Hauptseite.";
 }

@@ -66,4 +66,8 @@ export interface Language {
     username: string;
     update: string;
     language: string;
+
+    // notfound
+    notfounddescribtion: string;
+    goback: string;
 }

@@ -23,9 +23,10 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { PlayerComponent } from './room/player/player.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
-    declarations: [IndexComponent, RoomComponent, PrivacyComponent, UserinfoComponent, PlayerComponent],
+    declarations: [IndexComponent, RoomComponent, PrivacyComponent, UserinfoComponent, PlayerComponent, NotFoundComponent],
     imports: [
         CommonModule,
         MainRoutingModule,
@@ -43,7 +44,7 @@ import { PlayerComponent } from './room/player/player.component';
         MatBottomSheetModule,
         MatMenuModule,
         MatSelectModule,
-        ClipboardModule,
+        ClipboardModule
     ]
 })
 export class MainModule { }

@@ -1,0 +1,9 @@
+<div class="wrapper">
+    <span id="errorcode">404</span>
+    <h1 id="pagenotfound">
+        {{languageService.currentLanguage.notfounddescribtion}}
+    </h1>
+    <button mat-raised-button id="goback" [routerLink]="'/'">
+        <mat-icon>arrow_forward</mat-icon> {{languageService.currentLanguage.goback}}
+    </button>
+</div>

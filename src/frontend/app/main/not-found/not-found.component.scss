@@ -1,0 +1,24 @@
+.wrapper{
+    
+    width: 70%;
+    margin: 0 auto;
+    #errorcode{
+        display: block;
+        width: 100%;
+        text-align: center; 
+        font-size: 100px;
+        margin-top: 5rem;
+        margin-bottom: 5rem;
+    }
+    h1{
+        margin: auto;
+        padding: 1rem;
+        text-align: center; 
+    }
+    button{
+        text-align: center;
+        display: flex;
+        margin: 2rem auto;
+        padding: 1rem;
+    }
+}

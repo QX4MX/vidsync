@@ -28,8 +28,13 @@ export class EnglishLanguage implements Language {
     searchTwitch: string = "Twitch Url (Channel or Vod)";
     roomloading: string = "Room is loading or does not exist.";
     users: string = "Users";
+
     //settings
     username: string = "Username";
     update: string = "Update";
     language: string = "Language";
+
+    // notfound
+    notfounddescribtion: string = "This site seems to be missing.";
+    goback: string = "Go back to main page.";
 }

@@ -73,16 +73,18 @@ export class youtubeapi {
             let response = await this.fetch(url);
             if (response) {
                 let json = await response.json();
-                let id = json.items[0].id;
-                let title = json.items[0].snippet.title;
-                let channel = json.items[0].snippet.channelTitle;
-                let postedTime = json.items[0].snippet.publishedAt;
-                let views = json.items[0].statistics.viewCount;
-                let likes = json.items[0].statistics.likeCount;
-                let dislikes = json.items[0].statistics.dislikeCount;
-                let returnVal: string[] = [id, title, channel, postedTime, views, likes, dislikes];
-                this.lastVidInfo = returnVal;
-                return returnVal;
+                if (json && json.items.length > 0) {
+                    let id = json.items[0].id;
+                    let title = json.items[0].snippet.title;
+                    let channel = json.items[0].snippet.channelTitle;
+                    let postedTime = json.items[0].snippet.publishedAt;
+                    let views = json.items[0].statistics.viewCount;
+                    let likes = json.items[0].statistics.likeCount;
+                    let dislikes = json.items[0].statistics.dislikeCount;
+                    let returnVal: string[] = [id, title, channel, postedTime, views, likes, dislikes];
+                    this.lastVidInfo = returnVal;
+                    return returnVal;
+                }
             }
         }
 

@@ -61,7 +61,6 @@ export class RoomComponentSocket {
         });
 
         this.socket.on(SocketEvent.LOAD_VID, (result: string[]) => {
-            console.log(result);
             if (result) {
                 result[3] = new Date(result[3]).toDateString().split(' ').slice(1).join(' '); // remove weekday from DateString
                 room.vidInfo = result;

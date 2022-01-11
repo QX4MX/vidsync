@@ -83,7 +83,6 @@ export class youtubeapi {
                     /* let dislikes = json.items[0].statistics.dislikeCount; */
                     let returnVal: string[] = [id, title, channel, postedTime, views, likes, /* dislikes */];
                     this.lastVidInfo = returnVal;
-                    console.log(this.lastVidInfo);
                     return returnVal;
                 }
             }

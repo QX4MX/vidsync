@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { CookieService } from './cookie.service'
 @Injectable({
     providedIn: 'root'
 })
@@ -10,7 +11,7 @@ export class ApiService {
     headers = new HttpHeaders();
     user;
     token;
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private cookieService: CookieService) {
         if (window.origin.includes("localhost")) {
             this.baseUrl = "http://localhost:4000";
         }
@@ -18,7 +19,7 @@ export class ApiService {
             this.baseUrl = window.origin;
         }
         this.headers.set('Content-Type', 'application/json');
-        this.token = localStorage.getItem('jwtToken');
+        this.token = cookieService.getCookie("jwtToken");
         if (this.token) {
             this.getProfile();
         }
@@ -32,11 +33,12 @@ export class ApiService {
             if (res.success) {
                 this.token = res.token;
                 this.user = res.user;
-                localStorage.setItem('jwtToken', res.token);
+                document.cookie = "jwtToken =" + res.token + "; secure; samesite = lax; max-age=" + (60 * 60 * 24 * 365);
             }
 
         });
     }
+
 
     getProfile() {
         if (this.token) {
@@ -44,7 +46,7 @@ export class ApiService {
             this.http.get(`${this.baseUrl}/api/user/auth`, { headers: header }).subscribe((res: any) => {
                 if (res.success) {
                     this.token = res.token;
-                    localStorage.setItem('jwtToken', res.token);
+                    document.cookie = "jwtToken =" + res.token + "; secure; samesite = lax; max-age=" + (60 * 60 * 24 * 365);
                     this.user = res.user;
                 }
                 else {
@@ -61,7 +63,7 @@ export class ApiService {
             this.http.put(url, data, { headers: header }).subscribe((res: any) => {
                 if (res.success) {
                     this.token = res.token;
-                    localStorage.setItem('jwtToken', res.token);
+                    document.cookie = "jwtToken =" + res.token + "; secure; samesite = lax; max-age=" + (60 * 60 * 24 * 365);
                     this.user = res.user;
                 }
             });

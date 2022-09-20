@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Mongoose } from 'mongoose';
 import { youtubeapi } from 'src/backend/ytapi';
 import { Room, IRoom } from '../models/room';
 export class RoomController {
@@ -8,8 +9,13 @@ export class RoomController {
     }
 
     public async getRoom(req: Request, res: Response) {
-        const room = await Room.findById(req.params.id);
-        res.json({ success: true, data: room });
+        if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+            const room = await Room.findById(req.params.id);
+            res.json({ success: true, data: room });
+        }
+        else {
+            res.json({ success: false });
+        }
     }
 
     public async createRoom(req: Request, res: Response) {
@@ -27,6 +33,7 @@ export class RoomController {
         const newRoom: IRoom = new Room(req.body);
         await newRoom.save();
         res.json({ success: true, data: newRoom.id });
+        console.log("Api => " + res.locals.username + " create Room! " + newRoom.id);
     }
 
     public async createRoomWithPlaylist(req: Request, res: Response) {

@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { Mongoose } from 'mongoose';
 import { youtubeapi } from 'src/backend/ytapi';
 import { Room, IRoom } from '../models/room';
 export class RoomController {

@@ -33,7 +33,7 @@ export class RoomController {
         const newRoom: IRoom = new Room(req.body);
         await newRoom.save();
         res.json({ success: true, data: newRoom.id });
-        console.log("Api => " + res.locals.username + " create Room! " + newRoom.id);
+        console.log("Api => Bot create Room! " + newRoom.id);
     }
 
     public async createRoomWithPlaylist(req: Request, res: Response) {

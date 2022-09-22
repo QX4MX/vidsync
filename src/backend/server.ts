@@ -52,7 +52,7 @@ class AppServer {
         this.app.all('*', function (req, res) {
             res.status(200).sendFile('/', { root: path.join(__dirname, '../frontend/') });
         });
-    
+
     }
 
     public listen(): void {

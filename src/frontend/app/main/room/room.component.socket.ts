@@ -27,7 +27,6 @@ export class RoomComponentSocket {
         //Room Ctrl
         this.socket.on(SocketEvent.GETUSERS, (users: string[]) => {
             room.currentUsers = users;
-            console.log(users);
         });
         this.socket.on(SocketEvent.UPDATEROOM, (cause: string) => {
             room.readRoom(cause);
@@ -55,8 +54,8 @@ export class RoomComponentSocket {
         this.socket.on(SocketEvent.YTSEARCH, (result: string[][]) => {
             if (result) {
                 room.results = result;
-                room.selectTab(3);
-                document.getElementById('queue').scrollIntoView();
+                room.selectTab(2);
+                //document.getElementById('queue').scrollIntoView();
             }
         });
 
@@ -71,7 +70,7 @@ export class RoomComponentSocket {
         this.socket.on(SocketEvent.YTGETPLAYLIST, (result: string[][]) => {
             if (result) {
                 room.results = result;
-                room.selectTab(3);
+                room.selectTab(2);
             }
         });
 

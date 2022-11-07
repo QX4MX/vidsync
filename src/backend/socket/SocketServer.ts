@@ -61,8 +61,8 @@ export class SocketServer {
             socket.on(SocketEvent.MSG, (msg: string, author: string) => {
                 let room = this.userGetRoom(socket);
                 if (room) {
-                    if (!msg.replace(/\s/g, '').length) {
-                        socket.emit(SocketEvent.MSG, "Unable to Send (whitespace/empty msg)");
+                    if (!msg.replace(/\s/g, '').length && msg.length < 300) {
+                        socket.emit(SocketEvent.MSG, "Unable to Send (whitespace/empty msg or >300 characters)");
                     }
                     else {
                         this.io.to(room.roomID).emit(SocketEvent.MSG, msg, author);

@@ -14,7 +14,6 @@ declare const Twitch: any;
 export class PlayerComponent implements OnInit {
     @ViewChild(YouTubePlayer) youtubePlayer: YouTubePlayer;
     twitchPlayer: any;
-    @Input() playerHeight;
     @Input() room: RoomComponent;
     twitchUrl;
     constructor() {

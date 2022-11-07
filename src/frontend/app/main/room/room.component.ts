@@ -21,8 +21,6 @@ export class RoomComponent implements OnInit {
     @ViewChild(PlayerComponent) player: PlayerComponent;
 
     roomSocket: RoomComponentSocket;
-    playerHeight: number = 720;
-    chatHeight: number = 720 - 160;
 
     roomId: any;
     roomData: Room;
@@ -40,9 +38,8 @@ export class RoomComponent implements OnInit {
 
     changeViewWidthThreshHold = 1024;
     addVideoType = "youtube";
-    inTheatreMode = false;
-    playerDivWidth = '70%';
-    sideTabGroupWidth = '30%';
+    /*     playerDivWidth = '75%';
+        sideTabGroupWidth = '25%'; */
 
     constructor(
         private apiService: ApiService,
@@ -80,80 +77,6 @@ export class RoomComponent implements OnInit {
                 clearInterval(apiinterval);
             }
         }, 250);
-        this.onResize();
-    }
-
-    @HostListener('document:fullscreenchange', ['$event'])
-    onFullScreenChange(event?) {
-        if (window.innerWidth > this.changeViewWidthThreshHold) {
-            if (document.fullscreenElement) {
-                this.playerDivWidth = '85%';
-                this.sideTabGroupWidth = '15%';
-                this.inTheatreMode = true;
-            }
-            else {
-                this.playerDivWidth = '70%';
-                this.sideTabGroupWidth = '30%';
-                this.inTheatreMode = false;
-            }
-            this.onResize();
-        }
-        else {
-            this.playerDivWidth = '100%';
-            this.sideTabGroupWidth = '100%';
-            if (document.fullscreenElement) {
-                this.inTheatreMode = true;
-            }
-            else {
-                this.inTheatreMode = false;
-            }
-
-        }
-
-    }
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event?) {
-        if (window.innerWidth > this.changeViewWidthThreshHold) {
-            if (this.inTheatreMode) {
-                this.playerHeight = window.innerHeight;
-            }
-            else {
-                this.playerHeight = Math.round(window.innerHeight * 0.65);
-            }
-            this.chatHeight = this.playerHeight - 160;
-        }
-        else {
-            let maindiv = document.getElementById('main');
-            this.playerDivWidth = '100%';
-            this.sideTabGroupWidth = '100%';
-            if (this.inTheatreMode) {
-                this.playerHeight = Math.round(window.innerHeight * 0.5);
-                maindiv.style.setProperty('padding-top', '10vh');
-            }
-            else {
-                this.playerHeight = Math.round(window.innerHeight * 0.2);
-                maindiv.style.setProperty('padding-top', '0rem');
-
-            }
-            this.chatHeight = this.playerHeight;
-        }
-    }
-
-    theatreMode() {
-        if (!document.fullscreenElement) {
-            let maindiv = document.getElementById('main');
-            maindiv.requestFullscreen();
-        }
-        else {
-            document.exitFullscreen();
-        }
-    }
-
-    exitFullscreen() {
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        }
     }
 
     readRoom(cause: string) {
@@ -281,7 +204,7 @@ export class RoomComponent implements OnInit {
     }
 
     sendMsg(msg: string) {
-        if (msg.replace(/\s/g, '').length != 0) {
+        if (msg.replace(/\s/g, '').length != 0 && msg.length < 300) {
             if (this.apiService.user) {
                 this.roomSocket.socket.emit(SocketEvent.MSG, msg, this.apiService.user.username);
             }
@@ -290,7 +213,7 @@ export class RoomComponent implements OnInit {
             }
         }
         else {
-            this.messages.push(['Cant send empty Message', 'System']);
+            this.messages.push(['Cant send empty or >300 character Messages ', 'System']);
         }
 
     }
@@ -347,7 +270,7 @@ export class RoomComponent implements OnInit {
     closeModal() {
         document.getElementById('addModal').style.display = "none";
         document.getElementById('addVideoForm').classList.remove("alerts-border");
-        document.getElementById('playerdiv').scrollIntoView();
+        //document.getElementById('playerdiv').scrollIntoView();
     }
 
     setVideoType(type: string) {

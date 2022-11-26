@@ -36,7 +36,7 @@ export class RoomController {
     }
 
     public async createRoomWithPlaylist(req: Request, res: Response) {
-        req.body.creatorid = "Bot";
+        req.body.creatorid = "DC-Bot";
         let queue = [];
         let firstVideoSet = false;
         let results = await this.ytApi.getPlaylistVideos(req.params.listId);

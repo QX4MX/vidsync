@@ -30,8 +30,6 @@ export class AuthController {
     }
     async auth_dcbot(req: Request, res: Response, next: NextFunction) {
         let token = req.headers.authorization;
-        console.log(token);
-        console.log(dcbot_pw);
         if (!token || token == "undefined") {
             res.status(201).send({ success: false, message: "no token" });
         }

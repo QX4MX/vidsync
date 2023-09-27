@@ -7,7 +7,7 @@ export const PORT = process.env.PORT;
 export const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-    console.log("No MONGODB_URI secret string. Set MONGODB_URI env variable.");
+    console.log('No MONGODB_URI secret string. Set MONGODB_URI env variable.');
     process.exit(1);
 }
 

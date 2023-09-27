@@ -1,5 +1,8 @@
 import { Document, Schema, Model, model, Error } from 'mongoose';
 
+/**
+ * Interface for the Room
+ */
 export interface IRoom extends Document {
     video: Array<String>;
     queue: Array<String[]>;
@@ -8,29 +11,33 @@ export interface IRoom extends Document {
     createAt: Date;
 }
 
+/**
+ * Schema for the Room
+ */
+
 export const roomSchema = new Schema({
     video: {
         type: Array,
     },
     queue: {
         type: Array,
-        default: new Array()
+        default: new Array(),
     },
     history: {
         type: Array,
-        default: new Array()
+        default: new Array(),
     },
     userCount: {
         type: Number,
-        default: 0
+        default: 0,
     },
     creatorid: {
-        type: String
+        type: String,
     },
     created_date: {
         type: Date,
         default: Date.now,
-    }
+    },
 });
 
-export const Room: Model<IRoom> = model<IRoom>("Room", roomSchema);
+export const Room: Model<IRoom> = model<IRoom>('Room', roomSchema);

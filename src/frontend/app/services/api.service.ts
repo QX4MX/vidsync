@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from './cookie.service'
+import { CookieService } from './cookie.service';
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-
 export class ApiService {
     baseUrl = window.origin;
     headers = new HttpHeaders();
     user;
     token;
     constructor(private http: HttpClient, private cookieService: CookieService) {
-        if (window.origin.includes("localhost")) {
-            this.baseUrl = "http://localhost:4000";
-        }
-        else {
+        if (window.origin.includes('localhost')) {
+            this.baseUrl = 'http://localhost:4000';
+        } else {
             this.baseUrl = window.origin;
         }
         this.headers.set('Content-Type', 'application/json');
-        this.token = cookieService.getCookie("jwtToken");
+        this.token = cookieService.getCookie('auth_token');
         if (this.token) {
             this.getProfile();
-        }
-        else {
+        } else {
             this.createToken();
         }
     }
@@ -33,12 +30,10 @@ export class ApiService {
             if (res.success) {
                 this.token = res.token;
                 this.user = res.user;
-                document.cookie = "jwtToken =" + res.token + "; secure; samesite = lax; max-age=" + (60 * 60 * 24 * 365);
+                this.cookieService.setCookie('auth_token', this.token, 30);
             }
-
         });
     }
-
 
     getProfile() {
         if (this.token) {
@@ -46,10 +41,9 @@ export class ApiService {
             this.http.get(`${this.baseUrl}/api/user/auth`, { headers: header }).subscribe((res: any) => {
                 if (res.success) {
                     this.token = res.token;
-                    document.cookie = "jwtToken =" + res.token + "; secure; samesite = lax; max-age=" + (60 * 60 * 24 * 365);
+                    this.cookieService.setCookie('auth_token', this.token, 30);
                     this.user = res.user;
-                }
-                else {
+                } else {
                     this.createToken();
                 }
             });
@@ -63,7 +57,7 @@ export class ApiService {
             this.http.put(url, data, { headers: header }).subscribe((res: any) => {
                 if (res.success) {
                     this.token = res.token;
-                    document.cookie = "jwtToken =" + res.token + "; secure; samesite = lax; max-age=" + (60 * 60 * 24 * 365);
+                    this.cookieService.setCookie('auth_token', this.token, 30);
                     this.user = res.user;
                 }
             });
@@ -84,9 +78,7 @@ export class ApiService {
             const header = { Authorization: this.token };
             return this.http.get(url, { headers: header });
         }
-
     }
-
 
     updateRoom(id, data): Observable<any> {
         if (this.token) {
@@ -96,8 +88,7 @@ export class ApiService {
         }
     }
 
-
-    // Error handling 
+    // Error handling
     errorMgmt(error: HttpErrorResponse) {
         let errorMessage = '';
         if (error.error instanceof ErrorEvent) {

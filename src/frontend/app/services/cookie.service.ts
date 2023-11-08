@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class CookieService {
-
-    constructor() { }
+    constructor() {}
 
     getCookie(cname) {
-        let name = cname + "=";
+        let name = cname + '=';
         let decodedCookie = decodeURIComponent(document.cookie);
         let ca = decodedCookie.split(';');
         for (let i = 0; i < ca.length; i++) {
@@ -20,6 +19,10 @@ export class CookieService {
                 return c.substring(name.length, c.length);
             }
         }
-        return "";
+        return '';
+    }
+    setCookie(name, value, expireInDays) {
+        document.cookie =
+            name + ' =' + value + ';path=/; secure; samesite = lax; max-age=' + 60 * 60 * 24 * expireInDays;
     }
 }

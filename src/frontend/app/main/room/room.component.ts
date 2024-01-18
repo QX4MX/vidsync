@@ -134,7 +134,7 @@ export class RoomComponent implements OnInit {
     }
 
     addToQueue(videoType: string, videoId: string, title: string) {
-        if (this.roomData.video.length == 0) {
+        if (this.roomData.video.length == 0 || this.player.videoHasEnded()) {
             this.setVideoFromQueue(videoType, videoId, title, 0);
         }
         else {

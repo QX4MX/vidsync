@@ -152,4 +152,7 @@ export class PlayerComponent implements OnInit {
             return this.twitchPlayer.getCurrentTime();
         }
     }
+    videoHasEnded() {
+        return (this.youtubePlayer.getPlayerState() == YT.PlayerState.ENDED)
+    }
 }

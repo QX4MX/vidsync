@@ -6,12 +6,12 @@ replicaCount: 1
 
 image:
   repository: registry.gitlab.com/qx4mx/vidsync
-  tag: latest
+  tag: main
   pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "vidsync-prod"
 
 serviceAccount:
   # Specifies whether a service account should be created

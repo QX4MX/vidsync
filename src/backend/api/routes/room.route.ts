@@ -23,30 +23,14 @@ export class RoomRoutes {
      * Sets up room routes
      */
     routes() {
-        this.router.get(
-            '/create',
-            this.authController.verifyJwtToken,
-            this.roomController.createRoom
-        );
-        this.router.get(
-            '/set-video/:videoID',
-            this.authController.auth_dcbot,
-            this.roomController.createRoomWithVideo
-        );
+        this.router.get('/create', this.roomController.createRoom);
+        this.router.get('/set-video/:videoID', this.authController.auth_dcbot, this.roomController.createRoomWithVideo);
         this.router.get(
             '/set-playlist/:listId',
             this.authController.auth_dcbot,
             this.roomController.createRoomWithPlaylist
         );
-        this.router.get(
-            '/:id',
-            this.authController.verifyJwtToken,
-            this.roomController.getRoom
-        );
-        this.router.put(
-            '/:id',
-            this.authController.verifyJwtToken,
-            this.roomController.updateRoom
-        );
+        this.router.get('/:id', this.roomController.getRoom);
+        this.router.put('/:id', this.roomController.updateRoom);
     }
 }

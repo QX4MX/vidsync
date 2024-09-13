@@ -21,15 +21,7 @@ export class UserRoutes {
      */
     routes() {
         this.router.get('/new', this.userController.newUser);
-        this.router.put(
-            '/update',
-            this.authController.verifyJwtToken,
-            this.userController.updateUser
-        );
-        this.router.get(
-            '/auth',
-            this.authController.verifyJwtToken,
-            this.userController.getUser
-        );
+        this.router.put('/update', this.authController.verifyJwtToken, this.userController.updateUser);
+        this.router.get('/auth', this.authController.verifyJwtToken, this.userController.getUser);
     }
 }

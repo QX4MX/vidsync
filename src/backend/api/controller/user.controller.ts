@@ -22,7 +22,12 @@ export class UserController {
         };
 
         let newUser = await user.save();
-        res.status(200).send({ success: true, token: token, user: newUser });
+        res.status(200).send({
+            success: true,
+            token: token,
+            user: newUser,
+            expiresInDays: 30,
+        });
     }
 
     /**
@@ -39,10 +44,14 @@ export class UserController {
                 username: user.username,
                 created_date: user.created_date,
             };
+            let token = jwt.sign({ user }, jwtSecret, {
+                expiresIn: '30d',
+            });
             res.status(200).send({
                 success: true,
-                token: res.locals.token,
+                token: token,
                 user: returnUser,
+                expiresInDays: 30,
             });
         }
     }
@@ -62,7 +71,7 @@ export class UserController {
                 });
             } else {
                 let token = jwt.sign({ user }, jwtSecret, {
-                    expiresIn: '365d',
+                    expiresIn: '30d',
                 });
                 let returnUser = {
                     username: user.username,
@@ -72,6 +81,7 @@ export class UserController {
                     success: true,
                     token: token,
                     user: returnUser,
+                    expiresInDays: 30,
                 });
             }
         });

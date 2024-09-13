@@ -30,7 +30,8 @@ export class ApiService {
             if (res.success) {
                 this.token = res.token;
                 this.user = res.user;
-                this.cookieService.setCookie('auth_token', this.token, 30);
+                console.log();
+                this.cookieService.setCookie('auth_token', this.token, res.expiresInDays);
             }
         });
     }
@@ -41,7 +42,7 @@ export class ApiService {
             this.http.get(`${this.baseUrl}/api/user/auth`, { headers: header }).subscribe((res: any) => {
                 if (res.success) {
                     this.token = res.token;
-                    this.cookieService.setCookie('auth_token', this.token, 30);
+                    this.cookieService.setCookie('auth_token', this.token, res.expiresInDays);
                     this.user = res.user;
                 } else {
                     this.createToken();
@@ -57,7 +58,7 @@ export class ApiService {
             this.http.put(url, data, { headers: header }).subscribe((res: any) => {
                 if (res.success) {
                     this.token = res.token;
-                    this.cookieService.setCookie('auth_token', this.token, 30);
+                    this.cookieService.setCookie('auth_token', this.token, res.expiresInDays);
                     this.user = res.user;
                 }
             });

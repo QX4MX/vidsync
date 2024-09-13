@@ -14,7 +14,7 @@ export class AuthController {
     async verifyJwtToken(req: Request, res: Response, next: NextFunction) {
         let token = req.headers.authorization;
         if (!token || token == 'undefined') {
-            res.status(201).send({ success: false, message: 'no token' });
+            res.status(401).send({ success: false, message: 'no token' });
         } else {
             await jwt.verify(token, jwtSecret, function (err, decoded) {
                 if (err) {
